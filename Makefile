@@ -46,7 +46,7 @@ all: dir $(NAME)
 
 # Generates output file
 $(NAME): $(OBJS)
-	@printf "$(BLUE)LIBFT: $(WHITE)"; cd LIBFT/ && make && cd ..
+	@cd LIBFT/ && make && cd ..
 	@$(CC) $(CFLAGS) $(SRCS) $(LDIR)$(LIBFT) -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
