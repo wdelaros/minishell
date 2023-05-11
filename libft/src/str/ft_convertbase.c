@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 08:47:00 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/09 07:46:18 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:26:54 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*ft_convert_decimal(int nb, int base)
 
 	i = ft_intlen(nb, base);
 	j = ft_intlen(nb, base) - 1;
-	num = ft_calloc(i, sizeof(char));
+	num = ft_calloc(i + 1, sizeof(char));
 	while (j >= 0)
 	{
 		num[j] = (nb % base) + 48;
@@ -49,7 +49,7 @@ static char	*ft_convert_decimal(int nb, int base)
 	while (i >= 0)
 	{
 		if (num[i] > 57)
-			num[i] = num[i] + 7;
+			num[i] = num[i] + 39;
 		else
 			num[i] = num[i];
 		i--;
@@ -67,10 +67,10 @@ static int	ft_convert_to_decimal(char	*nb, int base)
 	num = 0;
 	j = ft_strlen(nb) - 1;
 	while (nb[i])
-	{	
+	{
 		if (nb[i] >= 97 && nb[i] <= 122)
 			num += ((nb[i] - 87) * ft_iterative_power(base, j));
-		if (nb[i] >= 65 && nb[i] <= 90)
+		else if (nb[i] >= 65 && nb[i] <= 90)
 			num += ((nb[i] - 55) * ft_iterative_power(base, j));
 		else
 			num += ((nb[i] - 48) * ft_iterative_power(base, j));
@@ -100,7 +100,7 @@ char	*ft_convertbase(char *nb, int initbase, int finalbase)
 		num = ft_convert_to_decimal(nb, initbase);
 	if (initbase == 10)
 	{
-		ft_atoi(nb);
+		num = ft_atoi(nb);
 		nbr = ft_convert_decimal(num, finalbase);
 	}
 	else

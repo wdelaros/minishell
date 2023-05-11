@@ -109,7 +109,7 @@ $(NAME): $(OBJS)
 
 # Compiles sources into objects
 $(OBJS_DIR)%.o: src/*/%.c
-	@printf "$(ERASE_LINE)⚙️ $(PURPLE)Compiling $(DEFAULT)⚙️$(YELLOW) $(notdir ./$<)\
+	@printf "$(ERASE_LINE)⚙️ $(PURPLE)Compiling $(DEFAULT)⚙️$(YELLOW) $(notdir $<)\
 	$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
