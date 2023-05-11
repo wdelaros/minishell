@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:34 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/09 07:34:32 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:36:29 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 06:59:18 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/11 16:45:13 by rapelcha         ###   ########.fr       */
+/*   Created: 2023/05/11 16:49:02 by rapelcha          #+#    #+#             */
+/*   Updated: 2023/05/11 16:52:00 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-/// @brief Converts an lowercase letter to uppercase.
-/// @param c The character to be converted.
-/// @return The uppercase equivalent of the input character.
-int	ft_toupper(int c)
+void	*ft_realloc(void *old, size_t count, size_t size, size_t new_size)
 {
-	if (c >= 'a' && c <= 'z')
-		return (c - 32);
-	return (c);
+	void	*new;
+
+	if (!old)
+		return (NULL);
+	new = ft_calloc(count, new_size);
+	if (!new)
+		return (NULL);
+	if (size > new_size)
+		ft_memcpy(new, old, count * new_size);
+	else
+		ft_memcpy(new, old, count * size);
+	ft_xfree(old);
+	return (new);
 }

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_xfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 06:59:18 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/11 16:45:13 by rapelcha         ###   ########.fr       */
+/*   Created: 2023/05/11 16:41:35 by rapelcha          #+#    #+#             */
+/*   Updated: 2023/05/11 16:42:31 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-/// @brief Converts an lowercase letter to uppercase.
-/// @param c The character to be converted.
-/// @return The uppercase equivalent of the input character.
-int	ft_toupper(int c)
+void	*ft_xfree(void	*pointer)
 {
-	if (c >= 'a' && c <= 'z')
-		return (c - 32);
-	return (c);
+	if (!pointer)
+		free(pointer);
+	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 12:30:31 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/08 07:50:52 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:50:51 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t count, size_t size);
+void	*ft_realloc(void *old, size_t count, size_t size, size_t new_size);
+void	*ft_xfree(void	*pointer);
 
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
@@ -103,6 +105,8 @@ char	*ft_fstrjoin(char *s1, char *s2);
 
 int		ft_intlen(long int n, int base);
 int		ft_isfile(char *file);
+
+long	ft_atol(const char *str);
 
 void	*ft_fcalloc(void *ptr, size_t count, size_t size);
 

@@ -40,6 +40,7 @@ SRCS_LST		=	ft_atoi.c\
 					ft_isascii.c\
 					ft_isdigit.c\
 					ft_itoa.c\
+					ft_atol.c\
 \
 					ft_lstadd_back.c\
 					ft_lstadd_front.c\
@@ -58,6 +59,8 @@ SRCS_LST		=	ft_atoi.c\
 					ft_memcpy.c\
 					ft_memmove.c\
 					ft_memset.c\
+					ft_realloc.c\
+					ft_xfree.c\
 \
 					ft_bzero.c\
 					ft_convertbase.c\
