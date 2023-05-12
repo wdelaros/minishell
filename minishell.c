@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:34 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/11 16:36:29 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/12 08:52:38 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_data	data;
 	pid_t	pid;
+	int		status;
 	char	*input;
 	char	**cmd;
 
-	cmd = ft_calloc(2, sizeof(char *));
-	cmd[0] = ft_calloc(3, sizeof(char));
-	cmd[0] = "ls";
 	data.argc = argc;
 	data.argv = argv;
 	data.envp = envp;
 	while (1)
 	{
 		input = readline("minishell> ");
-		if (!strncmp(input, "cd", 2))
-			chdir(input + 3);
-		if (!strcmp(input, "ls"))
+		if (!input)
+			break ;
+		cmd = ft_split(input, 32);
+		if (!ft_strncmp(cmd[0], "cd", 2))
+			chdir(cmd[1]);
+		if (!ft_strncmp(cmd[0], "ls", 2))
 		{
 			pid = fork();
 			if (!pid)
-				execv("/bin/ls", cmd);
+				execve("/bin/ls", cmd, envp);
+			waitpid(pid, &status, 0);
 		}
-		if (!input)
-			break ;
 		add_history(input);
 	}
 	rl_clear_history();
