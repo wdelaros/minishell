@@ -1,0 +1,2 @@
+Occuper des ctr-c / ctr-d / ctr-\
+Gerer les contraintre des quotes

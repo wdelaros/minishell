@@ -1,0 +1,12 @@
+ > doit rediriger la sortie = effacer le contenue et en ajouter un nouveau
+ fd = open(argv[4], O_RDWR | O_TRUNK | O_CREAT, 0644);
+ >> rediriger la sortie en mode append. = rajouter au fichier
+ fd = open(argv[4], O_RDWR | O_APPEND | O_CREAT, 0644);
+
+ $? = exitstatus
+
+
+
+ pipe
+ redirection
+ 
