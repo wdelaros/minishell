@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 12:30:31 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/11 16:50:51 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:58:39 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ long	ft_atol(const char *str);
 void	*ft_fcalloc(void *ptr, size_t count, size_t size);
 
 char	**ft_split_char(const char *lines);
+char	*ft_rstrjoin(char const *s1, char const *s2);
+char	*ft_frstrjoin(char *s1, char *s2);
 char	*ft_convertbase(char *num, int initbase, int finalbase);
 
 #endif

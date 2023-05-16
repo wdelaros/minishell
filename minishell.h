@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/15 13:29:36 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:40:51 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,21 @@
 # include <term.h>
 # include <termios.h>
 
+# define DEFAULT_ECHO_TERM 207
+
 typedef struct s_data
 {
 	char		**envp;
 	char		**path;
 	char		*input;
 	char		*cmdpath;
+	pid_t		*pid;
+	int			is_child;
 }				t_data;
 
-void	signal_handler(int signal, siginfo_t *sig, void *context);
+int		signal_handler(void);
+t_data	*struc(void);
+char	**findpath(t_data *data);
+void	find_executable(char	**fcmd, int i);
 
 #endif

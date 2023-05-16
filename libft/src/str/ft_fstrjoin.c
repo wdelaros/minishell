@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 07:06:56 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/09 07:46:18 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:56:41 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,31 @@ char	*ft_fstrjoin(char *s1, char *s2)
 		j++;
 	}
 	return (free(s1), str);
+}
+
+char	*ft_frstrjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (free(s1), free(s2), NULL);
+	str = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	if (!str)
+		return (free(s2), NULL);
+	i = 0;
+	j = 0;
+	while (s2[i])
+	{
+		str[i] = s2[i];
+		i++;
+	}
+	while (s1[j])
+	{
+		str[i] = s1[j];
+		i++;
+		j++;
+	}
+	return (free(s2), str);
 }

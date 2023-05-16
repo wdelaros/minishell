@@ -34,6 +34,7 @@ RM			=	rm -rf
 # Sources are all .c files
 SRCS		=	minishell.c\
 				signal_handler.c\
+				path.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

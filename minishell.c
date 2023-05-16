@@ -6,120 +6,86 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:34 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/15 14:36:14 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:47:21 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec(char *cmd, t_data *data)
+t_data	*struc(void)
+{
+	static t_data	data;
+
+	return (&data);
+}
+
+void	exec(char *cmd)
 {
 	char	**fcmd;
-	char	*str;
-	int		i;
 
-	i = 0;
 	fcmd = ft_split(cmd, 32);
-	while (data->path[i])
+	struc()->path = findpath(struc());
+	find_executable(fcmd, 0);
+	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
-		data->cmdpath = ft_strjoin(data->path[i], fcmd[0]);
-		if (!access(data->cmdpath, F_OK))
-			break ;
-		if (data->path[i + 1])
-			free(data->cmdpath);
-		i++;
-	}
-	if (execve(data->cmdpath, fcmd, data->envp) == -1)
-	{
-		if (execve(fcmd[0], fcmd, data->envp) == -1)
+		if (execve(fcmd[0], fcmd, struc()->envp) == -1)
 		{
-			free(data->cmdpath);
-			str = ft_strdup(fcmd[0]);
+			perror(fcmd[0]);
 			exit (0);
 		}
 	}
 }
 
-char	**findpath(t_data *data)
+void	run_cmd(char *cmd)
 {
-	int		i;
-
-	i = 0;
-	while (data->envp[i])
-	{
-		if (!ft_strncmp(data->envp[i], "PATH=", 5))
-			break ;
-		i++;
-	}
-	if (data->envp[i])
-		data->path = ft_split(data->envp[i] + 5, ':');
-	else
-		return (NULL);
-	if (!data->path)
-		perror("Error");
-	return (data->path);
-}
-
-t_data	init_value(char *envp[])
-{
-	t_data	data;
-	int		i;
-
-	ft_printf("papelipoupi\n");
-	data.envp = envp;
-	data.path = findpath(&data);
-	i = 0;
-	while (data.path[i])
-	{
-		data.path[i] = ft_fstrjoin(data.path[i], "/");
-		i++;
-	}
-	return (data);
-}
-
-void	run_cmd(char *cmd, t_data *data)
-{
-	int		pfd[2];
 	int		status;
-	pid_t	pid1;
 
-	if (pipe(pfd) == -1)
+	struc()->pid[0] = fork();
+	struc()->is_child = 1;
+	if (struc()->pid[0] == -1)
 		return ;
-	pid1 = fork();
-	if (pid1 == -1)
-		return ;
-	if (!pid1)
-		exec(cmd, data);
-	waitpid(pid1, &status, 0);
+	if (!struc()->pid[0])
+	{
+		exec(cmd);
+	}
+	waitpid(struc()->pid[0], &status, 0);
+}
+
+void	initialize(char **envp)
+{
+	pid_t	*temp;
+
+	struc()->envp = envp;
+	temp = ft_calloc(2, sizeof(pid_t *));
+	struc()->pid = temp;
+	struc()->is_child = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data				data;
-	char				**cmd;
-	struct sigaction	init;
+	char	**cmd;
 
 	(void)argc;
 	(void)argv;
-	init.sa_flags = SA_SIGINFO;
-	init.sa_sigaction = signal_handler;
-	data = init_value(envp);
-	sigaction(SIGINT, &init, NULL);
-	sigaction(SIGQUIT, &init, NULL);
+	if (signal_handler())
+		exit(1);
+	ft_printf("NEW_PROCESS\n");
+	initialize(envp);
 	while (1)
 	{
-		data.input = readline("minishell> ");
-		if (!data.input)
+		struc()->is_child = 0;
+		struc()->input = readline("minishell> ");
+		if (!struc()->input)
 		{
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = ft_split(data.input, 32);
+		cmd = ft_split(struc()->input, 32);
 		if (!ft_strncmp(cmd[0], "cd", 2))
 			chdir(cmd[1]);
 		else
-			run_cmd(data.input, &data);
-		add_history(data.input);
+			run_cmd(struc()->input);
+		add_history(struc()->input);
 	}
 	rl_clear_history();
 	return (0);
