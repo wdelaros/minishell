@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:34 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/16 16:47:21 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 09:17:44 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,32 @@ t_data	*struc(void)
 	return (&data);
 }
 
-void	exec(char *cmd)
+void	exec(char **fcmd)
 {
-	char	**fcmd;
-
-	fcmd = ft_split(cmd, 32);
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
-		if (execve(fcmd[0], fcmd, struc()->envp) == -1)
-		{
-			perror(fcmd[0]);
-			exit (0);
-		}
+		perror(fcmd[0]);
+		exit (1);
 	}
 }
 
-void	run_cmd(char *cmd)
+void	run_cmd(char **cmd)
 {
 	int		status;
 
+	if (!ft_strncmp(cmd[0], "cd", 2))
+	{
+		chdir(cmd[1]);
+		return ;
+	}
 	struc()->pid[0] = fork();
 	struc()->is_child = 1;
 	if (struc()->pid[0] == -1)
 		return ;
 	if (!struc()->pid[0])
-	{
 		exec(cmd);
-	}
 	waitpid(struc()->pid[0], &status, 0);
 }
 
@@ -81,12 +78,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = ft_split(struc()->input, 32);
-		if (!ft_strncmp(cmd[0], "cd", 2))
-			chdir(cmd[1]);
-		else
-			run_cmd(struc()->input);
+		run_cmd(cmd);
 		add_history(struc()->input);
 	}
 	rl_clear_history();
-	return (0);
 }

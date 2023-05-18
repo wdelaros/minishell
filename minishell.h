@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/16 16:40:51 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 08:50:00 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int		signal_handler(void);
 t_data	*struc(void);
 char	**findpath(t_data *data);
 void	find_executable(char	**fcmd, int i);
+void	print_cell(char	**cell);
 
 #endif

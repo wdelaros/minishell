@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:21:33 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/16 15:38:12 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 08:47:30 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ char	**findpath(t_data *data)
 		data->path = ft_split(data->envp[i] + 5, ':');
 	else
 		return (NULL);
+	i = 0;
+	while (data->path[i])
+	{
+		data->path[i] = ft_fstrjoin(data->path[i], "/");
+		i++;
+	}
 	if (!data->path)
 		perror("Error");
 	return (data->path);
@@ -36,25 +42,21 @@ void	find_executable(char	**fcmd, int i)
 {
 	char	*tmp;
 
+	if (!access(fcmd[0], F_OK))
+	{
+		struc()->cmdpath = fcmd[0];
+		return ;
+	}
 	if (struc()->path)
 	{
 		while (struc()->path[i])
 		{
-			tmp = ft_fstrjoin(struc()->path[i], "/");
-			struc()->path[i] = tmp;
-			ft_xfree(tmp);
-			i++;
-		}
-		i = 0;
-		while (struc()->path[i])
-		{
 			tmp = ft_rstrjoin(fcmd[0], struc()->path[i]);
 			struc()->cmdpath = ft_strdup(tmp);
-			ft_xfree(tmp);
+			free(tmp);
 			if (!access(struc()->cmdpath, F_OK))
 				return ;
-			if (struc()->path[i + 1])
-				free(struc()->cmdpath);
+			free(struc()->cmdpath);
 			i++;
 		}
 	}
