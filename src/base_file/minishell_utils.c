@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "../../include/minishell.h"
 
 void	print_cell(char	**cell)
 {

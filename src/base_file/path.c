@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "../../include/minishell.h"
 
 /**
  * find the path for the excutable
