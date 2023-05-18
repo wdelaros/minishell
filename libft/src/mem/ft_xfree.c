@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:41:35 by rapelcha          #+#    #+#             */
-/*   Updated: 2023/05/11 16:42:31 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/18 10:06:15 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_xfree(void	*pointer)
 {
-	if (!pointer)
+	if (pointer)
 		free(pointer);
 	return (NULL);
 }

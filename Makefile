@@ -37,6 +37,7 @@ SRCS		=	minishell.c\
 				path.c\
 				redirection.c\
 				signal_handler.c\
+				parsing.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
@@ -51,13 +52,13 @@ all: dir $(NAME)
 # Generates output file
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
-	@$(CC) $(CFLAGS) $(SRCS) $(LDIR)$(LIBFT) -l readline -l ncurses \
+	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"
 
 # Compiles sources into objects
-$(OBJS_DIR)%.o: %.c
+$(OBJS_DIR)%.o: src/*/%.c
 	@printf "$(ERASE_LINE)⚙️ $(PURPLE)Compiling $(DEFAULT)⚙️$(YELLOW) $(notdir $<)\
 	$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
