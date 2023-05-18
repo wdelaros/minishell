@@ -72,8 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = ft_split(struc()->input, 32);
-		print_cell(cmd);
+		cmd = string_handler(struc()->input);
 		run_cmd(cmd);
 		add_history(struc()->input);
 	}

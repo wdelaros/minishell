@@ -1,0 +1,5 @@
+"" = interprete les variables
+'' = string literal, char par char tel quel
+
+
+echo "'"'"'a'"'"'"	=			echo "'" '"' a '"' "'"			Donc sa part de la gauche vers la droite, DQ SQ DQ donc affiche SQ ensuite SQ DQ SQ donc affiche DQ etc

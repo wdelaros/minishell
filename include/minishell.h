@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 10:43:47 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:06:51 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "parsing.h"
 # include <dirent.h>
 # include <fcntl.h>
 # include "../readline/history.h"

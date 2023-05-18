@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:02 by rapelcha          #+#    #+#             */
-/*   Updated: 2023/05/16 15:40:13 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 13:57:58 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
