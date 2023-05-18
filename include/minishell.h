@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 10:43:47 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -37,12 +25,18 @@ typedef struct s_data
 	char		*cmdpath;
 	pid_t		*pid;
 	int			is_child;
+	int			pipenum;
+	int			number_of_cmd;
 }				t_data;
 
 int		signal_handler(void);
 t_data	*struc(void);
 char	**findpath(t_data *data);
 void	find_executable(char	**fcmd, int i);
-void	print_cell(char	**cell);
+void	print_cell(char	***cell);
+void	exec(char **fcmd);
+
+void	count(char	**cmd);
+void	run_pipe(char	**cmd);
 
 #endif

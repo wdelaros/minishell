@@ -45,11 +45,7 @@ void	run_cmd(char **cmd)
 
 void	initialize(char **envp)
 {
-	pid_t	*temp;
-
 	struc()->envp = envp;
-	temp = ft_calloc(2, sizeof(pid_t *));
-	struc()->pid = temp;
 	struc()->is_child = 0;
 }
 
@@ -73,8 +69,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = ft_split(struc()->input, 32);
-		print_cell(cmd);
-		run_cmd(cmd);
+		run_pipe(cmd);
 		add_history(struc()->input);
 	}
 	rl_clear_history();
