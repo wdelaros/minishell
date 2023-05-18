@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:34 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 09:17:44 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 09:46:35 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ t_data	*struc(void)
 	return (&data);
 }
 
+/**
+ * execute a command
+ * execve(the path of the command, the command, environment)
+*/
 void	exec(char **fcmd)
 {
 	struc()->path = findpath(struc());
@@ -30,6 +34,9 @@ void	exec(char **fcmd)
 	}
 }
 
+/**
+ * create a fork(new process) for execute a command
+*/
 void	run_cmd(char **cmd)
 {
 	int		status;
@@ -78,6 +85,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = ft_split(struc()->input, 32);
+		print_cell(cmd);
 		run_cmd(cmd);
 		add_history(struc()->input);
 	}

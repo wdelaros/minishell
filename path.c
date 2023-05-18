@@ -6,12 +6,15 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:21:33 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 08:47:30 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/18 09:45:34 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * find the path for the excutable
+*/
 char	**findpath(t_data *data)
 {
 	int		i;
@@ -38,6 +41,9 @@ char	**findpath(t_data *data)
 	return (data->path);
 }
 
+/**
+ * check if the excutable exist
+*/
 void	find_executable(char	**fcmd, int i)
 {
 	char	*tmp;
