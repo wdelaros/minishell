@@ -2,17 +2,42 @@
 
 char	**string_handler(char *input)
 {
-	char	**res;
-	int		i;
+	t_token	token;
+
+	if (if_all_quote_closed(input, DOUBLE_QUOTE) == 0
+		|| if_all_quote_closed(input, SINGLE_QUOTE) == 0)
+		printf ("MARDE\n");
+	token_separator(input, &token);
+	return (token.token);
+}
+
+char	**token_separator(char *str, t_token *token)
+{
+	token->token = ft_split(str, SPACE);
+}
+
+int	if_all_quote_closed(char *str, int quote)
+{
+	int	i;
+	int	flag;
 
 	i = 0;
-	res = ft_split(input, SPACE);
-	while (res[i])
+	flag = 0;
+	while (str[i])
 	{
-		if (ft_strsearch(res[i], DOUBLE_QUOTE) == 1
-			|| ft_strsearch(res[i], SINGLE_QUOTE) == 1)
-			res[i] = do_things(res[i]);
+		if (str[i] == quote && flag == 0) // QUOTE OPEN
+		{
+			flag = 1;
+			i++;
+		}
+		if (str[i] == quote && flag == 1) // QUOTE CLOSED
+		{
+			flag = 0;
+			i++;
+		}
 		i++;
 	}
-	return (res);
+	if (flag == 0)
+		return (1);
+	return (0);
 }
