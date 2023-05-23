@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fstrjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 07:06:56 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/16 14:56:41 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/23 10:26:43 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
