@@ -45,7 +45,12 @@ void	run_cmd(char **cmd)
 
 void	initialize(char **envp)
 {
+	// pid_t	*temp;
+
 	struc()->envp = envp;
+	// temp = ft_calloc(2, sizeof(pid_t *));
+	// struc()->pid = temp;
+	// free(temp);
 	struc()->is_child = 0;
 }
 
@@ -69,8 +74,11 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = ft_split(struc()->input, 32);
-		run_pipe(cmd);
-		add_history(struc()->input);
+		if (cmd[0])
+			run_pipe(cmd);
+		cmd = ft_free_null(cmd);
+		if (ft_strcmp("", struc()->input))
+			add_history(struc()->input);
 	}
 	rl_clear_history();
 }

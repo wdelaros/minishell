@@ -5,71 +5,7 @@ env :
 			data.envp++;
 		}
 
-
  $? = exitstatus
-
- pipe :
-		void	run_pipe(t_pipex data, char *argv[], int argc)
-		{
-			int		pfd[2 * (argc - 2)];
-			int		status;
-			int		fd;
-			int		i;
-			int		j;
-			pid_t	*pid;
-
-			pid = ft_calloc(argc - 2, sizeof(pid_t *));
-			i = 0;
-			while (i < (argc - 4))
-			{
-				if (pipe(pfd + i * 2) == -1)
-					ft_error("Pipex: ", "pipe", &data);
-				i++;
-			}
-			i = 0;
-			while (i < argc - 3)
-			{
-				pid[i] = fork();
-				if (!pid[i])
-				{
-					if (i == 0)
-					{
-						fd = open(argv[1], O_RDONLY);
-						dup2(fd, 0);
-						close(fd);
-					}
-					if (i == (argc - 4))
-					{
-						fd = open(argv[argc - 1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
-						dup2(fd, 1);
-						close(fd);
-					}
-					if (i > 0)
-						dup2(pfd[(i - 1) * 2], STDIN_FILENO);
-					if (i < (argc - 4))
-						dup2(pfd[i * 2 + 1], STDOUT_FILENO);
-					j = 0;
-					while (j < (2 * (argc - 4)))
-					{
-						close(pfd[j]);
-						j++;
-					}
-					exec(argv[i + 2], &data);
-				}
-				else if (pid[i] == -1)
-				{
-					perror("pid");
-					exit(0);
-				}
-				i++;
-			}
-			i = 0;
-			while (i < argc - 3)
-			{
-				waitpid(pid[i - 1], &status, 0);
-				i++;
-			}
-		}
 
  redirection :
  		< doit rediriger l’entrée. :

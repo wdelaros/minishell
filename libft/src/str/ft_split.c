@@ -6,13 +6,13 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 06:46:56 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/09 07:46:18 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/05/25 08:24:52 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft.h"
 
-static char	**ft_free_null(char **array)
+char	**ft_free_null(char **array)
 {
 	size_t	i;
 

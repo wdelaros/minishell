@@ -27,6 +27,7 @@ typedef struct s_data
 	int			is_child;
 	int			pipenum;
 	int			number_of_cmd;
+	int			redirnum;
 }				t_data;
 
 int		signal_handler(void);
@@ -36,7 +37,11 @@ void	find_executable(char	**fcmd, int i);
 void	print_cell(char	***cell);
 void	exec(char **fcmd);
 
-void	count(char	**cmd);
+void	count(char	**cmd, int	i);
 void	run_pipe(char	**cmd);
+
+void	redirect_input(char *file);
+void	redirect_output(char *file);
+void	append_output(char	*file);
 
 #endif
