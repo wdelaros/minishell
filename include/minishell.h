@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 11:06:51 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:34:25 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <termios.h>
+# include "../uwu/C_tool.h"
 
 # define DEFAULT_ECHO_TERM 207
 

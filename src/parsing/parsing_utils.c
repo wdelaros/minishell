@@ -32,7 +32,7 @@ char	*replace_char(char *str, char c)
 	return (res);
 }
 
-int	ft_strlen_until(char *str, char *c)
+int	ft_strlen_until(char *str, char *c, int check_space)
 {
 	int	i;
 	int	j;
@@ -45,7 +45,7 @@ int	ft_strlen_until(char *str, char *c)
 		i = 0;
 		while (str[i])
 		{
-			if (str[i] == c[j] && i != 0 && len > i)
+			if ((str[i] == c[j] && i != 0 && len > i) || (check_space == 1 && str[i] == SPACE))
 				len = i;
 			i++;
 		}
@@ -54,7 +54,7 @@ int	ft_strlen_until(char *str, char *c)
 	return (len);
 }
 
-char	*ft_sstrjoin(char const *s1, char const *s2)
+char	*ft_sstrjoin(char const *s1, char const *s2) 
 {
 	char	*str;
 	size_t	i;
@@ -89,7 +89,7 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 		return (0);
 	if (dstsize != 0)
 	{
-		while (src[i] && i < dstsize - 1)
+		while (src[i] && i < dstsize)
 		{
 			dst[i] = src[i];
 			i++;

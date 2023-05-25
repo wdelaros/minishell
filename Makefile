@@ -53,7 +53,7 @@ all: dir $(NAME)
 # Generates output file
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
-	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) -l readline -l ncurses \
+	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) uwu/C_tool.a -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"
@@ -85,3 +85,6 @@ fclean: clean
 re: fclean all
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Remake complete$(RESET)\
 	$(GREEN) ✔️$(RESET)"
+
+run: all
+	@./minishell

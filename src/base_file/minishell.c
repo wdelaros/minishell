@@ -15,6 +15,9 @@ void	exec(char **fcmd)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
+	Ct_mprintf(fcmd[0], ft_strlen(fcmd[0]) + 1, 1, 'A');
+	Ct_mprintf(fcmd[1], ft_strlen(fcmd[1]) + 1, 1, 'B');
+	Ct_mprintf(fcmd[2], ft_strlen(fcmd[2]) + 1, 1, 'C');
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		perror(fcmd[0]);
