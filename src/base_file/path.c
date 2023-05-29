@@ -60,5 +60,7 @@ void	find_executable(char	**fcmd, int i)
 			i++;
 		}
 	}
-	struc()->cmdpath = NULL;
+	ft_free_null(fcmd);
+	ft_free_null(struc()->path);
+	exit(1);
 }
