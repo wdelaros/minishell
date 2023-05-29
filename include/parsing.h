@@ -9,12 +9,14 @@
 # define COMMAND 0
 
 # include "../libft/libft.h"
+# include "../uwu/C_tool.h"
 # include <stdio.h>
 
 typedef struct s_token
 {
 	char	**token;
 	char	*input;
+	int		index;
 }				t_token;
 
 char	**string_handler(char *input);

@@ -39,6 +39,7 @@ SRCS		=	minishell.c\
 				signal_handler.c\
 				parsing.c\
 				parsing_utils.c\
+				token.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

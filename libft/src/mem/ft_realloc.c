@@ -1,30 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 16:49:02 by rapelcha          #+#    #+#             */
-/*   Updated: 2023/05/18 13:57:58 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../libft.h"
 
-void	*ft_realloc(void *old, size_t count, size_t size, size_t new_size)
+void	*ft_realloc(void *old, size_t size, size_t len, size_t new_len)
 {
 	void	*new;
 
 	if (!old)
 		return (NULL);
-	new = ft_calloc(count, new_size);
+	new = ft_calloc(size, new_len);
 	if (!new)
 		return (NULL);
-	if (size > new_size)
-		ft_memcpy(new, old, count * new_size);
+	if (len > new_len)
+		ft_memcpy(new, old, size * new_len);
 	else
-		ft_memcpy(new, old, count * size);
+		ft_memcpy(new, old, size * len);
 	ft_xfree(old);
+	return (new);
+}
+
+void	**ft_realloc_double(void **old, size_t size, size_t new_len)
+{
+	void	**new;
+	size_t	i;
+
+	i = 0;
+	if (!old)
+		return (NULL);
+	new = ft_calloc(size, new_len);
+	if (!new)
+		return (NULL);
+	while (i < new_len)
+	{
+		ft_memcpy(new[i], old[i], ft_strlen(old[i]));
+		i++;
+	}
+	free(old);
 	return (new);
 }

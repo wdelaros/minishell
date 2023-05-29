@@ -1,0 +1,27 @@
+void	token_separator(char *str, t_token *th)
+{
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (th->token[th->index] == NULL)
+		{
+
+			i = command_separator(str, th, i);
+		}
+		if (th->token[th->index] == NULL && str[i] == MINUS)
+		{
+
+			i = option_separator(str, th, i);
+		}
+		if (str[i] && (str[i] == DOUBLE_QUOTE
+				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i])))
+		{
+
+			i = argument_seperator(str, th, i);
+		}
+		if (str[i])
+			i++;
+	}
+}

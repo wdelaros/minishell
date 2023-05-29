@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 12:30:31 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/23 11:03:10 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <unistd.h>
@@ -44,6 +32,7 @@ int		ft_atoi(const char *str);
 int		ft_strsearch(char *string, char character);
 
 size_t	ft_strlen(const char *s);
+size_t	ft_strlen_double(char **s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 
@@ -58,7 +47,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t count, size_t size);
-void	*ft_realloc(void *old, size_t count, size_t size, size_t new_size);
+void	*ft_realloc(void *old, size_t size, size_t len, size_t new_len);
+void	**ft_realloc_double(void **old, size_t size, size_t new_len);
 void	*ft_xfree(void	*pointer);
 
 char	*ft_strchr(const char *s, int c);
