@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:55:14 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/25 14:34:25 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:06:38 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_data
 	int			is_child;
 }				t_data;
 
-int		signal_handler(void);
 t_data	*struc(void);
+int		signal_handler(void);
 char	**findpath(t_data *data);
 void	find_executable(char	**fcmd, int i);
 void	print_cell(char	**cell);

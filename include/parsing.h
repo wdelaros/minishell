@@ -19,12 +19,12 @@ typedef struct s_token
 	int		index;
 }				t_token;
 
-char	**string_handler(char *input);
-int		if_all_quote_closed(char *str, int quote);
-char	*replace_char(char *str, char c);
-void	token_separator(char *str, t_token *token);
-int		ft_strlen_until(char *str, char *c, int check_space);
-char	*ft_sstrjoin(char const *s1, char const *s2);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
+char	**string_handler(char *input);
+char	*ft_sstrjoin(char const *s1, char const *s2);
+int		if_all_quote_closed(char *str, int quote);
+int		ft_strlen_until(char *str, char *c, int check_space);
+void	token_separator(char *str, t_token *token);
+void	do_need_realloc(t_token *th, int *i);
 
 #endif

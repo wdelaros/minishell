@@ -48,7 +48,6 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_realloc(void *old, size_t size, size_t len, size_t new_len);
-void	**ft_realloc_double(void **old, size_t size, size_t new_len);
 void	*ft_xfree(void	*pointer);
 
 char	*ft_strchr(const char *s, int c);
