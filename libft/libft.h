@@ -95,6 +95,7 @@ char	*ft_fstrjoin(char *s1, char *s2);
 
 int		ft_intlen(long int n, int base);
 int		ft_isfile(char *file);
+int		ft_strcmp(char *s1, char *s2);
 
 long	ft_atol(const char *str);
 
@@ -104,5 +105,6 @@ char	**ft_split_char(const char *lines);
 char	*ft_rstrjoin(char const *s1, char const *s2);
 char	*ft_frstrjoin(char *s1, char *s2);
 char	*ft_convertbase(char *num, int initbase, int finalbase);
+char	**ft_free_null(char **array);
 
 #endif

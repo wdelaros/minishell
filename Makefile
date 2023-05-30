@@ -27,17 +27,18 @@ DEFAULT		=	\033[39m
 ERASE_LINE	=	\033[2K\r
 
 # Compiler and flags
-CC			=	gcc
+CC			=	gcc -g
 CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
 # Sources are all .c files
 SRCS		=	minishell.c\
 				minishell_utils.c\
-				path.c\
-				redirection.c\
-				signal_handler.c\
+				io_redirection.c\
 				parsing.c\
+				path.c\
+				pipe.c\
+				signal_handler.c\
 				parsing_utils.c\
 				token.c\
 
