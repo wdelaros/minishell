@@ -73,14 +73,11 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 
 void	do_need_realloc(t_token *th, int *i)
 {
-	if (th->token == NULL)
-		th->token = ft_calloc(2, sizeof(char *));
-	else if (th->token[*i] == NULL)
+	if (th->token[*i] == NULL)
 	{
 		th->token = ft_realloc(th->token,
 				sizeof(char **), ft_strlen_double(th->token) + 1,
 				ft_strlen_double(th->token) + 2);
-		(*i)++;
 	}
 	else
 		return ;

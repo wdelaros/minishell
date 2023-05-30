@@ -1,6 +1,6 @@
 #include "../../libft.h"
 
-static char	**ft_free_null(char **array)
+char	**ft_free_null(char **array)
 {
 	size_t	i;
 
