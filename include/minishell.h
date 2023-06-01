@@ -30,6 +30,16 @@ typedef struct s_data
 	int			redirnum;
 }				t_data;
 
+typedef struct s_cmd
+{
+	char			**cmd;
+	int				fd_in;
+	int				fd_out;
+	pid_t			pid;
+	struct s_cmd	*previous;
+	struct s_cmd	*next;
+}				t_cmd;
+
 int		signal_handler(void);
 t_data	*struc(void);
 char	**findpath(t_data *data);
@@ -37,9 +47,9 @@ void	find_executable(char	**fcmd, int i);
 void	print_cell(char	***cell);
 void	exec(char **fcmd);
 
-void	count(char	**cmd, int	i);
-void	run_pipe(char	**cmd);
+void	run_pipe(char	***cmd);
 
+void	input_to_pipe(t_cmd *cmd);
 void	redirect_input(char *file);
 void	redirect_output(char *file);
 void	append_output(char	*file);
