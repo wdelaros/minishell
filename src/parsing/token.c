@@ -39,9 +39,9 @@ static int	argument_seperator(char *str, char **res, int i)
 	char	*temp;
 
 	temp = NULL;
-	printf ("%s\n", &str[i]);
-	len = ft_strlen_until(&str[i], "\0", 1);
-	printf("%d\n", len);
+	printf ("STRING:%s\n", &str[i]);
+	len = token_len_quote(&str[i]);
+	printf("LEN: %d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
 	if (*res != NULL)
@@ -52,9 +52,11 @@ static int	argument_seperator(char *str, char **res, int i)
 	}
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
-	while (str[i] && str[i] != SPACE)
+	while (str[i] && !((str[i] == DOUBLE_QUOTE && (str[i + 1] == SPACE
+					|| str[i + 1] == '\0')) || (str[i] == SINGLE_QUOTE
+				&& (str[i + 1] == SPACE || str[i + 1] == '\0'))))
 			i++;
-	printf ("INDEX: %d\n", i);
+	printf ("STRING RESTANTE:%s\n", &str[i]);
 	return (i);
 }
 

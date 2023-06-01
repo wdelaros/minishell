@@ -24,7 +24,7 @@ char	**string_handler(char *input);
 char	*ft_sstrjoin(char const *s1, char const *s2);
 int		if_all_quote_closed(char *str, int quote);
 int		token_handler_quote(char *str, int i);
-int		token_len_quote(char *str, int i);
+int		token_len_quote(char *str);
 int		ft_strlen_until(char *str, char *c, int check_space);
 int		ft_strlen_until_space(char *str);
 void	token_separator(char *str, t_token *token);

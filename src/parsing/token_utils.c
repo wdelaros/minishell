@@ -14,17 +14,24 @@ int	token_handler_quote(char *str, int i)
 	return (i);
 }
 
-int	token_len_quote(char *str, int i)
+int	token_len_quote(char *str)
 {
 	int	len;
 
 	len = 0;
-	if (str[i] == DOUBLE_QUOTE)
-		len = ft_strlen_until(&str[i], "\"-\0", 1);
-	else if (str[i] == SINGLE_QUOTE)
-		len = ft_strlen_until(&str[i], "\'-\0", 1);
+	if (str[len] == DOUBLE_QUOTE)
+		while (str[len] && !(str[len] == DOUBLE_QUOTE
+				&& (str[len + 1] == '\0' || str[len + 1] == SPACE)))
+			len++;
+	else if (str[len] == SINGLE_QUOTE)
+		while (str[len] && !(str[len] == SINGLE_QUOTE
+				&& (str[len + 1] == '\0' || str[len + 1] == SPACE)))
+			len++;
 	else
-		len = ft_strlen_until(&str[i], "-\0", 1);
+		while (str[len] && ft_isalpha(str[len])
+			&& (str[len + 1] != '\0' || str[len + 1] != SPACE))
+			len++;
+	len++;
 	return (len);
 }
 
