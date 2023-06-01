@@ -8,13 +8,16 @@ int	ft_strlen_until(char *str, char *c, int check_space)
 
 	len = ft_strlen(str);
 	j = 0;
+	if (c[j] == '\0' && check_space == 1)
+		len = ft_strlen_until_space(str);
 	while (c[j])
 	{
 		i = 0;
 		while (str[i])
 		{
-			if ((str[i] == c[j] && i != 0 && len > i)
-				|| (check_space == 1 && str[i] == SPACE && len > i))
+			if ((str[i] == c[j] && i != 0 && len > i))
+				len = i;
+			else if (check_space == 1 && str[i] == SPACE && len > i)
 				len = i;
 			i++;
 		}

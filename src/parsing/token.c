@@ -39,26 +39,22 @@ static int	argument_seperator(char *str, char **res, int i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until(&str[i], "\"\'-\0", 1);
+	printf ("%s\n", &str[i]);
+	len = ft_strlen_until(&str[i], "\0", 1);
+	printf("%d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
-	*res = ft_sstrjoin(*res, temp);
-	ft_xfree(temp);
 	if (*res != NULL)
 	{
 		*res = ft_realloc(*res, sizeof(char), ft_strlen(*res),
 				ft_strlen(*res) + 1);
 		*res[ft_strlen(*res)] = SPACE;
 	}
-	if (str[i] == DOUBLE_QUOTE)
-		while (str[i] && !(str[i - 1] == DOUBLE_QUOTE && str[i] == SPACE))
+	*res = ft_sstrjoin(*res, temp);
+	ft_xfree(temp);
+	while (str[i] && str[i] != SPACE)
 			i++;
-	else if (str[i] == SINGLE_QUOTE)
-		while (str[i] && !(str[i - 1] == SINGLE_QUOTE && str[i] == SPACE))
-			i++;
-	else
-		while (str[i] && str[i] != SPACE)
-			i++;
+	printf ("INDEX: %d\n", i);
 	return (i);
 }
 
