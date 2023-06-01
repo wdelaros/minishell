@@ -60,6 +60,7 @@ void	find_executable(char	**fcmd, int i)
 			i++;
 		}
 	}
+	perror(fcmd[0]);
 	ft_free_null(fcmd);
 	ft_free_null(struc()->path);
 	exit(1);

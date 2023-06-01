@@ -1,6 +1,45 @@
 #include "../../include/minishell.h"
 
-void	count(char	**cmd, int	i)
+t_cmd	*create_node(char	**cmd)
+{
+	t_cmd	*node;
+
+	node = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!node)
+		return (0);
+	node->cmd = cmd;
+	node->previous = NULL;
+	node->next = NULL;
+	return (node);
+}
+
+t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	i = 0;
+	cmd = create_node(arg[i]);
+	(*current) = cmd;
+	i++;
+	while (arg[i])
+	{
+		(*current)->next = create_node(arg[i]);
+		(*current)->next->previous = (*current);
+		(*current) = (*current)->next;
+		i++;
+	}
+	return (cmd);
+}
+
+int	ft_pilesize(t_cmd *cmd)
+{
+	if (!cmd)
+		return (0);
+	return (ft_pilesize(cmd->next) + 1);
+}
+
+void	count(char	***cmd, int	i)
 {
 	int	fd;
 
@@ -9,18 +48,18 @@ void	count(char	**cmd, int	i)
 	struc()->redirnum = 0;
 	while (cmd[i])
 	{
-		if (!ft_strcmp(cmd[i], "|"))
+		if (!ft_strcmp(cmd[i][0], "|"))
 			struc()->pipenum++;
-		else if (cmd[i] && !ft_strcmp(cmd[i], "<"))
+		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], "<"))
 		{
 			struc()->redirnum += 2;
 			i++;
 		}
-		else if (!ft_strcmp(cmd[i], ">") || !ft_strcmp(cmd[i], ">>"))
+		else if (!ft_strcmp(cmd[i][0], ">") || !ft_strcmp(cmd[i][0], ">>"))
 		{
 			i++;
 			struc()->redirnum++;
-			fd = open(cmd[i], O_RDWR | O_CREAT, S_IRWXU);
+			fd = open(cmd[i][0], O_RDWR | O_CREAT, S_IRWXU);
 			close(fd);
 		}
 		else
@@ -29,7 +68,7 @@ void	count(char	**cmd, int	i)
 	}
 }
 
-void	wait_end_cmd(void)
+void	wait_end_cmd(t_cmd *cmd)
 {
 	int	status;
 	int	i;
@@ -37,65 +76,116 @@ void	wait_end_cmd(void)
 	i = 0;
 	while (i <= struc()->number_of_cmd - 1)
 	{
-		waitpid(struc()->pid[i], &status, 0);
+		waitpid(cmd->pid, &status, 0);
 		i++;
 	}
 }
 
-void	run_pipe(char	**cmd)
+void	reset_fd(int	*fd)
 {
+	rl_clear_history();
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+}
+
+void	run_pipe(char	***cmd)
+{
+	t_cmd	*current;
+	t_cmd	*lcmd;
 	int	pfd[2];
-	int	fd_in;
 	int	fd_out;
-	int	i;
 	int	j;
 
-	fd_in = 0;
 	count(cmd, 0);
-	fd_out = dup(STDOUT_FILENO);
-	struc()->pid = ft_calloc(struc()->pipenum + 1, sizeof(pid_t *));
-	i = 0;
+	current = NULL;
+	lcmd = ft_setnode(cmd, &current);
 	j = 0;
-	while (i < struc()->number_of_cmd + struc()->pipenum)
+	lcmd->fd_in = 0;
+	fd_out = dup(STDOUT_FILENO);
+	while (lcmd)
 	{
-		if (!ft_strcmp(cmd[i], "|"))
-			i++;
+		if (!ft_strcmp(lcmd->cmd[0], "|"))
+			lcmd = lcmd->next;
 		if (j < struc()->pipenum)
 			pipe(pfd);
-		struc()->pid[j] = fork();
+		lcmd->pid = fork();
 		struc()->is_child = 1;
-		if (struc()->pid[j] == -1)
+		if (lcmd->pid == -1)
 			return ;
-		if (!struc()->pid[j])
+		if (!lcmd->pid)
 		{
 			if (struc()->pipenum > 0)
 			{
-				dup2(fd_in, STDIN_FILENO);
-				close(fd_in);
+				input_to_pipe(lcmd);
 				if (j < (struc()->number_of_cmd - 1))
 					dup2(pfd[1], STDOUT_FILENO);
 				close(pfd[0]);
 				close(pfd[1]);
 			}
 			close(fd_out);
-			exec(ft_split(cmd[i], 32));
+			exec(lcmd->cmd);
 		}
 		if (struc()->pipenum > 0)
 			close(pfd[1]);
-		fd_in = pfd[0];
+		if (lcmd->previous)
+			close(lcmd->previous->previous->fd_in);
+		lcmd->fd_in = pfd[0];
 		j++;
-		i++;
-	}
-	if (struc()->pipenum > 0)
-	{
-		dup2(fd_out, STDOUT_FILENO);
-		close(pfd[0]);
-		close(pfd[1]);
+		if (!lcmd->next)
+			break ;
+		lcmd = lcmd->next;
 	}
 	close(fd_out);
-	wait_end_cmd();
-	free(struc()->pid);
+	if (struc()->number_of_cmd > 1)
+		reset_fd(pfd);
+	wait_end_cmd(lcmd);
+	if (current)
+	{
+		while (current->previous != NULL)
+		{
+			current = current->previous;
+			free(current->next);
+
+		}
+		free(current);
+	}
+	j = 0;
+	while (cmd[j])
+	{
+		cmd[j] = ft_free_null(cmd[j]);
+		j++;
+	}
+	free(cmd);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* void	run_pipe(char	**cmd)
 {

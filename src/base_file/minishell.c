@@ -47,16 +47,16 @@ void	initialize(char **envp)
 {
 	// pid_t	*temp;
 
-	struc()->envp = envp;
 	// temp = ft_calloc(2, sizeof(pid_t *));
 	// struc()->pid = temp;
 	// free(temp);
+	struc()->envp = envp;
 	struc()->is_child = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**cmd;
+	char	***cmd;
 
 	(void)argc;
 	(void)argv;
@@ -73,12 +73,27 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = ft_split(struc()->input, 32);
-		if (cmd[0])
-			run_pipe(cmd);
-		cmd = ft_free_null(cmd);
+		// cmd = ft_split(struc()->input, 32);
+		int	i = 7;
+		cmd = ft_calloc(20, sizeof(char **));
+		while (i > 0)
+		{
+			i--;
+			cmd[i] = ft_calloc(20, sizeof(char *));
+		}
+		cmd[0][0] = ft_strdup("ls");
+		cmd[0][1] = ft_strdup("-la");
+		cmd[1][0] = ft_strdup("|");
+		cmd[2][0] = ft_strdup("cat");
+		cmd[3][0] = ft_strdup("|");
+		cmd[4][0] = ft_strdup("wc");
+		cmd[5][0] = ft_strdup("|");
+		cmd[6][0] = ft_strdup("cat");
+		cmd[6][1] = ft_strdup("-e");
+		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
+		free(struc()->input);
 	}
 	rl_clear_history();
 }
