@@ -49,9 +49,14 @@ void	exec(char **fcmd);
 
 void	run_pipe(char	***cmd);
 
+t_cmd	*create_node(char	**cmd);
+t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
+int	ft_pilesize(t_cmd *cmd);
+
+void	redir_input(t_cmd	**lcmd);
+void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
 void	input_to_pipe(t_cmd *cmd);
-void	redirect_input(char *file);
-void	redirect_output(char *file);
+void	output_to_file(char *file);
 void	append_output(char	*file);
 
 #endif

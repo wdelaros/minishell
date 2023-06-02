@@ -45,11 +45,6 @@ void	run_cmd(char **cmd)
 
 void	initialize(char **envp)
 {
-	// pid_t	*temp;
-
-	// temp = ft_calloc(2, sizeof(pid_t *));
-	// struc()->pid = temp;
-	// free(temp);
 	struc()->envp = envp;
 	struc()->is_child = 0;
 }
@@ -57,6 +52,7 @@ void	initialize(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
+	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -74,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		// cmd = ft_split(struc()->input, 32);
-		int	i = 7;
+		i = 2;
 		cmd = ft_calloc(20, sizeof(char **));
 		while (i > 0)
 		{
@@ -82,14 +78,8 @@ int	main(int argc, char **argv, char **envp)
 			cmd[i] = ft_calloc(20, sizeof(char *));
 		}
 		cmd[0][0] = ft_strdup("ls");
-		cmd[0][1] = ft_strdup("-la");
-		cmd[1][0] = ft_strdup("|");
-		cmd[2][0] = ft_strdup("cat");
-		cmd[3][0] = ft_strdup("|");
-		cmd[4][0] = ft_strdup("wc");
-		cmd[5][0] = ft_strdup("|");
-		cmd[6][0] = ft_strdup("cat");
-		cmd[6][1] = ft_strdup("-e");
+		cmd[1][0] = ft_strdup(">>");
+		cmd[1][1] = ft_strdup("out");
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
