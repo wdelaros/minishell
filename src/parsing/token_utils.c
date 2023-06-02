@@ -19,19 +19,19 @@ int	token_len_quote(char *str)
 	int	len;
 
 	len = 0;
+	printf ("CHAR : :%c\n", str[len]);
 	if (str[len] == DOUBLE_QUOTE)
-		while (str[len] && !(str[len] == DOUBLE_QUOTE
-				&& (str[len + 1] == '\0' || str[len + 1] == SPACE)))
-			len++;
+	{
+		len = ft_strlen_until(str, "\"\0", 0);
+		len++;
+	}
 	else if (str[len] == SINGLE_QUOTE)
-		while (str[len] && !(str[len] == SINGLE_QUOTE
-				&& (str[len + 1] == '\0' || str[len + 1] == SPACE)))
-			len++;
+	{
+		len = ft_strlen_until(str, "\'\0", 0);
+		len++;
+	}
 	else
-		while (str[len] && ft_isalpha(str[len])
-			&& (str[len + 1] != '\0' || str[len + 1] != SPACE))
-			len++;
-	len++;
+		len = ft_strlen_until(str, "\"\'\0", 0);
 	return (len);
 }
 

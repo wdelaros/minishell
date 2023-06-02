@@ -23,8 +23,10 @@ int	ft_strlen_until(char *str, char *c, int check_space)
 		}
 		j++;
 	}
+	/*
 	if (str[len] == DOUBLE_QUOTE || str[len] == SINGLE_QUOTE)
 		len++;
+	*/
 	return (len);
 }
 

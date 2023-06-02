@@ -6,7 +6,6 @@
 # define DOUBLE_QUOTE 34
 # define SINGLE_QUOTE 39
 # define MINUS 45
-# define COMMAND 0
 
 # include "../libft/libft.h"
 # include "../uwu/C_tool.h"

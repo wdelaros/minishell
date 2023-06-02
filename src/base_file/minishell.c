@@ -15,12 +15,20 @@ void	exec(char **fcmd)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
+	int	i = 0;
+	char l = 'A';
+	while (fcmd[i])
+	{
+		Ct_mprintf(fcmd[i], ft_strlen(fcmd[i]) + 1, 1, l);
+		i++;
+		l++;
+	}
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		perror(fcmd[0]);
 		exit (1);
 	}
-}
+} 
 
 /**
  * create a fork(new process) for execute a command

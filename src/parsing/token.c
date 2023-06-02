@@ -14,6 +14,7 @@ static int	command_separator(char *str, char **res, int i)
 	while (str[i] && (str[i] != DOUBLE_QUOTE && str[i] != SINGLE_QUOTE
 			&& str[i] != MINUS && str[i] != SPACE))
 		i++;
+	i++;
 	return (i);
 }
 
@@ -44,18 +45,28 @@ static int	argument_seperator(char *str, char **res, int i)
 	printf("LEN: %d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
-	if (*res != NULL)
-	{
-		*res = ft_realloc(*res, sizeof(char), ft_strlen(*res),
-				ft_strlen(*res) + 1);
-		*res[ft_strlen(*res)] = SPACE;
-	}
+	printf ("STRING RESULTANTE:%s\n", temp);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
-	while (str[i] && !((str[i] == DOUBLE_QUOTE && (str[i + 1] == SPACE
-					|| str[i + 1] == '\0')) || (str[i] == SINGLE_QUOTE
-				&& (str[i + 1] == SPACE || str[i + 1] == '\0'))))
+	if (str[i] == DOUBLE_QUOTE)
+	{
+		i++;
+		while (str[i] && str[i] != DOUBLE_QUOTE)
 			i++;
+		i++;
+	}
+	else if (str[i] == SINGLE_QUOTE)
+	{
+		i++;
+		while (str[i] && str[i] != SINGLE_QUOTE)
+			i++;
+		i++;
+	}
+	else
+	{
+		while (str[i] && str[i] != DOUBLE_QUOTE && str[i] != SINGLE_QUOTE)
+			i++;
+	}
 	printf ("STRING RESTANTE:%s\n", &str[i]);
 	return (i);
 }
@@ -81,7 +92,7 @@ void	token_separator(char *str, t_token *th)
 			th->index++;
 		}
 		if (str[i] && (str[i] == DOUBLE_QUOTE
-				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i])))
+				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i]) || str[i] == SPACE))
 		{
 			do_need_realloc(th, &th->index);
 			i = argument_seperator(str, &th->token[th->index], i);
