@@ -19,7 +19,6 @@ int	token_len_quote(char *str)
 	int	len;
 
 	len = 0;
-	printf ("CHAR : :%c\n", str[len]);
 	if (str[len] == DOUBLE_QUOTE)
 	{
 		len = ft_strlen_until(str, "\"\0", 0);

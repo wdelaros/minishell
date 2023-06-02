@@ -1,5 +1,10 @@
 #include "../../include/parsing.h"
 
+/// @brief Seperate the command from the raw input.
+/// @param str raw input.
+/// @param res the command seperated from the input.
+/// @param i current index in the raw input.
+/// @return Index after the command has been seperated.
 static int	command_separator(char *str, char **res, int i)
 {
 	int		len;
@@ -18,6 +23,11 @@ static int	command_separator(char *str, char **res, int i)
 	return (i);
 }
 
+/// @brief Seperate the option from the raw input.
+/// @param str raw input.
+/// @param res the option seperated from the input.
+/// @param i current index in the raw input.
+/// @return Index after the option has been seperated.
 static int	option_separator(char *str, char **res, int i)
 {
 	int		len;
@@ -34,18 +44,20 @@ static int	option_separator(char *str, char **res, int i)
 	return (i);
 }
 
+/// @brief Seperate the argument from the raw input.
+/// @param str raw input.
+/// @param res the argument seperated from the input.
+/// @param i current index in the raw input.
+/// @return Index after the argument has been seperated.
 static int	argument_seperator(char *str, char **res, int i)
 {
 	int		len;
 	char	*temp;
 
 	temp = NULL;
-	printf ("STRING:%s\n", &str[i]);
 	len = token_len_quote(&str[i]);
-	printf("LEN: %d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
-	printf ("STRING RESULTANTE:%s\n", temp);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
 	if (str[i] == DOUBLE_QUOTE)
@@ -63,14 +75,15 @@ static int	argument_seperator(char *str, char **res, int i)
 		i++;
 	}
 	else
-	{
 		while (str[i] && str[i] != DOUBLE_QUOTE && str[i] != SINGLE_QUOTE)
 			i++;
-	}
-	printf ("STRING RESTANTE:%s\n", &str[i]);
 	return (i);
 }
 
+/// @brief Handle the seperation of the raw input.
+/// @param str raw input.
+/// @param th token struct.
+/// @return No return value.
 void	token_separator(char *str, t_token *th)
 {
 	int	i;
@@ -92,13 +105,14 @@ void	token_separator(char *str, t_token *th)
 			th->index++;
 		}
 		if (str[i] && (str[i] == DOUBLE_QUOTE
-				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i]) || str[i] == SPACE))
+				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i])
+				|| str[i] == SPACE))
 		{
 			do_need_realloc(th, &th->index);
 			i = argument_seperator(str, &th->token[th->index], i);
 			th->index++;
 		}
-		if (str[i])
+		if (str[i] == SPACE)
 			i++;
 	}
 }
