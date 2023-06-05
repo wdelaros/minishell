@@ -4,9 +4,15 @@ void	redir_input(t_cmd	**lcmd)
 {
 	int	fd;
 
-	if ((*lcmd)->previous && !ft_strcmp((*lcmd)->previous->cmd[0], "<"))
+	if ((*lcmd)->redir_in && !ft_strcmp((*lcmd)->redir_in[0], "<"))
 	{
-		fd = open((*lcmd)->previous->cmd[1], O_RDONLY);
+		fd = open((*lcmd)->redir_in[1], O_RDONLY);
+		if (fd == -1)
+		{
+			perror((*lcmd)->redir_in[1]);
+			return ;
+			// free all + exit (1); = ft_exit();
+		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -16,17 +22,13 @@ void	redir_input(t_cmd	**lcmd)
 
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i)
 {
-	t_cmd	*current;
-
-	current = lcmd;
-	while (current->next && (!ft_strcmp(current->next->cmd[0], ">") \
-	|| !ft_strcmp(current->next->cmd[0], ">>")))
+	while (lcmd->redir_out && (!ft_strcmp(lcmd->redir_out[0], ">") \
+	|| !ft_strcmp(lcmd->redir_out[0], ">>")))
 	{
-		current = current->next;
-		if (current && !ft_strcmp(current->cmd[0], ">"))
-			output_to_file(current->cmd[1]);
-		else if (current && !ft_strcmp(current->cmd[0], ">>"))
-			append_output(current->cmd[1]);
+		if (lcmd && !ft_strcmp(lcmd->redir_out[0], ">"))
+			output_to_file(lcmd->redir_out[1]);
+		else if (lcmd && !ft_strcmp(lcmd->redir_out[0], ">>"))
+			append_output(lcmd->redir_out[1]);
 	}
 	if (i < (struc()->number_of_cmd - 1))
 		dup2((*pfd)[1], STDOUT_FILENO);

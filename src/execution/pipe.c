@@ -100,22 +100,16 @@ void	run_pipe(char	***cmd)
 
 	count(cmd, 0);
 	current = NULL;
-	struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	lcmd = ft_setnode(cmd, &current);
+	struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	i = 0;
-	while (lcmd->next && !ft_strcmp(lcmd->cmd[0], "<"))
-		lcmd = lcmd->next;
 	lcmd->fd_in = 0;
 	fd_out = dup(STDOUT_FILENO);
 	while (lcmd)
 	{
 		if (lcmd->next && !ft_strcmp(lcmd->cmd[0], "|"))
 			lcmd = lcmd->next;
-		while (lcmd->next && (!ft_strcmp(lcmd->cmd[0], ">") || \
-		!ft_strcmp(lcmd->cmd[0], ">>") || !ft_strcmp(lcmd->cmd[0], "<")))
-			lcmd = lcmd->next;
-		if (!lcmd->next && (!ft_strcmp(lcmd->cmd[0], "|") \
-		|| !ft_strcmp(lcmd->cmd[0], ">") || !ft_strcmp(lcmd->cmd[0], ">>")))
+		if (!lcmd->next && (!ft_strcmp(lcmd->cmd[0], "|")))
 			break ;
 		if (i < struc()->pipenum)
 			pipe(pfd);
@@ -133,8 +127,41 @@ void	run_pipe(char	***cmd)
 		lcmd = lcmd->next;
 	}
 	close(fd_out);
-	if (struc()->number_of_cmd > 1)
+	if (struc()->pipenum > 0)
 		reset_fd(pfd);
 	wait_end_cmd();
 	ft_free_all(current, cmd);
 }
+
+	// j = 0;
+	// while (lcmd)
+	// {
+	// 	ft_printf("cmd %d:\n", j);
+	// 	i = 0;
+	// 	while (lcmd->redir_in && lcmd->redir_in[i])
+	// 	{
+	// 		ft_printf("%s ", lcmd->redir_in[i]);
+	// 		i++;
+	// 	}
+	// 	ft_printf("\n");
+	// 	i = 0;
+	// 	while (lcmd->cmd[i])
+	// 	{
+	// 		ft_printf("%s ", lcmd->cmd[i]);
+	// 		i++;
+	// 	}
+	// 	ft_printf("\n");
+	// 	i = 0;
+	// 	while (lcmd->redir_out && lcmd->redir_out[i])
+	// 	{
+	// 		ft_printf("%s ", lcmd->redir_out[i]);
+	// 		i++;
+	// 	}
+	// 	ft_printf("\n");
+	// 	j++;
+	// 	if (!lcmd->next)
+	// 		break ;
+	// 	lcmd = lcmd->next;
+	// }
+	// while (lcmd->previous)
+	// 	lcmd = lcmd->previous;

@@ -33,9 +33,9 @@ typedef struct s_data
 typedef struct s_cmd
 {
 	char			**cmd;
+	char			**redir_in;
+	char			**redir_out;
 	int				fd_in;
-	int				fd_out;
-	pid_t			pid;
 	struct s_cmd	*previous;
 	struct s_cmd	*next;
 }				t_cmd;
@@ -49,7 +49,7 @@ void	exec(char **fcmd);
 
 void	run_pipe(char	***cmd);
 
-t_cmd	*create_node(char	**cmd);
+t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out);
 t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
 int	ft_pilesize(t_cmd *cmd);
 

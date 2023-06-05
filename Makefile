@@ -39,6 +39,7 @@ SRCS		=	minishell.c\
 				path.c\
 				pipe.c\
 				signal_handler.c\
+				list.c
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
