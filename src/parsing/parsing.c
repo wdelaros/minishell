@@ -2,14 +2,18 @@
 
 char	**string_handler(char *input)
 {
-	t_token	token_handler;
+	t_input	*input_handler;
+	char	**res;
 
-	token_handler.index = 0;
+	input_handler = create_node();
 	if (if_all_quote_closed(input, DOUBLE_QUOTE) == 0
 		|| if_all_quote_closed(input, SINGLE_QUOTE) == 0)
 		printf ("MARDE\n");
-	token_separator(input, &token_handler);
-	return (token_handler.token);
+	token_separator(input, &input_handler);
+	printf ("SEPARATION DONE\n");
+	//quote_handler(&input_handler);
+	res = convert_list_to_string(&input_handler);
+	return (res);
 }
 
 int	if_all_quote_closed(char *str, int quote)

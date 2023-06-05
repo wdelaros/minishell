@@ -23,10 +23,6 @@ int	ft_strlen_until(char *str, char *c, int check_space)
 		}
 		j++;
 	}
-	/*
-	if (str[len] == DOUBLE_QUOTE || str[len] == SINGLE_QUOTE)
-		len++;
-	*/
 	return (len);
 }
 
@@ -86,4 +82,46 @@ void	do_need_realloc(t_token *th, int *i)
 	}
 	else
 		return ;
+}
+
+t_input	*create_node(void)
+{
+	t_input	*temp;
+
+	temp = ft_calloc(1, sizeof(t_input));
+	if (!temp)
+		return (NULL);
+	return (temp);
+}
+
+void	add_node(t_input **input, int id)
+{
+	t_input	*current;
+
+	if (*input == NULL)
+	{
+		(*input) = create_node();
+		return ;
+	}
+	current = (*input);
+	while (current->next != NULL)
+		current = current->next;
+	current->next = create_node();
+	if (!current->next)
+		return ;
+	current->next->prev = current;
+	current->token = id;
+}
+
+size_t	node_len(t_input *list)
+{
+	size_t	i;
+
+	i = 0;
+	while (list)
+	{
+		i++;
+		list = list->next;
+	}
+	return (i);
 }

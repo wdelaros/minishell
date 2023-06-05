@@ -63,3 +63,23 @@ char	*copy_and_join(char *str, int i)
 	ft_xfree(temp);
 	return (res);
 }
+
+char	**convert_list_to_string(t_input **ih)
+{
+	char	**res;
+	int		i;
+	int		len;
+
+	i = 0;
+	res = NULL;
+	len = 0;
+	len = node_len((*ih));
+	res = ft_calloc(len, sizeof(char *));
+	while ((*ih))
+	{
+		res[i] = ft_strdup((*ih)->input);
+		i++;
+		(*ih) = (*ih)->next;
+	}
+	return (res);
+}
