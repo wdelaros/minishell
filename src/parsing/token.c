@@ -41,6 +41,8 @@ static int	option_separator(char *str, char **res, int i)
 	ft_xfree(temp);
 	while (str[i] && str[i] != SPACE)
 		i++;
+	while (str[i] == SPACE)
+		i++;
 	return (i);
 }
 
@@ -51,15 +53,7 @@ static int	option_separator(char *str, char **res, int i)
 /// @return Index after the argument has been seperated.
 static int	argument_seperator(char *str, char **res, int i)
 {
-	int		len;
-	char	*temp;
-
-	temp = NULL;
-	len = token_len_quote(&str[i]);
-	temp = ft_calloc(len + 1, sizeof(char));
-	ft_sstrlcpy(temp, &str[i], len);
-	*res = ft_sstrjoin(*res, temp);
-	ft_xfree(temp);
+	*res = copy_and_join(str, i);
 	if (str[i] == DOUBLE_QUOTE)
 	{
 		i++;
@@ -80,6 +74,29 @@ static int	argument_seperator(char *str, char **res, int i)
 	return (i);
 }
 
+static void	token_if(char *str, t_token *th, int i)
+{
+	if (th->token[th->index] == NULL && ft_isalpha(str[i]))
+	{
+		do_need_realloc(th, &th->index);
+		i = command_separator(str, &th->token[th->index], i);
+		th->index++;
+	}
+	if (th->token[th->index] == NULL && str[i] == MINUS)
+	{
+		do_need_realloc(th, &th->index);
+		i = option_separator(str, &th->token[th->index], i);
+		th->index++;
+	}
+	if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
+			|| ft_isalpha(str[i]) || str[i] == SPACE))
+	{
+		do_need_realloc(th, &th->index);
+		i = argument_seperator(str, &th->token[th->index], i);
+		th->index++;
+	}
+}
+
 /// @brief Handle the seperation of the raw input.
 /// @param str raw input.
 /// @param th token struct.
@@ -92,26 +109,7 @@ void	token_separator(char *str, t_token *th)
 	th->token = ft_calloc(2, sizeof(char *));
 	while (str[i])
 	{
-		if (th->token[th->index] == NULL && ft_isalpha(str[i]))
-		{
-			do_need_realloc(th, &th->index);
-			i = command_separator(str, &th->token[th->index], i);
-			th->index++;
-		}
-		if (th->token[th->index] == NULL && str[i] == MINUS)
-		{
-			do_need_realloc(th, &th->index);
-			i = option_separator(str, &th->token[th->index], i);
-			th->index++;
-		}
-		if (str[i] && (str[i] == DOUBLE_QUOTE
-				|| str[i] == SINGLE_QUOTE || ft_isalpha(str[i])
-				|| str[i] == SPACE))
-		{
-			do_need_realloc(th, &th->index);
-			i = argument_seperator(str, &th->token[th->index], i);
-			th->index++;
-		}
+		token_if(str, th, i);
 		if (str[i] == SPACE)
 			i++;
 	}

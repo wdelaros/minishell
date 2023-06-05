@@ -21,6 +21,7 @@ typedef struct s_token
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 char	**string_handler(char *input);
 char	*ft_sstrjoin(char const *s1, char const *s2);
+char	*copy_and_join(char *str, int i);
 int		if_all_quote_closed(char *str, int quote);
 int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);

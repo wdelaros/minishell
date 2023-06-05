@@ -47,3 +47,19 @@ int	ft_strlen_until_space(char *str)
 	}
 	return (i);
 }
+
+char	*copy_and_join(char *str, int i)
+{
+	int		len;
+	char	*res;
+	char	*temp;
+
+	res = NULL;
+	temp = NULL;
+	len = token_len_quote(&str[i]);
+	temp = ft_calloc(len + 1, sizeof(char));
+	ft_sstrlcpy(temp, &str[i], len);
+	res = ft_sstrjoin(res, temp);
+	ft_xfree(temp);
+	return (res);
+}
