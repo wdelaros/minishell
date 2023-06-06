@@ -70,23 +70,25 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		// cmd = ft_split(struc()->input, 32);
-		i = 4;
+		i = 3;
 		cmd = ft_calloc(20, sizeof(char **));
 		while (i > 0)
 		{
 			i--;
 			cmd[i] = ft_calloc(20, sizeof(char *));
 		}
-		cmd[0][0] = ft_strdup("echo");
-		cmd[0][1] = ft_strdup("hello");
+
+		cmd[0][0] = ft_strdup("<");
+		cmd[0][1] = ft_strdup("out");
 
 		cmd[1][0] = ft_strdup("|");
 
-		cmd[2][0] = ft_strdup("<");
-		cmd[2][1] = ft_strdup("note.txt");
+		cmd[2][0] = ft_strdup("wc");
+		cmd[2][1] = ft_strdup("-l");
 
-		cmd[3][0] = ft_strdup("cat");
-
+		cmd[3][0] = ft_strdup(">");
+		cmd[3][1] = ft_strdup("out");
+	
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);

@@ -49,9 +49,7 @@ void	exec(char **fcmd);
 
 void	run_pipe(char	***cmd);
 
-t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out);
 t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
-int	ft_pilesize(t_cmd *cmd);
 
 void	redir_input(t_cmd	**lcmd);
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i);

@@ -22,7 +22,7 @@ void	redir_input(t_cmd	**lcmd)
 
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i)
 {
-	while (lcmd->redir_out && (!ft_strcmp(lcmd->redir_out[0], ">") \
+	if (lcmd->redir_out && (!ft_strcmp(lcmd->redir_out[0], ">") \
 	|| !ft_strcmp(lcmd->redir_out[0], ">>")))
 	{
 		if (lcmd && !ft_strcmp(lcmd->redir_out[0], ">"))

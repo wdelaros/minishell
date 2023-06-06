@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
+static t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
 {
 	t_cmd	*node;
 
@@ -15,13 +15,13 @@ t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
 	return (node);
 }
 
-int	ft_in_out_node(char	***arg, t_cmd	**cmd, int i)
+static int	ft_in_out_node(char	***arg, t_cmd	**cmd, int i)
 {
 	int	j;
 
-	while (!ft_strcmp(arg[i + 1][0], "<"))
+	while (arg[i + 1] && !ft_strcmp(arg[i + 1][0], "<"))
 		i++;
-	if (arg[i + 2] && (!ft_strcmp(arg[i + 2][0], ">") || \
+	if (arg[i + 1] && arg[i + 2] && (!ft_strcmp(arg[i + 2][0], ">") || \
 	!ft_strcmp(arg[i + 2][0], ">>")))
 	{
 		j = 2;
@@ -31,22 +31,24 @@ int	ft_in_out_node(char	***arg, t_cmd	**cmd, int i)
 		(*cmd) = create_node(arg[i + 1], arg[i], arg[i + j]);
 		i += j;
 	}
-	else
+	else if (arg[i + 1] && ft_strcmp(arg[i + 1][0], "|"))
 	{
 		(*cmd) = create_node(arg[i + 1], arg[i], NULL);
 		i++;
 	}
+	else
+		(*cmd) = create_node(NULL, arg[i], NULL);
 	return (i);
 }
 
-int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
+static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 {
 	int		j;
 
 	if (!ft_strcmp(arg[i][0], "<"))
 		i = ft_in_out_node(arg, cmd, i);
-	else if (arg[i + 1] && (!ft_strcmp(arg[i + 1][0], ">") || \
-	!ft_strcmp(arg[i + 1][0], ">>")))
+	else if (arg[i + 1] && ft_strcmp(arg[i][0], "|") && \
+	(!ft_strcmp(arg[i + 1][0], ">") || !ft_strcmp(arg[i + 1][0], ">>")))
 	{
 		j = 1;
 		while (arg[i + j + 1] && (!ft_strcmp(arg[i + j + 1][0], ">") \
@@ -54,6 +56,13 @@ int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 			j++;
 		(*cmd) = create_node(arg[i], NULL, arg[i + j]);
 		i += j;
+	}
+	else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
+	{
+		while (arg[i + 1] && (!ft_strcmp(arg[i + 1][0], ">") \
+		|| !ft_strcmp(arg[i + 1][0], ">>")))
+			i++;
+		(*cmd) = create_node(NULL, NULL, arg[i]);
 	}
 	else
 		(*cmd) = create_node(arg[i], NULL, NULL);
@@ -74,11 +83,4 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 		(*current) = (*current)->next;
 	}
 	return (cmd);
-}
-
-int	ft_pilesize(t_cmd *cmd)
-{
-	if (!cmd)
-		return (0);
-	return (ft_pilesize(cmd->next) + 1);
 }
