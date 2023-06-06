@@ -71,32 +71,37 @@ static void	argument_seperator(char *str, char **res, int *i)
 			(*i)++;
 }
 
-static void	token_if(char *str, t_input **ih, int *i)
+static int	token_if(char *str, t_input **ih, int i)
 {
 	t_input	*temp;
 
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	if (temp->input == NULL && ft_isalpha(str[*i]))
+	printf ("RESTANT DE LA STRING:%s	CHAR:%c\n", &str[i], str[i]);
+	if (temp->input == NULL && ft_isalpha(str[i]))
 	{
-		command_separator(str, &temp->input, i);
+		command_separator(str, &temp->input, &i);
 		add_node(&temp, COMMAND);
 		temp = temp->next;
 	}
-	if (temp->input == NULL && str[*i] == MINUS)
+	printf ("RESTANT DE LA STRING APRÈS COMMAND:%s\n", &str[i]);
+	if (temp->input == NULL && str[i] == MINUS)
 	{
-		option_separator(str, &temp->input, i);
+		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
 	}
-	if (str[*i] && (str[*i] == DOUBLE_QUOTE || str[*i] == SINGLE_QUOTE
-			|| ft_isalpha(str[*i]) || str[*i] == SPACE))
+	printf ("RESTANT DE LA STRING APRÈS OPTION:%s\n", &str[i]);
+	if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
+			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
-		argument_seperator(str, &temp->input, i);
+		argument_seperator(str, &temp->input, &i);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;
 	}
+	printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
+	return (i);
 }
 // A ENLEVER
 void	print_node(t_input *list)
@@ -114,14 +119,15 @@ void	print_node(t_input *list)
 /// @return No return value.
 void	token_separator(char *str, t_input **ih)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	(*ih) = create_node();
-	while (str[i])
+	while (i < ft_strlen(str))
 	{
-		token_if(str, ih, &i);
+		i = token_if(str, ih, i);
 		if (str[i] == SPACE)
 			i++;
+		printf ("INDEX:%zu\n", i);
 	}
 }

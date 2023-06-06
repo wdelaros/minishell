@@ -9,6 +9,8 @@
 # define COMMAND 0
 # define OPTION 1
 # define ARGUMENT 2
+# define NO 0
+# define YES 1
 
 # include "../libft/libft.h"
 # include "../uwu/C_tool.h"
