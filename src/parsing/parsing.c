@@ -3,16 +3,18 @@
 char	***string_handler(char *input)
 {
 	t_input	*input_handler;
-	char	**res;
+	char	***res;
 
+	res = NULL;
 	input_handler = create_node();
 	if (if_all_quote_closed(input, DOUBLE_QUOTE) == 0
 		|| if_all_quote_closed(input, SINGLE_QUOTE) == 0)
 		printf ("MARDE\n");
 	token_separator(input, &input_handler);
 	printf ("SEPARATION DONE\n");
+	print_node(input_handler);
 	//quote_handler(&input_handler);
-	res = convert_list_to_string(&input_handler);
+	//res = convert_list_to_string(&input_handler);
 	return (res);
 }
 

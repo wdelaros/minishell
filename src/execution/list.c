@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-static t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
+static t_cmd	*picreate_node(char	**cmd, char	**redir_in, char	**redir_out)
 {
 	t_cmd	*node;
 
@@ -28,16 +28,16 @@ static int	ft_in_out_node(char	***arg, t_cmd	**cmd, int i)
 		while (arg[i + j + 1] && (!ft_strcmp(arg[i + j + 1][0], ">") \
 		|| !ft_strcmp(arg[i + j + 1][0], ">>")))
 			j++;
-		(*cmd) = create_node(arg[i + 1], arg[i], arg[i + j]);
+		(*cmd) = picreate_node(arg[i + 1], arg[i], arg[i + j]);
 		i += j;
 	}
 	else if (arg[i + 1] && ft_strcmp(arg[i + 1][0], "|"))
 	{
-		(*cmd) = create_node(arg[i + 1], arg[i], NULL);
+		(*cmd) = picreate_node(arg[i + 1], arg[i], NULL);
 		i++;
 	}
 	else
-		(*cmd) = create_node(NULL, arg[i], NULL);
+		(*cmd) = picreate_node(NULL, arg[i], NULL);
 	return (i);
 }
 
@@ -54,7 +54,7 @@ static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 		while (arg[i + j + 1] && (!ft_strcmp(arg[i + j + 1][0], ">") \
 		|| !ft_strcmp(arg[i + j + 1][0], ">>")))
 			j++;
-		(*cmd) = create_node(arg[i], NULL, arg[i + j]);
+		(*cmd) = picreate_node(arg[i], NULL, arg[i + j]);
 		i += j;
 	}
 	else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
@@ -62,10 +62,10 @@ static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 		while (arg[i + 1] && (!ft_strcmp(arg[i + 1][0], ">") \
 		|| !ft_strcmp(arg[i + 1][0], ">>")))
 			i++;
-		(*cmd) = create_node(NULL, NULL, arg[i]);
+		(*cmd) = picreate_node(NULL, NULL, arg[i]);
 	}
 	else
-		(*cmd) = create_node(arg[i], NULL, NULL);
+		(*cmd) = picreate_node(arg[i], NULL, NULL);
 	return (i + 1);
 }
 

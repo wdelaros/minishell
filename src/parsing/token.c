@@ -70,6 +70,32 @@ static void	argument_seperator(char *str, char **res, int *i)
 		while (str[*i] && str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE)
 			(*i)++;
 }
+/// @brief Seperate the argument from the raw input.
+/// @param str raw input.
+/// @param res the argument seperated from the input.
+/// @param i current index in the raw input.
+/// @return Index after the argument has been seperated.
+static void	separator_seperator(char *str, char **res, int *i)
+{
+	*res = copy_and_join(str, *i);
+	if (str[*i] == DOUBLE_QUOTE)
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != DOUBLE_QUOTE)
+			(*i)++;
+		(*i)++;
+	}
+	else if (str[*i] == SINGLE_QUOTE)
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != SINGLE_QUOTE)
+			(*i)++;
+		(*i)++;
+	}
+	else
+		while (str[*i] && str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE)
+			(*i)++;
+}
 
 static int	token_if(char *str, t_input **ih, int i)
 {
@@ -78,21 +104,24 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	printf ("RESTANT DE LA STRING:%s	CHAR:%c\n", &str[i], str[i]);
+	// printf ("RESTANT DE LA STRING:%s	CHAR:%c\n", &str[i], str[i]);
 	if (temp->input == NULL && ft_isalpha(str[i]))
 	{
 		command_separator(str, &temp->input, &i);
 		add_node(&temp, COMMAND);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS COMMAND:%s\n", &str[i]);
+	// printf ("RESTANT DE LA STRING APRÈS COMMAND:%s\n", &str[i]);
+	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+		separator_seperator(str, &temp->input, &i);
+	// printf ("RESTANT DE LA STRING APRÈS SEPARATOR:%s\n", &str[i]);
 	if (temp->input == NULL && str[i] == MINUS)
 	{
 		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS OPTION:%s\n", &str[i]);
+	// printf ("RESTANT DE LA STRING APRÈS OPTION:%s\n", &str[i]);
 	if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
@@ -100,7 +129,7 @@ static int	token_if(char *str, t_input **ih, int i)
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
+	// printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
 	return (i);
 }
 // A ENLEVER

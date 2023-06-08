@@ -63,10 +63,10 @@ char	*copy_and_join(char *str, int i)
 	ft_xfree(temp);
 	return (res);
 }
-
-char	**convert_list_to_string(t_input **ih)
+/*
+char	***convert_list_to_string(t_input **ih)
 {
-	char	**res;
+	char	***res;
 	int		i;
 	int		len;
 
@@ -83,3 +83,4 @@ char	**convert_list_to_string(t_input **ih)
 	}
 	return (res);
 }
+*/

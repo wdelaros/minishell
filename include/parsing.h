@@ -6,9 +6,15 @@
 # define DOUBLE_QUOTE 34
 # define SINGLE_QUOTE 39
 # define MINUS 45
+# define PIPE 124
+# define RED_IN 60
+# define RED_OUT 62
+
 # define COMMAND 0
 # define OPTION 1
 # define ARGUMENT 2
+# define SEPARATOR 3
+
 # define NO 0
 # define YES 1
 
@@ -34,8 +40,8 @@ typedef struct s_input
 t_input	*create_node(void);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 size_t	node_len(t_input *list);
-char	**string_handler(char *input);
-char	**convert_list_to_string(t_input **ih);
+char	***string_handler(char *input);
+// char	***convert_list_to_string(t_input **ih);
 char	*ft_sstrjoin(char const *s1, char const *s2);
 char	*copy_and_join(char *str, int i);
 int		if_all_quote_closed(char *str, int quote);
