@@ -36,17 +36,6 @@ void	find_executable(char	**fcmd, int i)
 {
 	char	*tmp;
 
-	if (!access(fcmd[0], F_OK))
-	{
-		if (!strncmp("./", fcmd[0], 2))
-			struc()->cmdpath = fcmd[0];
-		else if (!strncmp("/", fcmd[0], 1))
-			struc()->cmdpath = fcmd[0];
-		else
-			struc()->cmdpath = NULL;
-		if (!access(struc()->cmdpath, F_OK))
-			return ;
-	}
 	if (struc()->path)
 	{
 		while (struc()->path[i])
@@ -60,6 +49,16 @@ void	find_executable(char	**fcmd, int i)
 			i++;
 		}
 	}
+	if (!access(fcmd[0], F_OK))
+	{
+		if (!strncmp("./", fcmd[0], 2))
+			struc()->cmdpath = fcmd[0];
+		else if (!strncmp("/", fcmd[0], 1))
+			struc()->cmdpath = fcmd[0];
+		if (struc()->cmdpath && !access(struc()->cmdpath, F_OK))
+			return ;
+	}
+	perror(fcmd[0]);
 	ft_free_null(fcmd);
 	ft_free_null(struc()->path);
 	exit(1);

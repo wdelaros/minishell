@@ -48,18 +48,14 @@ void	run_cmd(char **cmd)
 
 void	initialize(char **envp)
 {
-	// pid_t	*temp;
-
 	struc()->envp = envp;
-	// temp = ft_calloc(2, sizeof(pid_t *));
-	// struc()->pid = temp;
-	// free(temp);
 	struc()->is_child = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**cmd;
+	char	***cmd;
+	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -76,9 +72,27 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = string_handler(struc()->input);
+		// cmd = ft_split(struc()->input, 32);
+		i = 3;
+		cmd = ft_calloc(20, sizeof(char **));
+		while (i > 0)
+		{
+			i--;
+			cmd[i] = ft_calloc(20, sizeof(char *));
+		}
+
+		cmd[0][0] = ft_strdup("<");
+		cmd[0][1] = ft_strdup("out");
+
+		cmd[1][0] = ft_strdup("|");
+
+		cmd[2][0] = ft_strdup("wc");
+		cmd[2][1] = ft_strdup("-l");
+	
 		run_pipe(cmd);
-		add_history(struc()->input);
+		if (ft_strcmp("", struc()->input))
+			add_history(struc()->input);
+		free(struc()->input);
 	}
 	rl_clear_history();
 }

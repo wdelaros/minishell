@@ -34,10 +34,11 @@ RM			=	rm -rf
 # Sources are all .c files
 SRCS		=	minishell.c\
 				minishell_utils.c\
-				io_redirection.c\
-				parsing.c\
 				path.c\
+				io_redirection.c\
+				list.c\
 				pipe.c\
+				parsing.c\
 				signal_handler.c\
 				parsing_utils.c\
 				token.c\
