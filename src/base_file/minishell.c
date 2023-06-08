@@ -15,9 +15,14 @@ void	exec(char **fcmd)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
-	Ct_mprintf(fcmd[0], ft_strlen(fcmd[0]) + 1, 1, 'A');
-	Ct_mprintf(fcmd[1], ft_strlen(fcmd[1]) + 1, 1, 'B');
-	Ct_mprintf(fcmd[2], ft_strlen(fcmd[2]) + 1, 1, 'C');
+	int	i = 0;		//a enlever
+	char l = 'A';	//a enlever
+	while (fcmd[i])	//a enlever
+	{
+		Ct_mprintf(fcmd[i], ft_strlen(fcmd[i]) + 1, 1, l);	//a enlever
+		i++;	//a enlever
+		l++;	//a enlever
+	}	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		perror(fcmd[0]);
@@ -72,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		// cmd = ft_split(struc()->input, 32);
+		cmd = string_handler(struc()->input); // a changer
 		i = 3;
 		cmd = ft_calloc(20, sizeof(char **));
 		while (i > 0)
@@ -81,14 +86,14 @@ int	main(int argc, char **argv, char **envp)
 			cmd[i] = ft_calloc(20, sizeof(char *));
 		}
 
-		cmd[0][0] = ft_strdup("<");
-		cmd[0][1] = ft_strdup("out");
+		cmd[0][0] = ft_strdup("<"); // a enlever
+		cmd[0][1] = ft_strdup("out"); // a enlever
 
-		cmd[1][0] = ft_strdup("|");
+		cmd[1][0] = ft_strdup("|"); // a enlever
 
-		cmd[2][0] = ft_strdup("wc");
-		cmd[2][1] = ft_strdup("-l");
-	
+		cmd[2][0] = ft_strdup("wc"); // a enlever
+		cmd[2][1] = ft_strdup("-l"); // a enlever
+
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);

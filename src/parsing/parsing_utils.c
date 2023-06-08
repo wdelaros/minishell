@@ -8,20 +8,21 @@ int	ft_strlen_until(char *str, char *c, int check_space)
 
 	len = ft_strlen(str);
 	j = 0;
+	if (c[j] == '\0' && check_space == 1)
+		len = ft_strlen_until_space(str);
 	while (c[j])
 	{
 		i = 0;
 		while (str[i])
 		{
-			if ((str[i] == c[j] && i != 0 && len > i)
-				|| (check_space == 1 && str[i] == SPACE && len > i))
+			if ((str[i] == c[j] && i != 0 && len > i))
+				len = i;
+			else if (check_space == 1 && str[i] == SPACE && len > i)
 				len = i;
 			i++;
 		}
 		j++;
 	}
-	if (str[len] == DOUBLE_QUOTE || str[len] == SINGLE_QUOTE)
-		len++;
 	return (len);
 }
 
@@ -73,15 +74,54 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 
 void	do_need_realloc(t_token *th, int *i)
 {
-	if (th->token == NULL)
-		th->token = ft_calloc(2, sizeof(char *));
-	else if (th->token[*i] == NULL)
+	if (th->token[*i] == NULL)
 	{
 		th->token = ft_realloc(th->token,
 				sizeof(char **), ft_strlen_double(th->token) + 1,
 				ft_strlen_double(th->token) + 2);
-		(*i)++;
 	}
 	else
 		return ;
+}
+
+t_input	*create_node(void)
+{
+	t_input	*temp;
+
+	temp = ft_calloc(1, sizeof(t_input));
+	if (!temp)
+		return (NULL);
+	return (temp);
+}
+
+void	add_node(t_input **input, int id)
+{
+	t_input	*current;
+
+	if (*input == NULL)
+	{
+		(*input) = create_node();
+		return ;
+	}
+	current = (*input);
+	while (current->next != NULL)
+		current = current->next;
+	current->next = create_node();
+	if (!current->next)
+		return ;
+	current->next->prev = current;
+	current->token = id;
+}
+
+size_t	node_len(t_input *list)
+{
+	size_t	i;
+
+	i = 0;
+	while (list)
+	{
+		i++;
+		list = list->next;
+	}
+	return (i);
 }
