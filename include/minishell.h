@@ -24,6 +24,7 @@ typedef struct s_data
 	char		*input;
 	char		*cmdpath;
 	pid_t		*pid;
+	pid_t		*skip;
 	int			is_child;
 	int			pipenum;
 	int			number_of_cmd;

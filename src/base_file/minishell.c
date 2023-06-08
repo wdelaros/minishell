@@ -85,9 +85,6 @@ int	main(int argc, char **argv, char **envp)
 
 		cmd[2][0] = ft_strdup("wc");
 		cmd[2][1] = ft_strdup("-l");
-
-		cmd[3][0] = ft_strdup(">");
-		cmd[3][1] = ft_strdup("out");
 	
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))

@@ -32,11 +32,17 @@ void	wait_end_cmd(void)
 {
 	int	status;
 	int	i;
+	int	j;
 
 	i = 0;
-	while (struc()->pid[i])
+	j = 0;
+	while (j < struc()->number_of_cmd)
 	{
-		waitpid(struc()->pid[i], &status, 0);
+		if (struc()->skip[i] == 0)
+		{
+			waitpid(struc()->pid[i], &status, 0);
+			j++;
+		}
 		i++;
 	}
 	free(struc()->pid);
@@ -85,6 +91,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, int i)
 			close(pfd[1]);
 		}
 		close(fd_out);
+		rl_clear_history();
 		if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd);
 		exit(0);
@@ -119,11 +126,13 @@ void	run_pipe(char	***cmd)
 	{
 		lcmd = ft_setnode(cmd, &current);
 		struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
+		struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
 		i = 0;
 		lcmd->fd_in = 0;
 		fd_out = dup(STDOUT_FILENO);
 		while (lcmd)
 		{
+			struc()->skip[i] = 1;
 			if (lcmd->next && lcmd->cmd && !ft_strcmp(lcmd->cmd[0], "|"))
 				lcmd = lcmd->next;
 			if (!lcmd->next && lcmd->cmd && (!ft_strcmp(lcmd->cmd[0], "|")))
@@ -138,6 +147,8 @@ void	run_pipe(char	***cmd)
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
 			lcmd->fd_in = pfd[0];
+			if (lcmd->cmd)
+				struc()->skip[i] = 0;
 			i++;
 			if (!lcmd->next)
 				break ;
