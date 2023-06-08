@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	count(char ***cmd, int i)
+static void	count(char ***cmd, int i)
 {
 	int	fd;
 
@@ -28,7 +28,7 @@ void	count(char ***cmd, int i)
 	}
 }
 
-void	wait_end_cmd(void)
+static void	wait_end_cmd(void)
 {
 	int	status;
 	int	i;
@@ -46,16 +46,17 @@ void	wait_end_cmd(void)
 		i++;
 	}
 	free(struc()->pid);
+	free(struc()->skip);
 }
 
-void	reset_fd(int	*fd)
+static void	reset_fd(int	*fd)
 {
 	rl_clear_history();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 }
 
-void	ft_free_all(t_cmd *current, char ***cmd)
+static void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
 	int	i;
 
@@ -77,14 +78,14 @@ void	ft_free_all(t_cmd *current, char ***cmd)
 	free(cmd);
 }
 
-static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, int i)
+static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 {
-	if (struc()->pid[i] == -1)
+	if (struc()->pid[struc()->tmp_i] == -1)
 		return ;
-	if (!struc()->pid[i])
+	if (!struc()->pid[struc()->tmp_i])
 	{
 		redir_input(lcmd);
-		redir_output(*lcmd, &pfd, i);
+		redir_output(*lcmd, &pfd, struc()->tmp_i);
 		if (struc()->pipenum > 0)
 		{
 			close(pfd[0]);
@@ -94,23 +95,14 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, int i)
 		rl_clear_history();
 		if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd);
-		exit(0);
+		while ((*lcmd)->next)
+			(*lcmd) = (*lcmd)->next;
+		ft_free_all_pipe((*lcmd), cmd);
+		free(struc()->pid);
+		free(struc()->skip);
+		exit(1);
 	}
 }
-
-// int	check_cmd(t_cmd	**lcmd, int i)
-// {
-// 	t_cmd	*current;
-
-// 	(void)i;
-// 	current = *lcmd;
-// 	while (current)
-// 	{
-// 		current = current->next;
-// 	}
-// 	while ((*lcmd) != current)
-// 		(*lcmd) = (*lcmd)->next;
-// }
 
 void	run_pipe(char	***cmd)
 {
@@ -141,7 +133,8 @@ void	run_pipe(char	***cmd)
 				pipe(pfd);
 			struc()->pid[i] = fork();
 			struc()->is_child = 1;
-			run_cmds(&lcmd, pfd, fd_out, i);
+			struc()->tmp_i = i;
+			run_cmds(&lcmd, pfd, fd_out, cmd);
 			if (struc()->pipenum > 0)
 				close(pfd[1]);
 			if (lcmd->previous && struc()->pipenum > 0)
@@ -159,7 +152,7 @@ void	run_pipe(char	***cmd)
 			reset_fd(pfd);
 		wait_end_cmd();
 	}
-	ft_free_all(current, cmd);
+	ft_free_all_pipe(current, cmd);
 }
 
 	// j = 0;

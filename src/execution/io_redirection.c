@@ -10,8 +10,7 @@ void	redir_input(t_cmd	**lcmd)
 		if (fd == -1)
 		{
 			perror((*lcmd)->redir_in[1]);
-			exit(1);
-			// free all + exit (1); = ft_exit();
+			return ;
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);

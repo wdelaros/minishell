@@ -29,6 +29,7 @@ typedef struct s_data
 	int			pipenum;
 	int			number_of_cmd;
 	int			redirnum;
+	int			tmp_i;
 }				t_data;
 
 typedef struct s_cmd
