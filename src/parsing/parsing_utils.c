@@ -91,6 +91,7 @@ t_input	*create_node(void)
 	temp = ft_calloc(1, sizeof(t_input));
 	if (!temp)
 		return (NULL);
+	temp->token = -1;
 	return (temp);
 }
 
@@ -113,13 +114,15 @@ void	add_node(t_input **input, int id)
 	current->token = id;
 }
 
-size_t	node_len(t_input *list)
+size_t	node_len_until_separator(t_input *list)
 {
 	size_t	i;
 
 	i = 0;
 	while (list)
 	{
+		if (list->token == 3)
+			return (i);
 		i++;
 		list = list->next;
 	}

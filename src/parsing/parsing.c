@@ -12,9 +12,23 @@ char	***string_handler(char *input)
 		printf ("MARDE\n");
 	token_separator(input, &input_handler);
 	printf ("SEPARATION DONE\n");
-	print_node(input_handler);
+	// print_node(input_handler);
 	//quote_handler(&input_handler);
-	//res = convert_list_to_string(&input_handler);
+	res = convert_list_to_string(&input_handler);
+	int	i = 0;
+	int	j;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			printf ("STRING OUI OUI:%s:FIN:\n", res[i][j]);
+			j++;
+		}
+		printf ("\n");
+		i++;
+	}
+	printf("TOUTE EST FINI UWU\n");
 	return (res);
 }
 

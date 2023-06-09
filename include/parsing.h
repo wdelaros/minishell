@@ -39,9 +39,9 @@ typedef struct s_input
 
 t_input	*create_node(void);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
-size_t	node_len(t_input *list);
+size_t	node_len_until_separator(t_input *list);
 char	***string_handler(char *input);
-// char	***convert_list_to_string(t_input **ih);
+char	***convert_list_to_string(t_input **ih);
 char	*ft_sstrjoin(char const *s1, char const *s2);
 char	*copy_and_join(char *str, int i);
 int		if_all_quote_closed(char *str, int quote);
@@ -53,6 +53,7 @@ void	add_node(t_input **input, int id);
 void	token_separator(char *str, t_input **ih);
 void	do_need_realloc(t_token *th, int *i);
 void	quote_handler(t_input **input);
+int		is_command(char *str, int i);
 void	print_node(t_input *list); //A enlever
 
 #endif
