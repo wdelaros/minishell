@@ -72,18 +72,6 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 	return (ft_strlen(src));
 }
 
-void	do_need_realloc(t_token *th, int *i)
-{
-	if (th->token[*i] == NULL)
-	{
-		th->token = ft_realloc(th->token,
-				sizeof(char **), ft_strlen_double(th->token) + 1,
-				ft_strlen_double(th->token) + 2);
-	}
-	else
-		return ;
-}
-
 t_input	*create_node(void)
 {
 	t_input	*temp;

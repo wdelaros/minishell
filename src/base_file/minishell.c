@@ -77,6 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = string_handler(struc()->input); // a changer
+		printf("STR_HANDLER_FINISHED\n");
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);

@@ -38,9 +38,11 @@ SRCS		=	minishell.c\
 				io_redirection.c\
 				list.c\
 				pipe.c\
-				parsing.c\
 				signal_handler.c\
+				clean_space.c\
 				parsing_utils.c\
+				parsing.c\
+				token_utils.c\
 				token.c\
 
 OBJS_DIR	=	obj/

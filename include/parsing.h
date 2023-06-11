@@ -22,13 +22,11 @@
 # include "../uwu/C_tool.h"
 # include <stdio.h>
 
-typedef struct s_token
-{
-	char	**token;
-	char	*input;
-	int		index;
-}				t_token;
-
+/// @brief List of inputs
+/// @param prev Previous element
+/// @param next Next element
+/// @param input Raw seperated string
+/// @param token Token of input
 typedef struct s_input
 {
 	struct s_input	*prev;
@@ -47,11 +45,12 @@ char	*copy_and_join(char *str, int i);
 int		if_all_quote_closed(char *str, int quote);
 int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);
+void	extra_space_handler(t_input **input);
 int		ft_strlen_until(char *str, char *c, int check_space);
 int		ft_strlen_until_space(char *str);
+int		ft_strlen_until_alpha(char *str);
 void	add_node(t_input **input, int id);
 void	token_separator(char *str, t_input **ih);
-void	do_need_realloc(t_token *th, int *i);
 void	quote_handler(t_input **input);
 int		is_command(char *str, int i);
 void	print_node(t_input *list); //A enlever

@@ -83,7 +83,7 @@ static void	separator_seperator(char *str, char **res, int *i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until_alpha();
+	len = ft_strlen_until_alpha(&str[*i]);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_sstrjoin(*res, temp);
@@ -127,11 +127,10 @@ static int	token_if(char *str, t_input **ih, int i)
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
 		argument_seperator(str, &temp->input, &i);
-		printf ("HISFSHDSAH:%s:FIN:\n", temp->input);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
+	//printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
 	return (i);
 }
 // A ENLEVER

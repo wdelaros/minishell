@@ -142,3 +142,20 @@ int	is_command(char *str, int i)
 	}
 	return (YES);
 }
+
+int	ft_strlen_until_alpha(char *str)
+{
+	int	len;
+	int	i;
+
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalpha(str[i]) == YES)
+			return (len);
+		len++;
+		i++;
+	}
+	return (NO);
+}
