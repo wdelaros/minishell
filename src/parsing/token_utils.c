@@ -57,7 +57,7 @@ char	*copy_and_join(char *str, int i)
 	res = NULL;
 	temp = NULL;
 	len = token_len_quote(&str[i]);
-	printf ("LEN:%d\n", len);
+	// printf ("LEN:%d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
 	res = ft_sstrjoin(res, temp);
@@ -65,73 +65,10 @@ char	*copy_and_join(char *str, int i)
 	return (res);
 }
 
-static int	separator_count(t_input **ih)
-{
-	t_input	*temp;
-	int		count;
-
-	count = 1;
-	temp = (*ih);
-	while (temp)
-	{
-		if (temp->token == 3)
-			count++;
-		temp = temp->next;
-	}
-	return (count);
-}
-
-char	***convert_list_to_string(t_input **ih)
-{
-	char	***res;
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	j = 0;
-	len = separator_count(ih);
-	// printf ("NOMBRE DE SEPARATOR:%d\n", len);
-	res = ft_calloc(len + 1, sizeof(char **));
-	// printf ("CALLOC A RÉUSSI\n");
-	while (i <= len)
-	{
-		len = node_len_until_separator((*ih));
-		// printf ("NOMBRE DE STRING DANS LE **:%d\n", len);
-		res[j] = ft_calloc(len + 1, sizeof(char *));
-		j++;
-		i++;
-	}
-	// printf ("MALLOC DE ** RÉUSSIE\n");
-	j = 0;
-	i = 0;
-	while ((*ih)->next)
-	{
-		// printf("STRING TO BE PROCESS:%s\n", (*ih)->input);
-		if ((*ih)->token != 3 && (*ih)->token != -1)
-		{
-			// printf("COPIAGE DE STRING\n");
-			res[j][i] = ft_strdup((*ih)->input);
-			// printf("COPIAGE DE STRING CUMZONE\n");
-			i++;
-		}
-		else if ((*ih)->token == 3)
-		{
-			i = 0;
-			j++;
-			res[j][i] = ft_strdup((*ih)->input);
-			// printf ("STRING SEPARATOR:%s\n", res[j][i]);
-			j++;
-			// printf("SEPARATION DE STRING\n");
-		}
-		(*ih) = (*ih)->next;
-	}
-	// printf("CONVERTION COMPLETE\n");
-	return (res);
-}
-
 int	is_command(char *str, int i)
 {
+	if (str[i] == '\0')
+		return (YES);
 	while (str[--i])
 	{
 		if (str[i] == '\0' || str[i] == PIPE

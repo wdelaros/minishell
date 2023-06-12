@@ -11,25 +11,27 @@ char	***string_handler(char *input)
 		|| if_all_quote_closed(input, SINGLE_QUOTE) == 0)
 		printf ("MARDE\n");
 	token_separator(input, &input_handler);
-	printf ("SEPARATION DONE\n");
+	printf ("SEPARATION DONE, RESULTAT:\n");
+	print_node(input_handler);
 	extra_space_handler(&input_handler);
 	printf ("SPACE_CLEANER_DONE\n");
 	// print_node(input_handler);
 	//quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
-	//int	i = 0;
-	//int	j;
-	//while (res[i])
-	//{
-	//	j = 0;
-	//	while (res[i][j])
-	//	{
-	//		printf ("STRING OUI OUI:%s:FIN:\n", res[i][j]);
-	//		j++;
-	//	}
-	//	printf ("\n");
-	//	i++;
-	//}
+	printf ("CONVERSION TERMINER\n\n");
+	int	i = 0;
+	int	j;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			printf ("STRING OUI OUI:%s:FIN:\n", res[i][j]);
+			j++;
+		}
+		printf ("\n");
+		i++;
+	}
 	return (res);
 }
 

@@ -35,9 +35,16 @@ typedef struct s_input
 	int				token;
 }				t_input;
 
+typedef struct s_conv
+{
+	char	***res;
+	int		i;
+	int		j;
+	int		*sizeofcom;
+}				t_conv;
+
 t_input	*create_node(void);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
-size_t	node_len_until_separator(t_input *list);
 char	***string_handler(char *input);
 char	***convert_list_to_string(t_input **ih);
 char	*ft_sstrjoin(char const *s1, char const *s2);

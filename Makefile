@@ -44,6 +44,7 @@ SRCS		=	minishell.c\
 				parsing.c\
 				token_utils.c\
 				token.c\
+				convert_list_to_string.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

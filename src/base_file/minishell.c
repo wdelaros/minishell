@@ -15,14 +15,14 @@ void	exec(char **fcmd)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
-	int	i = 0;		//a enlever
-	char l = 'A';	//a enlever
-	while (fcmd[i])	//a enlever
-	{
-		Ct_mprintf(fcmd[i], ft_strlen(fcmd[i]) + 1, 1, l);	//a enlever
-		i++;	//a enlever
-		l++;	//a enlever
-	}	//a enlever
+	// int	i = 0;		//a enlever
+	// char l = 'A';	//a enlever
+	// while (fcmd[i])	//a enlever
+	// {
+	// 	Ct_mprintf(fcmd[i], ft_strlen(fcmd[i]) + 1, 1, l);	//a enlever
+	// 	i++;	//a enlever
+	// 	l++;	//a enlever
+	// }	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		perror(fcmd[0]);
@@ -77,7 +77,22 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		cmd = string_handler(struc()->input); // a changer
+		printf ("DSFNSD:IFHBSDFBHJSDBFLHJBDJL\n");
+		int	i = 0;
+		int	j;
+		while (cmd[i])
+		{
+			j = 0;
+			while (cmd[i][j])
+			{
+				printf ("STRING OUI OUI:%s:FIN:\n", cmd[i][j]);
+				j++;
+			}
+			printf ("\n");
+			i++;
+		}
 		printf("STR_HANDLER_FINISHED\n");
+		exit(15);
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);

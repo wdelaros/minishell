@@ -101,18 +101,3 @@ void	add_node(t_input **input, int id)
 	current->next->prev = current;
 	current->token = id;
 }
-
-size_t	node_len_until_separator(t_input *list)
-{
-	size_t	i;
-
-	i = 0;
-	while (list)
-	{
-		if (list->token == 3)
-			return (i);
-		i++;
-		list = list->next;
-	}
-	return (i);
-}
