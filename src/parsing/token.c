@@ -99,31 +99,38 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
+	// printf ("RESTANT DE LA STRING:%s	CHAR:%c\n", &str[i], str[i]);
 	if (ft_isalpha(str[i]) == YES && is_command(str, i) == YES)
 	{
+		// printf ("OUI OUI JE SUIS UNE COMMANDE ET ME VOICI:");
 		command_separator(str, &temp->input, &i);
+		// printf ("%s\n", temp->input);
 		add_node(&temp, COMMAND);
 		temp = temp->next;
 	}
-	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+	// printf ("RESTANT DE LA STRING APRÈS COMMAND:%s\n", &str[i]);
+	else if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
 	{
 		separator_seperator(str, &temp->input, &i);
 		add_node(&temp, SEPARATOR);
 		temp = temp->next;
 	}
-	if (temp->input == NULL && str[i] == MINUS)
+	// printf ("RESTANT DE LA STRING APRÈS SEPARATOR:%s\n", &str[i]);
+	else if (temp->input == NULL && str[i] == MINUS)
 	{
 		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
 	}
-	if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
+	// printf ("RESTANT DE LA STRING APRÈS OPTION:%s\n", &str[i]);
+	else if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
 		argument_seperator(str, &temp->input, &i);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;
 	}
+	//printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
 	return (i);
 }
 // A ENLEVER
@@ -151,6 +158,5 @@ void	token_separator(char *str, t_input **ih)
 		i = token_if(str, ih, i);
 		if (str[i] == SPACE)
 			i++;
-		// printf ("INDEX:%zu\n", i);
 	}
 }

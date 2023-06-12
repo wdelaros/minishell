@@ -12,10 +12,9 @@ char	***string_handler(char *input)
 		printf ("MARDE\n");
 	token_separator(input, &input_handler);
 	//printf ("SEPARATION DONE, RESULTAT:\n");
-	//print_node(input_handler);
 	extra_space_handler(&input_handler);
 	//printf ("SPACE_CLEANER_DONE\n");
-	// print_node(input_handler);
+	print_node(input_handler);
 	//quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
 	//printf ("CONVERSION TERMINER\n\n");

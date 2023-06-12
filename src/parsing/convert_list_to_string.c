@@ -79,6 +79,8 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	int	count;
 
 	i = 0;
+	data->i = 0;
+	data->j = 0;
 	count = nb_of_complete_command(ih);
 	//printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
@@ -103,8 +105,6 @@ char	***convert_list_to_string(t_input **ih)
 	data.res = NULL;
 	temp = (*ih);
 	malloc_everything(ih, &data);
-	data.i = 0;
-	data.j = 0;
 	k = 0;
 	while (temp)
 	{
