@@ -112,8 +112,8 @@ void	run_pipe(char	***cmd)
 	int		fd_out;
 	int		i;
 
-	count(cmd, 0); // Seg fault sans separator
-	printf ("JE SUIS ICI\n");
+	count(cmd, 0);
+	//printf ("JE SUIS ICI\n");
 	current = NULL;
 	if (struc()->number_of_cmd > 0)
 	{
