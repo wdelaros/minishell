@@ -57,7 +57,6 @@ char	*copy_and_join(char *str, int i)
 	res = NULL;
 	temp = NULL;
 	len = token_len_quote(&str[i]);
-	// printf ("LEN:%d\n", len);
 	temp = ft_calloc(len + 1, sizeof(char));
 	ft_sstrlcpy(temp, &str[i], len);
 	res = ft_sstrjoin(res, temp);
@@ -67,7 +66,7 @@ char	*copy_and_join(char *str, int i)
 
 int	is_command(char *str, int i)
 {
-	if (str[i] == '\0')
+	if (i == 0)
 		return (YES);
 	while (str[--i])
 	{

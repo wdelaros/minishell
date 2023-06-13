@@ -43,24 +43,39 @@ typedef struct s_conv
 	int		*sizeofcom;
 }				t_conv;
 
-t_input	*create_node(void);
-size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
-char	***string_handler(char *input);
-char	***convert_list_to_string(t_input **ih);
-char	*ft_sstrjoin(char const *s1, char const *s2);
-char	*copy_and_join(char *str, int i);
-int		if_all_quote_closed(char *str, int quote);
+//token.c
+void	token_separator(char *str, t_input **ih);
+void	print_node(t_input *list); //A enlever
+
+//token_utils.c
 int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);
-void	extra_space_handler(t_input **input);
-void	clean_option_handler(t_input **ih);
-int		ft_strlen_until(char *str, char *c, int check_space);
 int		ft_strlen_until_space(char *str);
-int		ft_strlen_until_alpha(char *str);
-void	add_node(t_input **input, int id);
-void	token_separator(char *str, t_input **ih);
-void	quote_handler(t_input **input);
+char	*copy_and_join(char *str, int i);
 int		is_command(char *str, int i);
-void	print_node(t_input *list); //A enlever
+int		ft_strlen_until_alpha(char *str);
+
+//quote_handler.c
+void	quote_handler(t_input **input);
+
+//parsing.c
+char	***string_handler(char *input);
+int		if_all_quote_closed(char *str, int quote);
+
+//parsing_utils.c
+int		ft_strlen_until(char *str, char *c, int check_space);
+char	*ft_sstrjoin(char const *s1, char const *s2);
+size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
+t_input	*create_node(void);
+void	add_node(t_input **input, int id);
+
+//convert_list_to_string.c
+char	***convert_list_to_string(t_input **ih);
+
+//clean_space.c
+void	extra_space_handler(t_input **input);
+
+//clean_option.c
+void	clean_option_handler(t_input **ih);
 
 #endif

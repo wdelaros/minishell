@@ -65,7 +65,7 @@ static void	sizeof_each_command(t_input **ih, t_conv *data)
 		{
 			data->sizeofcom[i] = size;
 			i++;
-			size = -1;
+			size = 0;
 		}
 		temp = temp->next;
 		size++;
@@ -82,18 +82,18 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	data->i = 0;
 	data->j = 0;
 	count = nb_of_complete_command(ih);
-	//printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
+	// printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
-	//printf("MALLOC DU NOMBRE DE COMMAND REUSSI!\n\n");
+	// printf("MALLOC DU NOMBRE DE COMMAND REUSSI!\n\n");
 	data->sizeofcom = ft_calloc(count, sizeof(int));
 	sizeof_each_command(ih, data);
 	while (i < count)
 	{
 		data->res[i] = ft_calloc(data->sizeofcom[i] + 1, sizeof(char *));
-		//printf ("NOMBRE DE STRING MALLOC: %d\n", data->sizeofcom[i]);
+		// printf ("NOMBRE DE STRING MALLOC: %d\n", data->sizeofcom[i]);
 		i++;
 	}
-	//printf ("MALLOC DU NOMBRE DE STRING DANS CHACUNE DES COMMAND COMPLETE!\n");
+	// printf ("MALLOC DU NOMBRE DE STRING DANS CHACUNE DES COMMAND COMPLETE!\n");
 }
 
 char	***convert_list_to_string(t_input **ih)

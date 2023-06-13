@@ -23,30 +23,30 @@ static int	is_option_repetitif(char *input)
 static char	*clean(char *str, char c, int nb)
 {
 	int		i;
-	int		j;
+	size_t	j;
+	int		keep;
 	char	*res;
 
 	i = 0;
 	j = 0;
+	keep = 1;
 	res = NULL;
-	res = ft_calloc(ft_strlen(str) - (nb + 1) + 1, sizeof(char));
+	res = ft_calloc(ft_strlen(str) - (nb) + 1, sizeof(char));
 	while (str[i])
 	{
-		if (str[i] == c && nb > 0)
-			nb--;
-		else if (nb == 0 && str[i] == c)
+		if (str[i] == c && keep == 1)
 		{
 			res[j] = str[i];
 			j++;
+			keep = 0;
 		}
-		if (str[i] != c)
+		if (str[i] != c && j < ft_strlen(str) - (nb) + 1)
 		{
 			res[j] = str[i];
 			j++;
 		}
 		i++;
 	}
-	printf ("EST CE QUE CA FONCTIONNE:%s:FIN:\n", res);
 	return (res);
 }
 
