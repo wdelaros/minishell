@@ -13,6 +13,7 @@ char	***string_handler(char *input)
 	token_separator(input, &input_handler);
 	//printf ("SEPARATION DONE, RESULTAT:\n");
 	extra_space_handler(&input_handler);
+	clean_option_handler(&input_handler);
 	//printf ("SPACE_CLEANER_DONE\n");
 	print_node(input_handler);
 	//quote_handler(&input_handler);

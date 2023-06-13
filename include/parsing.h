@@ -53,6 +53,7 @@ int		if_all_quote_closed(char *str, int quote);
 int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);
 void	extra_space_handler(t_input **input);
+void	clean_option_handler(t_input **ih);
 int		ft_strlen_until(char *str, char *c, int check_space);
 int		ft_strlen_until_space(char *str);
 int		ft_strlen_until_alpha(char *str);
