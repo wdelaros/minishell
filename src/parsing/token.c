@@ -83,13 +83,18 @@ static void	separator_seperator(char *str, char **res, int *i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until_alpha(&str[*i]);
-	temp = ft_calloc(len + 1, sizeof(char));
-	ft_sstrlcpy(temp, &str[*i], len);
-	*res = ft_sstrjoin(*res, temp);
-	ft_xfree(temp);
-	while (str[*i] != SPACE)
-		(*i)++;
+	if (str[*i] == RED_IN || str[*i] == RED_OUT)
+		*res = red_handler(str, i);
+	else if (str[*i] == PIPE)
+	{
+		len = ft_strlen_until_alpha(&str[*i]);
+		temp = ft_calloc(len + 1, sizeof(char));
+		ft_sstrlcpy(temp, &str[*i], len);
+		*res = ft_sstrjoin(*res, temp);
+		ft_xfree(temp);
+		while (str[*i] != SPACE)
+			(*i)++;
+	}
 }
 
 static int	token_if(char *str, t_input **ih, int i)
@@ -157,11 +162,10 @@ void	token_separator(char *str, t_input **ih)
 	size_t	i;
 
 	i = 0;
-	(*ih) = create_node();
 	while (i < ft_strlen(str))
 	{
 		i = token_if(str, ih, i);
-		if (str[i] == SPACE)
+		if (i < ft_strlen(str) && str[i] == SPACE)
 			i++;
 	}
 }

@@ -54,6 +54,7 @@ int		ft_strlen_until_space(char *str);
 char	*copy_and_join(char *str, int i);
 int		is_command(char *str, int i);
 int		ft_strlen_until_alpha(char *str);
+char	*red_handler(char *str, int *i);
 
 //quote_handler.c
 void	quote_handler(t_input **input);
@@ -68,6 +69,7 @@ char	*ft_sstrjoin(char const *s1, char const *s2);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 t_input	*create_node(void);
 void	add_node(t_input **input, int id);
+void	free_list(t_input **input_handler);
 
 //convert_list_to_string.c
 char	***convert_list_to_string(t_input **ih);

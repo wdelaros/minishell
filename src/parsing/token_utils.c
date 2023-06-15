@@ -95,3 +95,22 @@ int	ft_strlen_until_alpha(char *str)
 	}
 	return (NO);
 }
+
+char	*red_handler(char *str, int *i)
+{
+	size_t	len;
+	char	*res;
+
+	len = (*i);
+	while (str[len] && (str[len] == RED_IN || str[len] == RED_OUT))
+		len++;
+	while (str[len] && str[len] == SPACE)
+		len++;
+	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE)
+		len++;
+	res = ft_calloc((len - (*i)) + 1, sizeof(char));
+	ft_strlcpy(res, &str[*i], len);
+	(*i) = len;
+	Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
+	return (res);
+}

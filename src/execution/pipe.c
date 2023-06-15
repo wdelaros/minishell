@@ -113,7 +113,20 @@ void	run_pipe(char	***cmd)
 	int		i;
 
 	count(cmd, 0);
-	//printf ("JE SUIS ICI\n");
+	printf ("JE SUIS ICI\n");
+	int	k = 0;
+	int	j;
+	while (cmd[k])
+	{
+		j = 0;
+		while (cmd[k][j])
+		{
+			Ct_mprintf(cmd[k][j], ft_strlen(cmd[k][j]) + 1, 1, 'C');
+			j++;
+		}
+		printf ("\n");
+		k++;
+	}
 	current = NULL;
 	if (struc()->number_of_cmd > 0)
 	{
