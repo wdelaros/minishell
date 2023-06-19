@@ -15,7 +15,6 @@
 # include <sys/wait.h>
 # include <term.h>
 # include <termios.h>
-# include "../uwu/C_tool.h"
 
 # define DEFAULT_ECHO_TERM 207
 

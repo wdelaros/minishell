@@ -16,34 +16,6 @@ static int	nb_of_complete_command(t_input **ih)
 	return (count);
 }
 
-//static int	node_len_until_complete_command(t_input **ih, int len)
-//{
-//	t_input	*temp;
-//	int		i;
-
-//	temp = (*ih);
-//	i = 0;
-//	if (len > 0)
-//	{
-//		while (temp && i < len)
-//		{
-//			temp = temp->next;
-//			i++;
-//		}
-//	}
-//	if (temp->token == 3)
-//		return (len + 1);
-//	len = 0;
-//	while (temp)
-//	{
-//		if (temp->token == 3 || temp->token == -1)
-//			return (len);
-//		len++;
-//		temp = temp->next;
-//	}
-//	return (len);
-//}
-
 static void	sizeof_each_command(t_input **ih, t_conv *data)
 {
 	t_input	*temp;
@@ -84,7 +56,9 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	count = nb_of_complete_command(ih);
 	printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
-	printf("MALLOC DU NOMBRE DE COMMAND REUSSI!\n\n");
+	// data->res = NULL;
+	if (!data->res)
+		Ct_debug(-1, "nb_command_malloc", "error.txt");
 	data->sizeofcom = ft_calloc(count, sizeof(int));
 	sizeof_each_command(ih, data);
 	while (i < count)

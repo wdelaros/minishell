@@ -79,20 +79,20 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
 		cmd = string_handler(struc()->input); // a changer
-		printf ("DSFNSD:IFHBSDFBHJSDBFLHJBDJL\n");
-		int	i = 0;
-		int	j;
-		while (cmd[i])
-		{
-			j = 0;
-			while (cmd[i][j])
-			{
-				printf ("STRING OUI OUI:%s:FIN:\n", cmd[i][j]);
-				j++;
-			}
-			printf ("\n");
-			i++;
-		}
+		// printf ("DSFNSD:IFHBSDFBHJSDBFLHJBDJL\n");
+		// int	i = 0;
+		// int	j;
+		// while (cmd[i])
+		// {
+		// 	j = 0;
+		// 	while (cmd[i][j])
+		// 	{
+		// 		printf ("STRING OUI OUI:%s:FIN:\n", cmd[i][j]);
+		// 		j++;
+		// 	}
+		// 	printf ("\n");
+		// 	i++;
+		// }
 		//printf("STR_HANDLER_FINISHED\n");
 		run_pipe(cmd);
 		free(struc()->input);
