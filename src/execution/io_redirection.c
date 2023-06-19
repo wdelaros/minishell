@@ -73,8 +73,11 @@ void	redir_output(t_cmd	*lcmd, int	**pfd, int i)
 			output_to_file(lcmd->redir_out[1]);
 		else if (lcmd && !ft_strcmp(lcmd->redir_out[0], ">>"))
 			append_output(lcmd->redir_out[1]);
-		close((*pfd)[0]);
-		close((*pfd)[1]);
+		if (struc()->pipenum > 0)
+		{
+			close((*pfd)[0]);
+			close((*pfd)[1]);
+		}
 	}
 	if (i < (struc()->number_of_cmd - 1))
 		dup2((*pfd)[1], STDOUT_FILENO);
