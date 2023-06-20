@@ -20,7 +20,7 @@ char	***string_handler(char *input)
 	//quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
 	free_list(&input_handler);
-	// printf ("CONVERSION TERMINER\n\n");
+	printf ("CONVERSION TERMINER\n\n");
 	int	i = 0;
 	int	j;
 	while (res[i])

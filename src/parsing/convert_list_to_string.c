@@ -1,5 +1,6 @@
 #include "../../include/parsing.h"
 
+
 static int	nb_of_complete_command(t_input **ih)
 {
 	t_input	*temp;
@@ -56,9 +57,6 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	count = nb_of_complete_command(ih);
 	printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
-	// data->res = NULL;
-	if (!data->res)
-		Ct_debug(-1, "nb_command_malloc", "error.txt");
 	data->sizeofcom = ft_calloc(count, sizeof(int));
 	sizeof_each_command(ih, data);
 	while (i < count)
@@ -68,6 +66,32 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 		i++;
 	}
 	printf ("MALLOC DU NOMBRE DE STRING DANS CHACUNE DES COMMAND COMPLETE!\n");
+}
+
+static char	**redirection_tranfer(char **dest, char *src)
+{
+	int	i;
+	int	len;
+	int	start;
+
+	i = 0;
+	len = 0;
+	dest = ft_calloc(3, sizeof(char *));
+	while (src[len] && (src[len] == RED_IN || src[len] == RED_OUT))
+		len++;
+	dest[0] = ft_calloc(len + 1, sizeof(char));
+	parsing_strcpy_len(dest[0], src, len);
+	while (src[len] && src[len] == SPACE)
+		len++;
+	start = len;
+	while (src[len])
+	{
+		len++;
+		i++;
+	}
+	dest[1] = ft_calloc(i + 1, sizeof(char));
+	parsing_strcpy_len(dest[1], &src[start], i);
+	return (dest);
 }
 
 char	***convert_list_to_string(t_input **ih)
@@ -80,19 +104,23 @@ char	***convert_list_to_string(t_input **ih)
 	temp = (*ih);
 	malloc_everything(ih, &data);
 	k = 0;
-	while (temp)
+	while (temp->next)
 	{
 		if (k == data.sizeofcom[data.i])
 		{
 			if (!temp->next)
 				return (data.res);
-			printf ("ARRIVER A LA FIN DE LA COMMANDE\n");
+			//printf ("ARRIVER A LA FIN DE LA COMMANDE\n");
 			data.i++;
 			data.j = 0;
 			k = 0;
 		}
-		data.res[data.i][data.j] = ft_strdup(temp->input);
-		printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);
+		if (temp->input[0] == RED_IN || temp->input[0] == RED_OUT)
+			data.res[data.i] = redirection_tranfer(data.res[data.i],
+					temp->input);
+		else
+			data.res[data.i][data.j] = ft_strdup(temp->input);
+		//printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);
 		data.j++;
 		k++;
 		temp = temp->next;

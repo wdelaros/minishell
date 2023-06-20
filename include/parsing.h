@@ -80,4 +80,7 @@ void	extra_space_handler(t_input **input);
 //clean_option.c
 void	clean_option_handler(t_input **ih);
 
+//utils.c
+void	parsing_strcpy_len(char *dest, char *src, int len);
+
 #endif
