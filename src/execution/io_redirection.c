@@ -35,8 +35,6 @@ void	input_to_pipe(t_cmd	*cmd)
 	{
 		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
 			ft_printf("Error3\n", 2);
-		if (close(cmd->fd_in) == -1)
-			ft_printf("Error4\n", 2);
 	}
 }
 
