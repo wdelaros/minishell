@@ -67,6 +67,7 @@ SRCS_LST		=	ft_atoi.c\
 					ft_fstrjoin.c\
 					ft_isfile.c\
 					ft_isprint.c\
+					ft_isspace.c\
 					ft_split.c\
 					ft_strchr.c\
 					ft_strdup.c\

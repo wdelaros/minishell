@@ -1,0 +1,15 @@
+Makefile
+asd.txt
+error.txt
+include
+libft
+minishell
+minishell.dSYM
+note.txt
+obj
+outf
+readline
+src
+supp.txt
+test
+uwu

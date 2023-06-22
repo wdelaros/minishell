@@ -11,15 +11,17 @@ static void	command_separator(char *str, char **res, int *i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until(&str[*i], "\"\'-\0", 1);
+	len = ft_strlen_until(&str[*i], "\"\'<>|\0", 1);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
 	while (str[*i] && (str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE
-			&& str[*i] != MINUS && str[*i] != SPACE))
+			&& str[*i] != SPACE && str[*i] != RED_IN
+			&& str[*i] != RED_OUT && str[*i] != PIPE))
 		(*i)++;
-	(*i)++;
 }
 
 /// @brief Seperate the option from the raw input.
@@ -33,12 +35,15 @@ static void	option_separator(char *str, char **res, int *i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until(&str[*i], "\"\'-\0", 1);
+	len = ft_strlen_until(&str[*i], "\"\'-<>|\0", 1);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
-	while (str[*i] && str[*i] != SPACE)
+	while (str[*i] && str[*i] != SPACE && str[*i] != RED_IN
+		&& str[*i] != RED_OUT && str[*i] != PIPE)
 		(*i)++;
 	while (str[*i] == SPACE)
 		(*i)++;
@@ -52,6 +57,8 @@ static void	option_separator(char *str, char **res, int *i)
 static void	argument_seperator(char *str, char **res, int *i)
 {
 	*res = copy_and_join(str, *i);
+	if (!res)
+		return ;
 	if (str[*i] == DOUBLE_QUOTE)
 	{
 		(*i)++;
@@ -67,8 +74,40 @@ static void	argument_seperator(char *str, char **res, int *i)
 		(*i)++;
 	}
 	else
-		while (str[*i] && str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE)
+		while (str[*i] && str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE
+			&& str[*i] != PIPE && str[*i] != RED_IN && str[*i] != RED_OUT)
 			(*i)++;
+}
+
+/// @brief Seperate the separator from the raw input.
+/// @param str raw input.
+/// @param res the separator seperated from the input.
+/// @param i current index in the raw input.
+/// @return Index after the separatpr has been seperated.
+static void	separator_seperator(char *str, char **res, int *i)
+{
+	int		len;
+	char	*temp;
+
+	temp = NULL;
+	if (str[*i] == RED_IN || str[*i] == RED_OUT)
+	{
+		*res = red_handler(str, i);
+		if (!res)
+			return ;
+	}
+	else if (str[*i] == PIPE)
+	{
+		len = ft_strlen_until_alpha(&str[*i]);
+		temp = ft_calloc(len + 1, sizeof(char));
+		if (!temp)
+			return ;
+		ft_sstrlcpy(temp, &str[*i], len);
+		*res = ft_sstrjoin(*res, temp);
+		ft_xfree(temp);
+		while (str[*i] != SPACE)
+			(*i)++;
+	}
 }
 
 static int	token_if(char *str, t_input **ih, int i)
@@ -78,29 +117,31 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	printf ("RESTANT DE LA STRING:%s	CHAR:%c\n", &str[i], str[i]);
-	if (temp->input == NULL && ft_isalpha(str[i]))
+	if (ft_isalpha(str[i]) == YES && is_command(str, i) == YES)
 	{
 		command_separator(str, &temp->input, &i);
 		add_node(&temp, COMMAND);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS COMMAND:%s\n", &str[i]);
-	if (temp->input == NULL && str[i] == MINUS)
+	else if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+	{
+		separator_seperator(str, &temp->input, &i);
+		add_node(&temp, SEPARATOR);
+		temp = temp->next;
+	}
+	else if (temp->input == NULL && str[i] == MINUS)
 	{
 		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS OPTION:%s\n", &str[i]);
-	if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
+	else if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
 		argument_seperator(str, &temp->input, &i);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;
 	}
-	printf ("RESTANT DE LA STRING APRÈS ARG:%s\n", &str[i]);
 	return (i);
 }
 // A ENLEVER
@@ -108,9 +149,11 @@ void	print_node(t_input *list)
 {
 	while (list)
 	{
-		printf ("MESSAGE:%s	ID:%d\n", list->input, list->token);
+		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'A');
+		printf ("ID: %d\n", list->token);
 		list = list->next;
 	}
+	printf ("\n");
 }
 
 /// @brief Handle the seperation of the raw input.
@@ -122,12 +165,10 @@ void	token_separator(char *str, t_input **ih)
 	size_t	i;
 
 	i = 0;
-	(*ih) = create_node();
 	while (i < ft_strlen(str))
 	{
 		i = token_if(str, ih, i);
-		if (str[i] == SPACE)
+		if (i < ft_strlen(str) && str[i] == SPACE)
 			i++;
-		printf ("INDEX:%zu\n", i);
 	}
 }

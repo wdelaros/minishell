@@ -21,16 +21,16 @@ int	token_len_quote(char *str)
 	len = 0;
 	if (str[len] == DOUBLE_QUOTE)
 	{
-		len = ft_strlen_until(str, "\"\0", 0);
+		len = ft_strlen_until(str, "\"|><\0", 0);
 		len++;
 	}
 	else if (str[len] == SINGLE_QUOTE)
 	{
-		len = ft_strlen_until(str, "\'\0", 0);
+		len = ft_strlen_until(str, "\'|><\0", 0);
 		len++;
 	}
 	else
-		len = ft_strlen_until(str, "\"\'\0", 0);
+		len = ft_strlen_until(str, "\"\'|><\0", 0);
 	return (len);
 }
 
@@ -58,28 +58,63 @@ char	*copy_and_join(char *str, int i)
 	temp = NULL;
 	len = token_len_quote(&str[i]);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return (NULL);
 	ft_sstrlcpy(temp, &str[i], len);
 	res = ft_sstrjoin(res, temp);
 	ft_xfree(temp);
 	return (res);
 }
 
-char	**convert_list_to_string(t_input **ih)
+int	is_command(char *str, int i)
 {
-	char	**res;
-	int		i;
-	int		len;
-
-	i = 0;
-	res = NULL;
-	len = 0;
-	len = node_len((*ih));
-	res = ft_calloc(len, sizeof(char *));
-	while ((*ih))
+	if (i == 0)
+		return (YES);
+	while (str[--i])
 	{
-		res[i] = ft_strdup((*ih)->input);
-		i++;
-		(*ih) = (*ih)->next;
+		if (str[i] == '\0' || str[i] == PIPE
+			|| str[i] == RED_IN || str[i] == RED_OUT)
+			return (YES);
+		else if (ft_isspace(str[i]) == 0)
+			return (NO);
 	}
+	return (YES);
+}
+
+int	ft_strlen_until_alpha(char *str)
+{
+	int	len;
+	int	i;
+
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalpha(str[i]) == YES)
+			return (len);
+		len++;
+		i++;
+	}
+	return (NO);
+}
+
+char	*red_handler(char *str, int *i)
+{
+	size_t	len;
+	char	*res;
+
+	len = (*i);
+	while (str[len] && (str[len] == RED_IN || str[len] == RED_OUT))
+		len++;
+	while (str[len] && str[len] == SPACE)
+		len++;
+	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE)
+		len++;
+	res = ft_calloc((len - (*i)) + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, &str[*i], len);
+	(*i) = len;
+	Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
 	return (res);
 }

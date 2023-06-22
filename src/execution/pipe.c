@@ -61,7 +61,6 @@ static void	wait_end_cmd(void)
 /// @param fd the file descriptor
 static void	reset_fd(int	*fd)
 {
-	rl_clear_history();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 }
@@ -130,6 +129,20 @@ void	run_pipe(char	***cmd)
 	int		i;
 
 	count(cmd, 0);
+	printf ("JE SUIS ICI\n");
+	int	k = 0;
+	int	j;
+	while (cmd[k])
+	{
+		j = 0;
+		while (cmd[k][j])
+		{
+			Ct_mprintf(cmd[k][j], ft_strlen(cmd[k][j]) + 1, 1, 'C');
+			j++;
+		}
+		printf ("NEW COMMAND: \n");
+		k++;
+	}
 	current = NULL;
 	if (struc()->number_of_cmd > 0)
 	{

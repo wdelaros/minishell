@@ -2,10 +2,8 @@
 
 void	print_cell(char	***cell)
 {
-	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
 	while (cell[0][j])
 	{

@@ -1,11 +1,9 @@
 #include "../../include/parsing.h"
 
-/*
-static int	double_quote_handler(char *str, int i)
-{
-	
-}
-*/
+//static int	double_quote_handler(char *str, int i)
+//{
+
+//}
 
 static int	single_quote_handler(char *str, int i)
 {

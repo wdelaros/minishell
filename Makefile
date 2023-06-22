@@ -38,10 +38,14 @@ SRCS		=	minishell.c\
 				io_redirection.c\
 				list.c\
 				pipe.c\
-				parsing.c\
 				signal_handler.c\
+				clean_space.c\
 				parsing_utils.c\
+				parsing.c\
+				token_utils.c\
 				token.c\
+				clean_option.c\
+				convert_list_to_string.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
@@ -56,7 +60,7 @@ all: dir $(NAME)
 # Generates output file
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
-	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) uwu/C_tool.a -l readline -l ncurses \
+	@$(CC) $(CFLAGS) uwu/C_tool.a src/*/*.c $(LDIR)$(LIBFT) -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"

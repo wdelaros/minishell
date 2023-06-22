@@ -72,18 +72,6 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 	return (ft_strlen(src));
 }
 
-void	do_need_realloc(t_token *th, int *i)
-{
-	if (th->token[*i] == NULL)
-	{
-		th->token = ft_realloc(th->token,
-				sizeof(char **), ft_strlen_double(th->token) + 1,
-				ft_strlen_double(th->token) + 2);
-	}
-	else
-		return ;
-}
-
 t_input	*create_node(void)
 {
 	t_input	*temp;
@@ -91,6 +79,9 @@ t_input	*create_node(void)
 	temp = ft_calloc(1, sizeof(t_input));
 	if (!temp)
 		return (NULL);
+	temp->token = -1;
+	temp->next = NULL;
+	temp->prev = NULL;
 	return (temp);
 }
 
@@ -113,15 +104,19 @@ void	add_node(t_input **input, int id)
 	current->token = id;
 }
 
-size_t	node_len(t_input *list)
+void	free_list(t_input **input_handler)
 {
-	size_t	i;
-
-	i = 0;
-	while (list)
+	while ((*input_handler)->next)
+		(*input_handler) = (*input_handler)->next;
+	if ((*input_handler))
 	{
-		i++;
-		list = list->next;
+		while ((*input_handler)->prev != NULL)
+		{
+			(*input_handler) = (*input_handler)->prev;
+			free((*input_handler)->next->input);
+			free((*input_handler)->next);
+		}
+		free((*input_handler)->input);
+		free((*input_handler));
 	}
-	return (i);
 }
