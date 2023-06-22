@@ -105,7 +105,7 @@ static void	separator_seperator(char *str, char **res, int *i)
 		ft_sstrlcpy(temp, &str[*i], len);
 		*res = ft_sstrjoin(*res, temp);
 		ft_xfree(temp);
-		while (str[*i] != SPACE)
+		while (str[*i] && str[*i] != SPACE && ft_isalpha(str[*i]) == NO)
 			(*i)++;
 	}
 }
