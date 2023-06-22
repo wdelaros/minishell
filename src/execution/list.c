@@ -1,6 +1,11 @@
 #include "../../include/minishell.h"
 
-static t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
+/// @brief create a node for a command
+/// @param redir_in the input redirection
+/// @param cmd the command
+/// @param redir_out the input redirection
+/// @return a node that contain the command and the input/output redirection
+static t_cmd	*picreate_node(char	**redir_in, char	**cmd, char	**redir_out)
 {
 	t_cmd	*node;
 
@@ -15,57 +20,30 @@ static t_cmd	*create_node(char	**cmd, char	**redir_in, char	**redir_out)
 	return (node);
 }
 
-static int	ft_in_out_node(char	***arg, t_cmd	**cmd, int i)
-{
-	int	j;
-
-	while (arg[i + 1] && !ft_strcmp(arg[i + 1][0], "<"))
-		i++;
-	if (arg[i + 1] && arg[i + 2] && (!ft_strcmp(arg[i + 2][0], ">") || \
-	!ft_strcmp(arg[i + 2][0], ">>")))
-	{
-		j = 2;
-		while (arg[i + j + 1] && (!ft_strcmp(arg[i + j + 1][0], ">") \
-		|| !ft_strcmp(arg[i + j + 1][0], ">>")))
-			j++;
-		(*cmd) = create_node(arg[i + 1], arg[i], arg[i + j]);
-		i += j;
-	}
-	else if (arg[i + 1] && ft_strcmp(arg[i + 1][0], "|"))
-	{
-		(*cmd) = create_node(arg[i + 1], arg[i], NULL);
-		i++;
-	}
-	else
-		(*cmd) = create_node(NULL, arg[i], NULL);
-	return (i);
-}
-
 static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 {
-	int		j;
+	char	**input;
+	char	**command;
+	char	**output;
 
-	if (!ft_strcmp(arg[i][0], "<"))
-		i = ft_in_out_node(arg, cmd, i);
-	else if (arg[i + 1] && ft_strcmp(arg[i][0], "|") && \
-	(!ft_strcmp(arg[i + 1][0], ">") || !ft_strcmp(arg[i + 1][0], ">>")))
+	input = NULL;
+	output = NULL;
+	command = NULL;
+	while (arg[i])
 	{
-		j = 1;
-		while (arg[i + j + 1] && (!ft_strcmp(arg[i + j + 1][0], ">") \
-		|| !ft_strcmp(arg[i + j + 1][0], ">>")))
-			j++;
-		(*cmd) = create_node(arg[i], NULL, arg[i + j]);
-		i += j;
-	}
-	else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
-	{
-		while (arg[i + 1] && (!ft_strcmp(arg[i + 1][0], ">") \
-		|| !ft_strcmp(arg[i + 1][0], ">>")))
+		if (!ft_strcmp(arg[i][0], "<"))
+			input = arg[i];
+		else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
+			output = arg[i];
+		else
+			command = arg[i];
+		if (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
+		ft_strcmp(arg[i + 1][0], "|")))
 			i++;
-		(*cmd) = create_node(NULL, NULL, arg[i]);
+		else
+			break ;
 	}
-	else
-		(*cmd) = create_node(arg[i], NULL, NULL);
+	(*cmd) = picreate_node(input, command, output);
 	return (i + 1);
 }
 

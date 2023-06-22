@@ -60,7 +60,7 @@ void	initialize(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
-	int		i;
+	// int		i;
 
 	(void)argc;
 	(void)argv;
@@ -77,23 +77,22 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = string_handler(struc()->input); // a changer
-		i = 3;
-		cmd = ft_calloc(20, sizeof(char **));
-		while (i > 0)
-		{
-			i--;
-			cmd[i] = ft_calloc(20, sizeof(char *));
-		}
+		cmd = string_handler(struc()->input);
+		// i = 3;
+		// cmd = ft_calloc(20, sizeof(char **));
+		// while (i > 0)
+		// {
+		// 	i--;
+		// 	cmd[i] = ft_calloc(20, sizeof(char *));
+		// }
 
-		cmd[0][0] = ft_strdup("<"); // a enlever
-		cmd[0][1] = ft_strdup("out"); // a enlever
+		// cmd[0][0] = ft_strdup("<"); // a enlever
+		// cmd[0][1] = ft_strdup("out"); // a enlever
 
-		cmd[1][0] = ft_strdup("|"); // a enlever
+		// cmd[1][0] = ft_strdup("|"); // a enlever
 
-		cmd[2][0] = ft_strdup("wc"); // a enlever
-		cmd[2][1] = ft_strdup("-l"); // a enlever
-
+		// cmd[2][0] = ft_strdup("wc"); // a enlever
+		// cmd[2][1] = ft_strdup("-l"); // a enlever
 		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);

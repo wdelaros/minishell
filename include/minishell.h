@@ -57,8 +57,5 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
 
 void	redir_input(t_cmd	**lcmd);
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
-void	input_to_pipe(t_cmd *cmd);
-void	output_to_file(char *file);
-void	append_output(char	*file);
 
 #endif

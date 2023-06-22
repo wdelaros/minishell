@@ -1,17 +1,24 @@
 #include "../../include/minishell.h"
 
+/// @brief create all output file, count the number of command
+/// and the number of pipe
+/// @param cmd 
+/// @param i 
 static void	count(char ***cmd, int i)
 {
 	int	fd;
 
 	struc()->pipenum = 0;
 	struc()->number_of_cmd = 0;
-	while (cmd[i])
+	while (cmd && cmd[i])
 	{
 		if (cmd[i][0] && !ft_strcmp(cmd[i][0], "|"))
 			struc()->pipenum++;
 		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], "<"))
-			;
+		{
+			if (access(cmd[i][1], F_OK | R_OK))
+				perror(cmd[i][1]);
+		}
 		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">"))
 		{
 			fd = open(cmd[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
@@ -28,6 +35,7 @@ static void	count(char ***cmd, int i)
 	}
 }
 
+/// @brief wait the end of each command
 static void	wait_end_cmd(void)
 {
 	int	status;
@@ -49,6 +57,8 @@ static void	wait_end_cmd(void)
 	free(struc()->skip);
 }
 
+/// @brief reset the fd at the end of a command line
+/// @param fd the file descriptor
 static void	reset_fd(int	*fd)
 {
 	rl_clear_history();
@@ -78,6 +88,11 @@ static void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 	free(cmd);
 }
 
+/// @brief make all redirection and execute a command
+/// @param lcmd the list of command
+/// @param pfd the file descriptor
+/// @param fd_out a copy of the stdout file descriptor
+/// @param cmd the command line
 static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 {
 	if (struc()->pid[struc()->tmp_i] == -1)
@@ -104,6 +119,8 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 	}
 }
 
+/// @brief 
+/// @param cmd the command line
 void	run_pipe(char	***cmd)
 {
 	t_cmd	*current;
@@ -155,31 +172,31 @@ void	run_pipe(char	***cmd)
 	ft_free_all_pipe(current, cmd);
 }
 
-	// j = 0;
+	// int j = 0;
 	// while (lcmd)
 	// {
-	// 	ft_printf("cmd %d:\n", j);
+	// 	ft_printf("cmd number %d:\ninput: ", j);
 	// 	i = 0;
 	// 	while (lcmd->redir_in && lcmd->redir_in[i])
 	// 	{
 	// 		ft_printf("%s ", lcmd->redir_in[i]);
 	// 		i++;
 	// 	}
-	// 	ft_printf("\n");
+	// 	ft_printf("\ncmd: ");
 	// 	i = 0;
 	// 	while (lcmd->cmd && lcmd->cmd[i])
 	// 	{
 	// 		ft_printf("%s ", lcmd->cmd[i]);
 	// 		i++;
 	// 	}
-	// 	ft_printf("\n");
+	// 	ft_printf("\noutput: ");
 	// 	i = 0;
 	// 	while (lcmd->redir_out && lcmd->redir_out[i])
 	// 	{
 	// 		ft_printf("%s ", lcmd->redir_out[i]);
 	// 		i++;
 	// 	}
-	// 	ft_printf("\n");
+	// 	ft_printf("\n-----------------------\n");
 	// 	j++;
 	// 	if (!lcmd->next)
 	// 		break ;
