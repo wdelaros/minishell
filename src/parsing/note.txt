@@ -3,31 +3,6 @@
 
 a faire:
 	gérer les $
-
-
-echo "'"'"'a'"'"'"	=			echo "'" '"' a '"' "'"			Donc sa part de la gauche vers la droite, DQ SQ DQ donc affiche SQ ensuite SQ DQ SQ donc affiche DQ etc
-
-input = ***
-input echo allo | ls include/
-input[0] = echo allo	input[0][0] = echo	input[0][1] = allo
-input[1] = |			input[1][0] = |
-input[2] = ls include	input[2][0] = ls	input[2][1] = include
-
-
-input echo allo (< ou << ou > ou >>) ls -l
-
-input[0] = echo allo	input[0][0] = echo		input[0][1] = allo
-input[1] = < << > >> ls	input[1][0] = < << > >>	input[1][1] = ls
-input[2] = -l	input[2][0] = -l
-
-input	ls > coucou -la
-
-input[0] = ls	input[0][0] = ls
-input[1] = > ls	input[1][0] = >
-input[2] = coucou -la	input[2][0] = coucou	input[2][1] = -la
-
-input | echo allo | ls include/ |
-
-ERROR (pas de pipe au début ou a la fin)
-
-input < | (Il faut une lettre apres pour que sa soit valide)
+	gérer les ""''
+	gérer les signaux
+	gérer le $? (voir le PDF)

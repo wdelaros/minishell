@@ -17,6 +17,8 @@
 # include <termios.h>
 
 # define DEFAULT_ECHO_TERM 207
+# define RUN 0
+# define GROSSE_ERROR 1
 
 typedef struct s_data
 {
@@ -56,5 +58,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
 
 void	redir_input(t_cmd	**lcmd);
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
+
+int		error_handler(char *input);
 
 #endif

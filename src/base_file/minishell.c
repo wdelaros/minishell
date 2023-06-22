@@ -65,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (signal_handler())
 		exit(1);
-	ft_printf("NEW_PROCESS\n");
 	initialize(envp);
 	while (1)
 	{
@@ -76,26 +75,12 @@ int	main(int argc, char **argv, char **envp)
 			ft_putendl_fd("EXIT", 1);
 			break ;
 		}
-		cmd = string_handler(struc()->input);
-		run_pipe(cmd);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
-		cmd = string_handler(struc()->input); // a changer
-		// printf ("DSFNSD:IFHBSDFBHJSDBFLHJBDJL\n");
-		// int	i = 0;
-		// int	j;
-		// while (cmd[i])
-		// {
-		// 	j = 0;
-		// 	while (cmd[i][j])
-		// 	{
-		// 		printf ("STRING OUI OUI:%s:FIN:\n", cmd[i][j]);
-		// 		j++;
-		// 	}
-		// 	printf ("\n");
-		// 	i++;
-		// }
-		//printf("STR_HANDLER_FINISHED\n");
+		// err = error_handler();
+		// if (err != RUN)
+		// 	exit(1); // a changer
+		cmd = string_handler(struc()->input);
 		run_pipe(cmd);
 		free(struc()->input);
 	}
