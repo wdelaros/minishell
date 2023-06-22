@@ -51,7 +51,6 @@ static void	wait_end_cmd(void)
 
 static void	reset_fd(int	*fd)
 {
-	rl_clear_history();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 }
@@ -124,7 +123,7 @@ void	run_pipe(char	***cmd)
 			Ct_mprintf(cmd[k][j], ft_strlen(cmd[k][j]) + 1, 1, 'C');
 			j++;
 		}
-		printf ("\n");
+		printf ("NEW COMMAND: \n");
 		k++;
 	}
 	current = NULL;

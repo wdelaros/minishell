@@ -13,6 +13,8 @@ static void	command_separator(char *str, char **res, int *i)
 	temp = NULL;
 	len = ft_strlen_until(&str[*i], "\"\'<>|\0", 1);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
@@ -35,6 +37,8 @@ static void	option_separator(char *str, char **res, int *i)
 	temp = NULL;
 	len = ft_strlen_until(&str[*i], "\"\'-<>|\0", 1);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_sstrjoin(*res, temp);
 	ft_xfree(temp);
@@ -53,6 +57,8 @@ static void	option_separator(char *str, char **res, int *i)
 static void	argument_seperator(char *str, char **res, int *i)
 {
 	*res = copy_and_join(str, *i);
+	if (!res)
+		return ;
 	if (str[*i] == DOUBLE_QUOTE)
 	{
 		(*i)++;
@@ -85,11 +91,17 @@ static void	separator_seperator(char *str, char **res, int *i)
 
 	temp = NULL;
 	if (str[*i] == RED_IN || str[*i] == RED_OUT)
+	{
 		*res = red_handler(str, i);
+		if (!res)
+			return ;
+	}
 	else if (str[*i] == PIPE)
 	{
 		len = ft_strlen_until_alpha(&str[*i]);
 		temp = ft_calloc(len + 1, sizeof(char));
+		if (!temp)
+			return ;
 		ft_sstrlcpy(temp, &str[*i], len);
 		*res = ft_sstrjoin(*res, temp);
 		ft_xfree(temp);

@@ -58,6 +58,8 @@ char	*copy_and_join(char *str, int i)
 	temp = NULL;
 	len = token_len_quote(&str[i]);
 	temp = ft_calloc(len + 1, sizeof(char));
+	if (!temp)
+		return (NULL);
 	ft_sstrlcpy(temp, &str[i], len);
 	res = ft_sstrjoin(res, temp);
 	ft_xfree(temp);
@@ -109,6 +111,8 @@ char	*red_handler(char *str, int *i)
 	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE)
 		len++;
 	res = ft_calloc((len - (*i)) + 1, sizeof(char));
+	if (!res)
+		return (NULL);
 	ft_strlcpy(res, &str[*i], len);
 	(*i) = len;
 	Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
