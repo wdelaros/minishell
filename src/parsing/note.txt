@@ -2,7 +2,10 @@
 '' = string literal, char par char tel quel
 
 a faire:
+	gérer les red au début et a la fin
+	gérer les pipe au début et a la fin
 	gérer les $
 	gérer les ""''
 	gérer les signaux
 	gérer le $? (voir le PDF)
+	gérer le parsing du echo

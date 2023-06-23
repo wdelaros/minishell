@@ -61,7 +61,7 @@ char	*copy_and_join(char *str, int i)
 	if (!temp)
 		return (NULL);
 	ft_sstrlcpy(temp, &str[i], len);
-	res = ft_sstrjoin(res, temp);
+	str = ft_strdup(temp);
 	ft_xfree(temp);
 	return (res);
 }
@@ -108,13 +108,14 @@ char	*red_handler(char *str, int *i)
 		len++;
 	while (str[len] && str[len] == SPACE)
 		len++;
-	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE)
+	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE
+		&& str[len] != PIPE && str[len] != RED_IN && str[len] != RED_OUT)
 		len++;
 	res = ft_calloc((len - (*i)) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
-	ft_strlcpy(res, &str[*i], len);
+	ft_strlcpy(res, &str[*i], len - (*i) + 1);
 	(*i) = len;
-	Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
+	// Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
 	return (res);
 }
