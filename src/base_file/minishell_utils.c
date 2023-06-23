@@ -14,3 +14,15 @@ void	print_cell(char	***cell)
 		j++;
 	}
 }
+
+int	exit_status(int	status)
+{
+	int	result;
+
+	result = 0;
+	if (WIFEXITED(status))
+		result = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		result = (128 + WTERMSIG(status));
+	return (result);
+}

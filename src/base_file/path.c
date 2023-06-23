@@ -58,8 +58,5 @@ void	find_executable(char	**fcmd, int i)
 		if (struc()->cmdpath && !access(struc()->cmdpath, F_OK))
 			return ;
 	}
-	perror(fcmd[0]);
-	ft_free_null(fcmd);
-	ft_free_null(struc()->path);
-	exit(1);
+	struc()->cmdpath = ft_strdup("");
 }

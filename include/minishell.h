@@ -27,6 +27,7 @@ typedef struct s_data
 	pid_t		*pid;
 	pid_t		*skip;
 	int			is_child;
+	int			exit_code;
 	int			pipenum;
 	int			number_of_cmd;
 	int			redirnum;
@@ -49,6 +50,7 @@ char	**findpath(t_data *data);
 void	find_executable(char	**fcmd, int i);
 void	print_cell(char	***cell);
 void	exec(char **fcmd);
+int		exit_status(int	status);
 
 void	run_pipe(char	***cmd);
 

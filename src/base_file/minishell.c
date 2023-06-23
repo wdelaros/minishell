@@ -11,7 +11,7 @@ t_data	*struc(void)
  * execute a command
  * execve(the path of the command, the command, environment)
 */
-void	exec(char **fcmd)
+void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
@@ -25,8 +25,21 @@ void	exec(char **fcmd)
 	// }	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
-		perror(fcmd[0]);
-		exit (1);
+		if (access(struc()->cmdpath, F_OK))
+		{
+			printf("minishell: %s: command not found\n", fcmd[0]);
+			exit (127);
+		}
+		else if (access(struc()->cmdpath, X_OK))
+		{
+			printf("minishell: %s: Permission denied\n", fcmd[0]);
+			exit (126);
+		}
+		else
+		{
+			printf("minishell: %s: exit 1", fcmd[0]);
+			exit (1);
+		}
 	}
 }
 
@@ -53,6 +66,7 @@ void	run_cmd(char **cmd)
 
 void	initialize(char **envp)
 {
+	struc()->exit_code = 0;
 	struc()->envp = envp;
 	struc()->is_child = 0;
 }
@@ -79,8 +93,8 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
 		cmd = string_handler(struc()->input);
-		run_pipe(cmd);
 		free(struc()->input);
+		run_pipe(cmd);
 	}
 	rl_clear_history();
 }

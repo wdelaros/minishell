@@ -53,6 +53,8 @@ static void	wait_end_cmd(void)
 		}
 		i++;
 	}
+	struc()->exit_code = exit_status(status);
+	printf("exit_code: %d\n", struc()->exit_code);
 	free(struc()->pid);
 	free(struc()->skip);
 }
@@ -108,7 +110,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		close(fd_out);
 		rl_clear_history();
 		if ((*lcmd)->cmd)
-			exec((*lcmd)->cmd);
+			exec((*lcmd)->cmd, lcmd, cmd);
 		while ((*lcmd)->next)
 			(*lcmd) = (*lcmd)->next;
 		ft_free_all_pipe((*lcmd), cmd);
