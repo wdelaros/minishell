@@ -25,6 +25,7 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	// }	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
+		ft_free_all_pipe(lcmd, cmd_to_free);
 		if (access(struc()->cmdpath, F_OK))
 		{
 			printf("minishell: %s: command not found\n", fcmd[0]);
@@ -41,27 +42,6 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 			exit (1);
 		}
 	}
-}
-
-/**
- * create a fork(new process) for execute a command
-*/
-void	run_cmd(char **cmd)
-{
-	int		status;
-
-	if (!ft_strncmp(cmd[0], "cd", 2))
-	{
-		chdir(cmd[1]);
-		return ;
-	}
-	struc()->pid[0] = fork();
-	struc()->is_child = 1;
-	if (struc()->pid[0] == -1)
-		return ;
-	if (!struc()->pid[0])
-		exec(cmd);
-	waitpid(struc()->pid[0], &status, 0);
 }
 
 void	initialize(char **envp)

@@ -5,6 +5,10 @@
 # include <stdarg.h>
 # include <limits.h>
 
+# ifdef __linux
+#  include <stdint.h>
+# endif
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
 # endif

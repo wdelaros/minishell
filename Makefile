@@ -60,7 +60,7 @@ all: dir $(NAME)
 # Generates output file
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
-	@$(CC) $(CFLAGS) uwu/C_tool.a src/*/*.c $(LDIR)$(LIBFT) -l readline -l ncurses \
+	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) uwu/C_tool.a -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"

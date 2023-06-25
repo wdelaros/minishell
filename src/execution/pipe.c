@@ -67,7 +67,7 @@ static void	reset_fd(int	*fd)
 	dup2(fd[1], STDOUT_FILENO);
 }
 
-static void	ft_free_all_pipe(t_cmd *current, char ***cmd)
+void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
 	int	i;
 
@@ -110,7 +110,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		close(fd_out);
 		rl_clear_history();
 		if ((*lcmd)->cmd)
-			exec((*lcmd)->cmd, lcmd, cmd);
+			exec((*lcmd)->cmd, *lcmd, cmd);
 		while ((*lcmd)->next)
 			(*lcmd) = (*lcmd)->next;
 		ft_free_all_pipe((*lcmd), cmd);
