@@ -7,6 +7,22 @@ t_data	*struc(void)
 	return (&data);
 }
 
+static void	ft_error_message(char **fcmd, t_cmd	*lcmd, char ***cmd, int	code)
+{
+	if (code == 127)
+		printf("minishell: %s: command not found\n", fcmd[0]);
+	else if (code == 126)
+		printf("minishell: %s: Permission denied\n", fcmd[0]);
+	else
+		printf("minishell: %s: exit 1", fcmd[0]);
+	ft_free_all_pipe(lcmd, cmd);
+	ft_free_null(struc()->path);
+	free(struc()->cmdpath);
+	free(struc()->pid);
+	free(struc()->skip);
+	exit (code);
+}
+
 /**
  * execute a command
  * execve(the path of the command, the command, environment)
@@ -25,29 +41,19 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	// }	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
-		ft_free_all_pipe(lcmd, cmd_to_free);
 		if (access(struc()->cmdpath, F_OK))
-		{
-			printf("minishell: %s: command not found\n", fcmd[0]);
-			exit (127);
-		}
+			ft_error_message(fcmd, lcmd, cmd_to_free, 127);
 		else if (access(struc()->cmdpath, X_OK))
-		{
-			printf("minishell: %s: Permission denied\n", fcmd[0]);
-			exit (126);
-		}
+			ft_error_message(fcmd, lcmd, cmd_to_free, 126);
 		else
-		{
-			printf("minishell: %s: exit 1", fcmd[0]);
-			exit (1);
-		}
+			ft_error_message(fcmd, lcmd, cmd_to_free, 1);
 	}
 }
 
 void	initialize(char **envp)
 {
-	struc()->exit_code = 0;
 	struc()->envp = envp;
+	struc()->exit_code = 0;
 	struc()->is_child = 0;
 }
 
@@ -75,6 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		cmd = string_handler(struc()->input);
 		free(struc()->input);
 		run_pipe(cmd);
+		printf("exit code: %d\n", struc()->exit_code);
 	}
 	rl_clear_history();
+	return (0);
 }

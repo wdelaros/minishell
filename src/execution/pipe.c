@@ -54,7 +54,6 @@ static void	wait_end_cmd(void)
 		i++;
 	}
 	struc()->exit_code = exit_status(status);
-	printf("exit_code: %d\n", struc()->exit_code);
 	free(struc()->pid);
 	free(struc()->skip);
 }
@@ -66,7 +65,9 @@ static void	reset_fd(int	*fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 }
-
+/// @brief free
+/// @param current struct to free 
+/// @param cmd triple pointer to free
 void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
 	int	i;
@@ -116,7 +117,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		ft_free_all_pipe((*lcmd), cmd);
 		free(struc()->pid);
 		free(struc()->skip);
-		exit(1);
+		exit(0);
 	}
 }
 

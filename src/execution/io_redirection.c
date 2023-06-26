@@ -32,10 +32,8 @@ void	input_to_pipe(t_cmd	*cmd)
 			ft_printf("Error2\n", 2);
 	}
 	else
-	{
 		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
 			ft_printf("Error3\n", 2);
-	}
 }
 
 /// @brief redirect input of file or a pipe
