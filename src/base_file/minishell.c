@@ -60,6 +60,7 @@ void	initialize(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
+	int		err;
 
 	(void)argc;
 	(void)argv;
@@ -77,9 +78,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
-		// err = error_handler();
-		// if (err != RUN)
-		// 	exit(1); // a changer
+		err = error_handler(struc()->input);
+		if (err != RUN)
+		{
+			printf ("OUOUOUOOU J'AI UNE ERREUR!\n");
+			exit(1); // a changer
+		}
 		cmd = string_handler(struc()->input);
 		run_pipe(cmd);
 		free(struc()->input);

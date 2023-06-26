@@ -8,8 +8,10 @@ char	***string_handler(char *input)
 	res = NULL;
 	input_handler = create_node();
 	token_separator(input, &input_handler);
+	printf("TOKEN TERMINER\n");
 	print_node(input_handler);
 	extra_space_handler(&input_handler);
+	printf("EXTRA SPACE HANDLER TERMINER\n");
 	//quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
 	free_list(&input_handler);

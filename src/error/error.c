@@ -1,15 +1,27 @@
 #include "../../include/error.h"
 
-// static void	pipe_error(t_err *error_data)
-// {
+static void	pipe_error(t_err *error_data)
+{
+	size_t	i;
 
-// 	return ;
-// }
+	i = 0;
+	while (error_data->input[i] && ft_isspace(error_data->input[i]) == YES)
+		i++;
+	if (error_data->input[i] == PIPE)
+		error_data->error_code = 1;
+	else
+	{
+		i = ft_strlen(error_data->input) - 1;
+		while (error_data->input[i] && ft_isspace(error_data->input[i]) == YES)
+			i--;
+		if (error_data->input[i] == PIPE)
+			error_data->error_code = 1;
+	}
+}
 
 // static void	red_error(t_err *error_data)
 // {
 
-// 	return ;
 // }
 
 static void	quote_error(t_err *error_data, int quote)
@@ -43,7 +55,7 @@ int	error_handler(char *input)
 
 	error_data.error_code = 0;
 	error_data.input = ft_strdup(input);
-	// pipe_error(&error_data);
+	pipe_error(&error_data);
 	// if (error_data.error_code != 0)
 	// 	red_error(&error_data);
 	if (error_data.error_code != 0)

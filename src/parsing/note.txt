@@ -2,8 +2,8 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les red au début et a la fin
-	gérer les pipe au début et a la fin
+	gérer les red au début et a la fin		FAIT?
+	gérer les pipe au début et a la fin		FAIT
 	gérer les $
 	gérer les ""''
 	gérer les signaux

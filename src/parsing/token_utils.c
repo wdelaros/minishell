@@ -61,13 +61,15 @@ char	*copy_and_join(char *str, int i)
 	if (!temp)
 		return (NULL);
 	ft_sstrlcpy(temp, &str[i], len);
-	str = ft_strdup(temp);
+	res = ft_strdup(temp);
 	ft_xfree(temp);
 	return (res);
 }
 
 int	is_command(char *str, int i)
 {
+	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+		return (NO);
 	if (i == 0)
 		return (YES);
 	while (str[--i])
@@ -95,7 +97,7 @@ int	ft_strlen_until_alpha(char *str)
 		len++;
 		i++;
 	}
-	return (NO);
+	return (len);
 }
 
 char	*red_handler(char *str, int *i)
