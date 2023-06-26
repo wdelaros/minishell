@@ -9,3 +9,7 @@ a faire:
 	gérer les signaux
 	gérer le $? (voir le PDF)
 	gérer le parsing du echo
+
+
+a règler:
+	input:         (enter) = invalid read of size 1 in is_command

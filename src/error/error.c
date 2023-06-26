@@ -12,10 +12,13 @@ static void	pipe_error(t_err *error_data)
 	else
 	{
 		i = ft_strlen(error_data->input) - 1;
-		while (error_data->input[i] && ft_isspace(error_data->input[i]) == YES)
-			i--;
-		if (error_data->input[i] == PIPE)
-			error_data->error_code = 1;
+		if (error_data->input[i])
+		{
+			while (i > 0 && ft_isspace(error_data->input[i]) == YES)
+				i--;
+			if (error_data->input[i] == PIPE)
+				error_data->error_code = 1;
+		}
 	}
 }
 
@@ -53,6 +56,8 @@ int	error_handler(char *input)
 {
 	t_err	error_data;
 
+	if (input[0] == '\0')
+		return (0);
 	error_data.error_code = 0;
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);

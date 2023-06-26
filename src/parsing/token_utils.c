@@ -68,12 +68,15 @@ char	*copy_and_join(char *str, int i)
 
 int	is_command(char *str, int i)
 {
-	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+	printf ("Est ce que je suis une commande?\n");
+	if (str[i] && (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
+		&& ft_isspace(str[i]) == YES)
 		return (NO);
-	if (i == 0)
+	if (i == 0 && ft_isspace(str[i]) == NO)
 		return (YES);
-	while (str[--i])
+	while (str[i] && str[i - 1])
 	{
+		i--;
 		if (str[i] == '\0' || str[i] == PIPE
 			|| str[i] == RED_IN || str[i] == RED_OUT)
 			return (YES);

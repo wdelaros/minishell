@@ -117,8 +117,10 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	printf ("RENDU A TRAITER:%s\n", &str[i]);
-	if (ft_isascii(str[i]) == YES && is_command(str, i) == YES)
+	printf ("RENDU A TRAITER:");
+	Ct_mprintf(&str[i], ft_strlen(&str[i]) + 1, 1, 'D');
+	if (ft_isascii(str[i]) == YES && is_command(str, i) == YES
+		&& str[i] != SPACE)
 	{
 		printf ("Je suis une commande!\n");
 		command_separator(str, &temp->input, &i);
