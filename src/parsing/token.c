@@ -16,7 +16,7 @@ static void	command_separator(char *str, char **res, int *i)
 	if (!temp)
 		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
-	*res = ft_sstrjoin(*res, temp);
+	*res = ft_strdup(temp);
 	ft_xfree(temp);
 	while (str[*i] && (str[*i] != DOUBLE_QUOTE && str[*i] != SINGLE_QUOTE
 			&& str[*i] != SPACE && str[*i] != RED_IN
@@ -35,12 +35,12 @@ static void	option_separator(char *str, char **res, int *i)
 	char	*temp;
 
 	temp = NULL;
-	len = ft_strlen_until(&str[*i], "\"\'-<>|\0", 1);
+	len = ft_strlen_until(&str[*i], "\"\'<>|\0", 1);
 	temp = ft_calloc(len + 1, sizeof(char));
 	if (!temp)
 		return ;
 	ft_sstrlcpy(temp, &str[*i], len);
-	*res = ft_sstrjoin(*res, temp);
+	*res = ft_strdup(temp);
 	ft_xfree(temp);
 	while (str[*i] && str[*i] != SPACE && str[*i] != RED_IN
 		&& str[*i] != RED_OUT && str[*i] != PIPE)
@@ -83,7 +83,7 @@ static void	argument_seperator(char *str, char **res, int *i)
 /// @param str raw input.
 /// @param res the separator seperated from the input.
 /// @param i current index in the raw input.
-/// @return Index after the separatpr has been seperated.
+/// @return Index after the separator has been seperated.
 static void	separator_seperator(char *str, char **res, int *i)
 {
 	int		len;
@@ -103,11 +103,11 @@ static void	separator_seperator(char *str, char **res, int *i)
 		if (!temp)
 			return ;
 		ft_sstrlcpy(temp, &str[*i], len);
-		*res = ft_sstrjoin(*res, temp);
-		ft_xfree(temp);
+		*res = ft_strdup(temp);
 		while (str[*i] && str[*i] != SPACE && ft_isalpha(str[*i]) == NO)
 			(*i)++;
 	}
+	ft_xfree(temp);
 }
 
 static int	token_if(char *str, t_input **ih, int i)
@@ -117,20 +117,26 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	if (ft_isalpha(str[i]) == YES && is_command(str, i) == YES)
+	printf ("RENDU A TRAITER:");
+	Ct_mprintf(&str[i], ft_strlen(&str[i]) + 1, 1, 'D');
+	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
 	{
-		command_separator(str, &temp->input, &i);
-		add_node(&temp, COMMAND);
-		temp = temp->next;
-	}
-	else if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
-	{
+		printf ("Je suis un separator!\n");
 		separator_seperator(str, &temp->input, &i);
 		add_node(&temp, SEPARATOR);
 		temp = temp->next;
 	}
+	else if (ft_isascii(str[i]) == YES && is_command(str, i) == YES
+		&& str[i] != SPACE)
+	{
+		printf ("Je suis une commande!\n");
+		command_separator(str, &temp->input, &i);
+		add_node(&temp, COMMAND);
+		temp = temp->next;
+	}
 	else if (temp->input == NULL && str[i] == MINUS)
 	{
+		printf ("Je suis une option!\n");
 		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
@@ -138,6 +144,7 @@ static int	token_if(char *str, t_input **ih, int i)
 	else if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
+		printf ("Je suis un argument!\n");
 		argument_seperator(str, &temp->input, &i);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;

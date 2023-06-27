@@ -146,6 +146,7 @@ void	run_pipe(char	***cmd)
 		printf ("NEW COMMAND: \n");
 		k++;
 	}
+	printf ("PU MOI!\n");
 	current = NULL;
 	if (struc()->number_of_cmd > 0)
 	{

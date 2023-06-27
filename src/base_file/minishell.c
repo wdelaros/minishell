@@ -60,12 +60,12 @@ void	initialize(char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
+	int		err;
 
 	(void)argc;
 	(void)argv;
 	if (signal_handler())
 		exit(1);
-	ft_printf("NEW_PROCESS\n");
 	initialize(envp);
 	while (1)
 	{
@@ -78,7 +78,14 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
-		cmd = string_handler(struc()->input);
+		err = error_handler(struc()->input);
+		if (err != RUN)
+			printf ("OUOUOUOOU J'AI UNE ERREUR!\n");
+		else if (err == RUN)
+		{
+			cmd = string_handler(struc()->input);
+			run_pipe(cmd);
+		}
 		free(struc()->input);
 		run_pipe(cmd);
 		printf("exit code: %d\n", struc()->exit_code);

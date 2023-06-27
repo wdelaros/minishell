@@ -32,7 +32,8 @@ CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
 # Sources are all .c files
-SRCS		=	minishell.c\
+SRCS		=	error.c\
+				minishell.c\
 				minishell_utils.c\
 				path.c\
 				io_redirection.c\

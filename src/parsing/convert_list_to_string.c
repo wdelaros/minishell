@@ -17,7 +17,7 @@ static int	nb_of_complete_command(t_input **ih)
 	return (count);
 }
 
-static void	sizeof_each_command(t_input **ih, t_conv *data)
+static void	sizeof_each_command(t_input **ih, t_conv *data, int count)
 {
 	t_input	*temp;
 	int		i;
@@ -28,13 +28,13 @@ static void	sizeof_each_command(t_input **ih, t_conv *data)
 	size = 1;
 	while (temp->next)
 	{
-		if (temp->next && temp->next->token == 3)
+		if (temp->next && temp->next->token == 3 && temp->token != 3)
 		{
 			data->sizeofcom[i] = size;
 			i++;
 			size = 0;
 		}
-		if (temp->token == 3)
+		else if (temp->token == 3)
 		{
 			data->sizeofcom[i] = size;
 			i++;
@@ -43,7 +43,8 @@ static void	sizeof_each_command(t_input **ih, t_conv *data)
 		temp = temp->next;
 		size++;
 	}
-	data->sizeofcom[i] = size;
+	if (i < count)
+		data->sizeofcom[i] = size;
 }
 
 static void	malloc_everything(t_input **ih, t_conv *data)
@@ -58,7 +59,7 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
 	data->sizeofcom = ft_calloc(count, sizeof(int));
-	sizeof_each_command(ih, data);
+	sizeof_each_command(ih, data, count);
 	while (i < count)
 	{
 		data->res[i] = ft_calloc(data->sizeofcom[i] + 1, sizeof(char *));
@@ -76,6 +77,7 @@ static char	**redirection_tranfer(char **dest, char *src)
 
 	i = 0;
 	len = 0;
+	free (dest);
 	dest = ft_calloc(3, sizeof(char *));
 	while (src[len] && (src[len] == RED_IN || src[len] == RED_OUT))
 		len++;
@@ -91,6 +93,8 @@ static char	**redirection_tranfer(char **dest, char *src)
 	}
 	dest[1] = ft_calloc(i + 1, sizeof(char));
 	parsing_strcpy_len(dest[1], &src[start], i);
+	printf ("STRING QUI A ÉTÉ COPIER DANS RED_TRANSFER:%s:FIN:\n", dest[0]);
+	printf ("STRING QUI A ÉTÉ COPIER DANS RED_TRANSFER:%s:FIN:\n", dest[1]);
 	return (dest);
 }
 
@@ -110,7 +114,7 @@ char	***convert_list_to_string(t_input **ih)
 		{
 			if (!temp->next)
 				return (data.res);
-			//printf ("ARRIVER A LA FIN DE LA COMMANDE\n");
+			printf ("ARRIVER A LA FIN DE LA COMMANDE\n");
 			data.i++;
 			data.j = 0;
 			k = 0;
@@ -120,11 +124,11 @@ char	***convert_list_to_string(t_input **ih)
 					temp->input);
 		else
 			data.res[data.i][data.j] = ft_strdup(temp->input);
-		//printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);
+		printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);
 		data.j++;
 		k++;
 		temp = temp->next;
 	}
-	free(data.sizeofcom);
+	ft_xfree(data.sizeofcom);
 	return (data.res);
 }
