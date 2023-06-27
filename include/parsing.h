@@ -57,11 +57,10 @@ int		ft_strlen_until_alpha(char *str);
 char	*red_handler(char *str, int *i);
 
 //quote_handler.c
-void	quote_handler(t_input **input);
+void	quote_handler(char *input);
 
 //parsing.c
 char	***string_handler(char *input);
-int		if_all_quote_closed(char *str, int quote);
 
 //parsing_utils.c
 int		ft_strlen_until(char *str, char *c, int check_space);
