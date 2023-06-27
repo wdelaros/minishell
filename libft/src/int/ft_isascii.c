@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 18:07:41 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/09 07:46:18 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:16:48 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,8 @@
 /// otherwise.
 int	ft_isascii(int c)
 {
-	return (c >= 0 && c <= 127);
+	if ((c >= 0 && c <= 255) || c == -61 || c == -62)
+		return (1);
+	else
+		return (0);
 }

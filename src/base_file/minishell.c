@@ -80,12 +80,12 @@ int	main(int argc, char **argv, char **envp)
 			add_history(struc()->input);
 		err = error_handler(struc()->input);
 		if (err != RUN)
-		{
 			printf ("OUOUOUOOU J'AI UNE ERREUR!\n");
-			exit(1); // a changer
+		else if (err == RUN)
+		{
+			cmd = string_handler(struc()->input);
+			run_pipe(cmd);
 		}
-		cmd = string_handler(struc()->input);
-		run_pipe(cmd);
 		free(struc()->input);
 	}
 	rl_clear_history();

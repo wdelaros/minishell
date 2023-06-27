@@ -2,14 +2,13 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les red au début et a la fin		FAIT?
+	gérer les red au début et a la fin		FAIT
 	gérer les pipe au début et a la fin		FAIT
-	gérer les $
 	gérer les ""''
-	gérer les signaux
-	gérer le $? (voir le PDF)
 	gérer le parsing du echo
+		gérer les $
+	gérer le $? (voir le PDF)
+	gérer les signaux
 
 
-a règler:
-	input:         (enter) = invalid read of size 1 in is_command
+a régler:
