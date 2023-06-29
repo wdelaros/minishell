@@ -1,58 +1,40 @@
 #include "../../include/parsing.h"
 
-static int	nb_of_quote(char *str, int i, int c)
+static void	quote_eraser(t_quote *qd, char *input, char quote)
 {
-	int	count;
-
-	count = 1;
-	i++;
-	while (str[i])
+	qd->i++;
+	while (input[qd->i])
 	{
-		if (str[i] == c)
-			return (count + 1);
-		i++;
+		if (input[qd->i] == quote)
+			break ;
+		qd->res[qd->i_res] = input[qd->i];
+		qd->i_res++;
+		qd->i++;
 	}
-	return (count);
 }
 
-// static int	double_quote_handler(char *str, int i)
-// {
-
-// }
-
-static int	single_quote_handler(char **str, int i)
+char	*quote_handler(char *input)
 {
-	char	*temp;
-	int		j;
+	t_quote	quote_data;
 
-	j = 0;
-	printf("COCUOUC JE SUIS UNE SINGLE!\n");
-	temp = ft_strdup(*str);
-	ft_xfree(*str);
-	*str = ft_calloc((ft_strlen(temp) \
-	- nb_of_quote(temp, i, SINGLE_QUOTE)) + 1, sizeof(char));
-	i++;
-	while (temp[i] && temp[i] != SINGLE_QUOTE)
+	quote_data.i = 0;
+	quote_data.res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+	quote_data.i_res = 0;
+	while (input[quote_data.i])
 	{
-		*str[j] = temp[i];
-		j++;
-		i++;
+		if (input[quote_data.i] == SINGLE_QUOTE)
+			quote_eraser(&quote_data, input, SINGLE_QUOTE);
+		else if (input[quote_data.i] == DOUBLE_QUOTE)
+			quote_eraser(&quote_data, input, DOUBLE_QUOTE);
+		else
+		{
+			quote_data.res[quote_data.i_res] = input[quote_data.i];
+			quote_data.i_res++;
+		}
+		quote_data.i++;
 	}
-	ft_xfree(temp);
-	return (i);
-}
-
-void	quote_handler(char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == SINGLE_QUOTE)
-			i = single_quote_handler(&input, i);
-		// else if (input[i] == DOUBLE_QUOTE)
-		// 	i = double_quote_handler(input, i);
-		i++;
-	}
+	ft_xfree(input);
+	input = ft_strdup(quote_data.res);
+	ft_xfree(quote_data.res);
+	return (input);
 }

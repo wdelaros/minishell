@@ -10,3 +10,4 @@ a faire:
 
 
 a régler:
+	SegFault: > coucou.txt cat

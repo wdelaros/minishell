@@ -86,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 			cmd = string_handler(struc()->input);
 			run_pipe(cmd);
 		}
-		free(struc()->input);
 		printf("exit code: %d\n", struc()->exit_code);
 	}
 	rl_clear_history();
