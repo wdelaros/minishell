@@ -60,7 +60,7 @@ int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);
 int		ft_strlen_until_space(char *str);
 char	*copy_and_join(char *str, int i);
-int		is_command(char *str, int i);
+int		is_command(char *str, int i, t_input *ih);
 int		ft_strlen_until_alpha(char *str);
 char	*red_handler(char *str, int *i);
 

@@ -123,7 +123,7 @@ static int	token_if(char *str, t_input **ih, int i)
 		add_node(&temp, SEPARATOR);
 		temp = temp->next;
 	}
-	else if (ft_isascii(str[i]) == YES && is_command(str, i) == YES
+	else if (ft_isascii(str[i]) == YES && is_command(str, i, *ih) == YES
 		&& str[i] != SPACE)
 	{
 		command_separator(str, &temp->input, &i);

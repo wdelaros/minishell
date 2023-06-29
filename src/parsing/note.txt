@@ -10,4 +10,4 @@ a faire:
 
 
 a régler:
-	SegFault: > coucou.txt cat
+	problem problematique: > "je suis un monsieur.txt" cat
