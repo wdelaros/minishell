@@ -7,7 +7,18 @@ t_data	*struc(void)
 	return (&data);
 }
 
-static void	ft_error_message(char **fcmd, t_cmd	*lcmd, char ***cmd, int	code)
+static void	ft_error(int code)
+{
+	struc()->exit_code = 258;
+	if (code == 1)
+		printf("minishell: syntax error near unexpected token `|'\n");
+	else if (code == 2)
+		printf("minishell: syntax error near unexpected token `newline'\n");
+	else if (code == 3)
+		printf("minishell: syntax error near unexpected token `quote'\n");
+}
+
+static void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 {
 	if (code == 127)
 		printf("minishell: %s: command not found\n", fcmd[0]);
@@ -31,22 +42,14 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 {
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0);
-	// int	i = 0;		//a enlever
-	// char l = 'A';	//a enlever
-	// while (fcmd[i])	//a enlever
-	// {
-	// 	Ct_mprintf(fcmd[i], ft_strlen(fcmd[i]) + 1, 1, l);	//a enlever
-	// 	i++;	//a enlever
-	// 	l++;	//a enlever
-	// }	//a enlever
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		if (access(struc()->cmdpath, F_OK))
-			ft_error_message(fcmd, lcmd, cmd_to_free, 127);
+			ft_exit_message(fcmd, lcmd, cmd_to_free, 127);
 		else if (access(struc()->cmdpath, X_OK))
-			ft_error_message(fcmd, lcmd, cmd_to_free, 126);
+			ft_exit_message(fcmd, lcmd, cmd_to_free, 126);
 		else
-			ft_error_message(fcmd, lcmd, cmd_to_free, 1);
+			ft_exit_message(fcmd, lcmd, cmd_to_free, 1);
 	}
 }
 
@@ -80,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(struc()->input);
 		err = error_handler(struc()->input);
 		if (err != RUN)
-			printf ("OUOUOUOOU J'AI UNE ERREUR!\n");
+			ft_error(err);
 		else if (err == RUN)
 		{
 			cmd = string_handler(struc()->input);

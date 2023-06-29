@@ -15,7 +15,7 @@ void	print_cell(char	***cell)
 	}
 }
 
-int	exit_status(int	status)
+int	exit_status(int status)
 {
 	int	result;
 

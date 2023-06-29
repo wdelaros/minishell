@@ -38,7 +38,7 @@ void	input_to_pipe(t_cmd	*cmd)
 
 /// @brief redirect input of file or a pipe
 /// @param lcmd list of command
-void	redir_input(t_cmd	**lcmd)
+void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out)
 {
 	int	fd;
 
@@ -47,8 +47,18 @@ void	redir_input(t_cmd	**lcmd)
 		fd = open((*lcmd)->redir_in[1], O_RDONLY);
 		if (fd == -1)
 		{
-			perror((*lcmd)->redir_in[1]);
-			return ;
+			close(fd_out);
+			if (struc()->pipenum > 0)
+			{
+				if ((*lcmd)->previous)
+					close((*lcmd)->previous->previous->fd_in);
+				close((*pfd)[0]);
+				close((*pfd)[1]);
+			}
+			ft_free_all_pipe((*lcmd), cmd);
+			free(struc()->pid);
+			free(struc()->skip);
+			exit (1);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);

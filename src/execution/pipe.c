@@ -65,6 +65,7 @@ static void	reset_fd(int	*fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 }
+
 /// @brief free
 /// @param current struct to free 
 /// @param cmd triple pointer to free
@@ -72,6 +73,9 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
 	int	i;
 
+
+	while (current->next)
+		current = current->next;
 	if (current)
 	{
 		while (current->previous != NULL)
@@ -101,7 +105,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		return ;
 	if (!struc()->pid[struc()->tmp_i])
 	{
-		redir_input(lcmd);
+		redir_input(lcmd, &pfd, cmd, fd_out);
 		redir_output(*lcmd, &pfd, struc()->tmp_i);
 		if (struc()->pipenum > 0)
 		{
@@ -112,8 +116,6 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		rl_clear_history();
 		if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
-		while ((*lcmd)->next)
-			(*lcmd) = (*lcmd)->next;
 		ft_free_all_pipe((*lcmd), cmd);
 		free(struc()->pid);
 		free(struc()->skip);
@@ -174,7 +176,7 @@ void	run_pipe(char	***cmd)
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
 			lcmd->fd_in = pfd[0];
-			if (lcmd->cmd)
+			if (lcmd->cmd || lcmd->redir_in || lcmd->redir_out)
 				struc()->skip[i] = 0;
 			i++;
 			if (!lcmd->next)

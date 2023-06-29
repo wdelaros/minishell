@@ -59,7 +59,7 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd);
 
 t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
 
-void	redir_input(t_cmd	**lcmd);
+void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out);
 void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
 
 int		error_handler(char *input);
