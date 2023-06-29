@@ -66,12 +66,17 @@ char	*copy_and_join(char *str, int i)
 	return (res);
 }
 
-int	is_command(char *str, int i)
+int	is_command(char *str, int i, t_input *ih)
 {
 	if (str[i] && (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT
 			|| ft_isspace(str[i]) == YES))
 		return (NO);
 	if (i == 0 && ft_isspace(str[i]) == NO)
+		return (YES);
+	while (ih->next)
+		ih = ih->next;
+	ih = ih->prev;
+	if (ih && ih->token == 3)
 		return (YES);
 	while (str[i] && str[i - 1])
 	{

@@ -1,49 +1,40 @@
 #include "../../include/parsing.h"
 
-//static int	double_quote_handler(char *str, int i)
-//{
-
-//}
-
-static int	single_quote_handler(char *str, int i)
+static void	quote_eraser(t_quote *qd, char *input, char quote)
 {
-	char	*temp;
-	int		len;
-	int		j;
-
-	j = 0;
-	len = ft_strlen_until(str, "\'\0", NO);
-	temp = ft_calloc(len, sizeof(char));
-	i++;
-	while (len > 0)
+	qd->i++;
+	while (input[qd->i])
 	{
-		if (str[i] != SINGLE_QUOTE)
-		{
-			temp[j] = str[i];
-			j++;
-			i++;
-		}
-		len--;
+		if (input[qd->i] == quote)
+			break ;
+		qd->res[qd->i_res] = input[qd->i];
+		qd->i_res++;
+		qd->i++;
 	}
-	ft_xfree(str);
-	str = temp;
-	printf ("%d\n", i);
-	return (i);
 }
 
-void	quote_handler(t_input **input)
+char	*quote_handler(char *input)
 {
-	t_input	*temp;
-	int		i;
+	t_quote	quote_data;
 
-	i = 0;
-	temp = (*input);
-	while (temp)
+	quote_data.i = 0;
+	quote_data.res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+	quote_data.i_res = 0;
+	while (input[quote_data.i])
 	{
-		//if (temp->input[i] == DOUBLE_QUOTE)
-		//	i = double_quote_handler(temp->input, i);
-		if (temp->input[i] == SINGLE_QUOTE)
-			i = single_quote_handler(temp->input, i);
-		temp = temp->next;
+		if (input[quote_data.i] == SINGLE_QUOTE)
+			quote_eraser(&quote_data, input, SINGLE_QUOTE);
+		else if (input[quote_data.i] == DOUBLE_QUOTE)
+			quote_eraser(&quote_data, input, DOUBLE_QUOTE);
+		else
+		{
+			quote_data.res[quote_data.i_res] = input[quote_data.i];
+			quote_data.i_res++;
+		}
+		quote_data.i++;
 	}
+	ft_xfree(input);
+	input = ft_strdup(quote_data.res);
+	ft_xfree(quote_data.res);
+	return (input);
 }

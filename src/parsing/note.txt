@@ -2,8 +2,6 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les red au début et a la fin		FAIT
-	gérer les pipe au début et a la fin		FAIT
 	gérer les ""''
 	gérer le parsing du echo
 		gérer les $
@@ -12,3 +10,4 @@ a faire:
 
 
 a régler:
+	problem problematique: > "je suis un monsieur.txt" cat

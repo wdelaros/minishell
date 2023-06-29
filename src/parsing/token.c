@@ -117,26 +117,21 @@ static int	token_if(char *str, t_input **ih, int i)
 	temp = (*ih);
 	while (temp->next)
 		temp = temp->next;
-	printf ("RENDU A TRAITER:");
-	Ct_mprintf(&str[i], ft_strlen(&str[i]) + 1, 1, 'D');
 	if (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT)
 	{
-		printf ("Je suis un separator!\n");
 		separator_seperator(str, &temp->input, &i);
 		add_node(&temp, SEPARATOR);
 		temp = temp->next;
 	}
-	else if (ft_isascii(str[i]) == YES && is_command(str, i) == YES
+	else if (ft_isascii(str[i]) == YES && is_command(str, i, *ih) == YES
 		&& str[i] != SPACE)
 	{
-		printf ("Je suis une commande!\n");
 		command_separator(str, &temp->input, &i);
 		add_node(&temp, COMMAND);
 		temp = temp->next;
 	}
 	else if (temp->input == NULL && str[i] == MINUS)
 	{
-		printf ("Je suis une option!\n");
 		option_separator(str, &temp->input, &i);
 		add_node(&temp, OPTION);
 		temp = temp->next;
@@ -144,7 +139,6 @@ static int	token_if(char *str, t_input **ih, int i)
 	else if (str[i] && (str[i] == DOUBLE_QUOTE || str[i] == SINGLE_QUOTE
 			|| ft_isascii(str[i])) && str[i] != SPACE)
 	{
-		printf ("Je suis un argument!\n");
 		argument_seperator(str, &temp->input, &i);
 		add_node(&temp, ARGUMENT);
 		temp = temp->next;

@@ -43,6 +43,14 @@ typedef struct s_conv
 	int		*sizeofcom;
 }				t_conv;
 
+typedef struct s_quote
+{
+	char	*raw_input;
+	int		i;
+	int		i_res;
+	char	*res;
+}				t_quote;
+
 //token.c
 void	token_separator(char *str, t_input **ih);
 void	print_node(t_input *list); //A enlever
@@ -52,16 +60,15 @@ int		token_handler_quote(char *str, int i);
 int		token_len_quote(char *str);
 int		ft_strlen_until_space(char *str);
 char	*copy_and_join(char *str, int i);
-int		is_command(char *str, int i);
+int		is_command(char *str, int i, t_input *ih);
 int		ft_strlen_until_alpha(char *str);
 char	*red_handler(char *str, int *i);
 
 //quote_handler.c
-void	quote_handler(t_input **input);
+char	*quote_handler(char *input);
 
 //parsing.c
 char	***string_handler(char *input);
-int		if_all_quote_closed(char *str, int quote);
 
 //parsing_utils.c
 int		ft_strlen_until(char *str, char *c, int check_space);
