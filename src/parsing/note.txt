@@ -10,5 +10,6 @@ a faire:
 
 
 a régler:
+	devrait pas etre une erreur: "'"
 	problem problematique: > "je suis un monsieur.txt" cat
-	le pipe devrait etre considéré comme un arg: echo "|"
+	le pipe devrait etre considéré comme un arg: echo "|"	avec le quote_handler

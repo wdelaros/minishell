@@ -21,12 +21,12 @@ int	token_len_quote(char *str)
 	len = 0;
 	if (str[len] == DOUBLE_QUOTE)
 	{
-		len = ft_strlen_until(str, "\"|><\0", 0);
+		len = ft_strlen_until(str, "\"", 0);
 		len++;
 	}
 	else if (str[len] == SINGLE_QUOTE)
 	{
-		len = ft_strlen_until(str, "\'|><\0", 0);
+		len = ft_strlen_until(str, "\'", 0);
 		len++;
 	}
 	else
@@ -117,14 +117,26 @@ char	*red_handler(char *str, int *i)
 		len++;
 	while (str[len] && str[len] == SPACE)
 		len++;
-	while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE
-		&& str[len] != PIPE && str[len] != RED_IN && str[len] != RED_OUT)
-		len++;
+	if (str[len] == DOUBLE_QUOTE || str[len] == SINGLE_QUOTE)
+	{
+		if (str[len] == DOUBLE_QUOTE)
+			len += ft_strlen_until(&str[len], "\"", 0);
+		else
+			len += ft_strlen_until(&str[len], "\'", 0);
+	}
+	else
+	{
+		while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE
+			&& str[len] != PIPE && str[len] != RED_IN && str[len] != RED_OUT)
+			len++;
+	}
+	// while (str[len] && ft_isascii(str[len]) == YES && str[len] != SPACE
+	// 	&& str[len] != PIPE && str[len] != RED_IN && str[len] != RED_OUT)
+	// 	len++;
 	res = ft_calloc((len - (*i)) + 1, sizeof(char));
 	if (!res)
 		return (NULL);
 	ft_strlcpy(res, &str[*i], len - (*i) + 1);
 	(*i) = len;
-	// Ct_mprintf(res, ft_strlen(res) + 1, 1, 'Z');
 	return (res);
 }

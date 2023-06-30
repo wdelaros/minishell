@@ -9,8 +9,8 @@ char	***string_handler(char *input)
 	res = NULL;
 	cpy_input = ft_strdup(input);
 	input_handler = create_node();
-	cpy_input = quote_handler(cpy_input);
-	//var_handler();
+	// cpy_input = quote_handler(cpy_input);
+	// var_handler();
 	token_separator(cpy_input, &input_handler);
 	printf("TOKEN TERMINER\n");
 	print_node(input_handler);

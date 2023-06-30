@@ -1,0 +1,6 @@
+total 24
+drwxr-xr-x   5 rapelcha  2022_quebec   170 Jun 27 15:21 .
+drwxr-xr-x  19 rapelcha  2022_quebec   646 Jun 30 15:05 ..
+-rw-r--r--   1 rapelcha  2022_quebec   341 Jun 27 15:12 error.h
+-rw-r--r--   1 rapelcha  2022_quebec  1329 Jun 27 15:43 minishell.h
+-rw-r--r--   1 rapelcha  2022_quebec  1918 Jun 29 10:07 parsing.h
