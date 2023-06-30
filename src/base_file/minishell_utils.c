@@ -15,6 +15,20 @@ void	print_cell(char	***cell)
 	}
 }
 
+void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
+{
+	if (code == 127)
+		ft_dprintf(2, "minishell: %s: command not found\n", fcmd[0]);
+	else if (code == 126)
+		ft_dprintf(2, "minishell: %s: Permission denied\n", fcmd[0]);
+	else
+		ft_dprintf(2, "minishell: %s: exit 1", fcmd[0]);
+	ft_free_all_pipe(lcmd, cmd);
+	ft_free_null(struc()->path);
+	free(struc()->cmdpath);
+	exit (code);
+}
+
 int	exit_status(int status)
 {
 	int	result;

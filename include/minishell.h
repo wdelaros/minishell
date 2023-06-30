@@ -50,12 +50,16 @@ t_data	*struc(void);
 int		signal_handler(void);
 char	**findpath(t_data *data);
 void	find_executable(char	**fcmd, int i);
-void	print_cell(char	***cell);
 void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free);
+
+void	print_cell(char	***cell);
+void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
 int		exit_status(int status);
 
 void	run_pipe(char	***cmd);
+
 void	ft_free_all_pipe(t_cmd *current, char ***cmd);
+void	count(char ***cmd, int i);
 
 t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
 

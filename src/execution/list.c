@@ -20,21 +20,67 @@ static t_cmd	*picreate_node(char	**redir_in, char	**cmd, char	**redir_out)
 	return (node);
 }
 
+static int ft_perror(char	***arg, int	i)
+{
+	perror(arg[i][1]);
+	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
+	ft_strcmp(arg[i + 1][0], "|")))
+		i++;
+	return (i);
+}
+
 static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 {
 	char	**input;
 	char	**command;
 	char	**output;
+	int		fd;
 
 	input = NULL;
 	output = NULL;
 	command = NULL;
-	while (arg[i])
+	while (arg && arg[i])
 	{
 		if (!ft_strcmp(arg[i][0], "<"))
+		{
+			if(access(arg[i][1], F_OK | R_OK))
+			{
+				i = ft_perror(arg, i);
+				input = NULL;
+				output = NULL;
+				command = NULL;
+				break ;
+			}
 			input = arg[i];
-		else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
+		}
+		else if (!ft_strcmp(arg[i][0], ">"))
+		{
+			fd = open(arg[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
+			if (fd == -1)
+			{
+				i = ft_perror(arg, i);
+				input = NULL;
+				output = NULL;
+				command = NULL;
+				break ;
+			}
+			close(fd);
 			output = arg[i];
+		}
+		else if (!ft_strcmp(arg[i][0], ">>"))
+		{
+			fd = open(arg[i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
+			if(fd == -1)
+			{
+				i = ft_perror(arg, i);
+				input = NULL;
+				output = NULL;
+				command = NULL;
+				break ;
+			}
+			close(fd);
+			output = arg[i];
+		}
 		else
 			command = arg[i];
 		if (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
@@ -54,7 +100,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 
 	i = ft_parse_node(arg, &cmd, 0);
 	(*current) = cmd;
-	while (arg[i])
+	while (arg && *arg && arg[i])
 	{
 		i = ft_parse_node(arg, &(*current)->next, i);
 		(*current)->next->previous = (*current);

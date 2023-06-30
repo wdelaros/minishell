@@ -1,40 +1,5 @@
 #include "../../include/minishell.h"
 
-/// @brief create all output file, count the number of command
-/// and the number of pipe
-/// @param cmd 
-/// @param i 
-static void	count(char ***cmd, int i)
-{
-	int	fd;
-
-	struc()->pipenum = 0;
-	struc()->number_of_cmd = 0;
-	while (cmd && cmd[i])
-	{
-		if (cmd[i][0] && !ft_strcmp(cmd[i][0], "|"))
-			struc()->pipenum++;
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], "<"))
-		{
-			if (access(cmd[i][1], F_OK | R_OK))
-				perror(cmd[i][1]);
-		}
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">"))
-		{
-			fd = open(cmd[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
-			close(fd);
-		}
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">>"))
-		{
-			fd = open(cmd[i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
-			close(fd);
-		}
-		else if (cmd[i][0])
-			struc()->number_of_cmd++;
-		i++;
-	}
-}
-
 /// @brief wait the end of each command
 static void	wait_end_cmd(void)
 {
@@ -54,8 +19,6 @@ static void	wait_end_cmd(void)
 		i++;
 	}
 	struc()->exit_code = exit_status(status);
-	free(struc()->pid);
-	free(struc()->skip);
 }
 
 /// @brief reset the fd at the end of a command line
@@ -64,33 +27,6 @@ static void	reset_fd(int	*fd)
 {
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
-}
-
-/// @brief free
-/// @param current struct to free 
-/// @param cmd triple pointer to free
-void	ft_free_all_pipe(t_cmd *current, char ***cmd)
-{
-	int	i;
-
-	if (current)
-	{
-		while (current->next)
-			current = current->next;
-		while (current->previous != NULL)
-		{
-			current = current->previous;
-			free(current->next);
-		}
-		free(current);
-	}
-	i = 0;
-	while (cmd[i])
-	{
-		cmd[i] = ft_free_null(cmd[i]);
-		i++;
-	}
-	free(cmd);
 }
 
 /// @brief make all redirection and execute a command
@@ -116,8 +52,6 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
 		ft_free_all_pipe((*lcmd), cmd);
-		free(struc()->pid);
-		free(struc()->skip);
 		exit(0);
 	}
 }
@@ -133,27 +67,12 @@ void	run_pipe(char	***cmd)
 	int		i;
 
 	count(cmd, 0);
-	printf ("JE SUIS ICI\n");
-	int	k = 0;
-	int	j;
-	while (cmd[k])
-	{
-		j = 0;
-		while (cmd[k][j])
-		{
-			Ct_mprintf(cmd[k][j], ft_strlen(cmd[k][j]) + 1, 1, 'C');
-			j++;
-		}
-		printf ("NEW COMMAND: \n");
-		k++;
-	}
-	printf ("PU MOI!\n");
 	current = NULL;
+	lcmd = ft_setnode(cmd, &current);
+	struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
+	struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
 	if (struc()->number_of_cmd > 0)
 	{
-		lcmd = ft_setnode(cmd, &current);
-		struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
-		struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
 		i = 0;
 		lcmd->fd_in = 0;
 		fd_out = dup(STDOUT_FILENO);
@@ -175,8 +94,7 @@ void	run_pipe(char	***cmd)
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
 			lcmd->fd_in = pfd[0];
-			if (lcmd->cmd)
-				struc()->skip[i] = 0;
+			struc()->skip[i] = 0;
 			i++;
 			if (!lcmd->next)
 				break ;
@@ -193,6 +111,7 @@ void	run_pipe(char	***cmd)
 	// int j = 0;
 	// while (lcmd)
 	// {
+	// 	ft_printf("\n-----------------------\n");
 	// 	ft_printf("cmd number %d:\ninput: ", j);
 	// 	i = 0;
 	// 	while (lcmd->redir_in && lcmd->redir_in[i])
@@ -214,11 +133,11 @@ void	run_pipe(char	***cmd)
 	// 		ft_printf("%s ", lcmd->redir_out[i]);
 	// 		i++;
 	// 	}
-	// 	ft_printf("\n-----------------------\n");
 	// 	j++;
 	// 	if (!lcmd->next)
 	// 		break ;
 	// 	lcmd = lcmd->next;
 	// }
+	// 	ft_printf("\n-----------------------\n");
 	// while (lcmd->previous)
 	// 	lcmd = lcmd->previous;

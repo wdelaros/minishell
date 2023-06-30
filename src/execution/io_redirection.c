@@ -56,8 +56,7 @@ void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out)
 				close((*pfd)[1]);
 			}
 			ft_free_all_pipe((*lcmd), cmd);
-			free(struc()->pid);
-			free(struc()->skip);
+			rl_clear_history();
 			exit (1);
 		}
 		dup2(fd, STDIN_FILENO);

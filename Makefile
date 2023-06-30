@@ -39,6 +39,7 @@ SRCS		=	error.c\
 				io_redirection.c\
 				list.c\
 				pipe.c\
+				pipe_utils.c\
 				signal_handler.c\
 				clean_space.c\
 				parsing_utils.c\

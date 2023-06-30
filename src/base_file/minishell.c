@@ -13,25 +13,11 @@ static void	ft_error(int code)
 	if (code == 1)
 		ft_dprintf(2, "minishell: syntax error near unexpected token `|'\n");
 	else if (code == 2)
-		ft_dprintf(2, "minishell: syntax error near unexpected token `newline'\n");
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `newline'\n");
 	else if (code == 3)
-		ft_dprintf(2, "minishell: syntax error near unexpected token `quote'\n");
-}
-
-static void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
-{
-	if (code == 127)
-		ft_dprintf(2, "minishell: %s: command not found\n", fcmd[0]);
-	else if (code == 126)
-		ft_dprintf(2, "minishell: %s: Permission denied\n", fcmd[0]);
-	else
-		ft_dprintf(2, "minishell: %s: exit 1", fcmd[0]);
-	ft_free_all_pipe(lcmd, cmd);
-	ft_free_null(struc()->path);
-	free(struc()->cmdpath);
-	free(struc()->pid);
-	free(struc()->skip);
-	exit (code);
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `quote'\n");
 }
 
 /**
@@ -53,8 +39,10 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	}
 }
 
-void	initialize(char **envp)
+static void	initialize(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	struc()->envp = envp;
 	struc()->exit_code = 0;
 	struc()->is_child = 0;
@@ -65,13 +53,12 @@ int	main(int argc, char **argv, char **envp)
 	char	***cmd;
 	int		err;
 
-	(void)argc;
-	(void)argv;
 	if (signal_handler())
 		exit(1);
-	initialize(envp);
+	initialize(argc, argv, envp);
 	while (1)
 	{
+		printf("%s\n", getcwd(NULL, 0));
 		struc()->is_child = 0;
 		struc()->input = readline("minishell> ");
 		if (!struc()->input)
