@@ -2,7 +2,7 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les ""''
+	gérer les "" ''
 	gérer le parsing du echo
 		gérer les $
 	gérer le $? (voir le PDF)
@@ -11,3 +11,4 @@ a faire:
 
 a régler:
 	problem problematique: > "je suis un monsieur.txt" cat
+	le pipe devrait etre considéré comme un arg: echo "|"

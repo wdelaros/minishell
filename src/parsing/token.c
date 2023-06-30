@@ -98,7 +98,7 @@ static void	separator_seperator(char *str, char **res, int *i)
 	}
 	else if (str[*i] == PIPE)
 	{
-		len = ft_strlen_until_alpha(&str[*i]);
+		len = ft_strlen_until(str, "\t\n\v\f\r", 1);
 		temp = ft_calloc(len + 1, sizeof(char));
 		if (!temp)
 			return ;

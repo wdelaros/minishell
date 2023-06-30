@@ -20,6 +20,7 @@ static void	pipe_error(t_err *error_data)
 				error_data->error_code = 258;
 		}
 	}
+	printf("EST CE QUE J'AI UNE ERREUR DE PIPE?\n");
 }
 
 static void	red_error(t_err *error_data)
@@ -35,6 +36,7 @@ static void	red_error(t_err *error_data)
 		if (error_data->input[i] == RED_IN || error_data->input[i] == RED_OUT)
 			error_data->error_code = 258;
 	}
+	printf("EST CE QUE J'AI UNE ERREUR DE REDIRECTION?\n");
 }
 
 static void	quote_error(t_err *error_data, int quote)
@@ -43,23 +45,44 @@ static void	quote_error(t_err *error_data, int quote)
 	int	flag;
 
 	i = 0;
-	flag = 1;
+	flag = 0;
 	while (error_data->input[i])
 	{
 		if (error_data->input[i] == quote && flag == 0)
-		{
 			flag = 1;
-			i++;
-		}
-		if (error_data->input[i] == quote && flag == 1)
-		{
+		else if (error_data->input[i] == quote && flag == 1)
 			flag = 0;
+		i++;
+	}
+	if (flag == 1)
+		error_data->error_code = 258;
+	printf("EST CE QUE J'AI UNE ERREUR DE QUOTE?\n");
+}
+
+static int	mul_pipe_error(t_err *error_data)
+{
+	int	i;
+
+	i = 0;
+	while (error_data->input[i])
+	{
+		if (error_data->input[i] == PIPE)
+		{
 			i++;
+			if (error_data->input[i] == PIPE)
+				error_data->error_code = 258;
+			while (error_data->input[i]
+				&& ft_isspace(error_data->input[i]) == YES)
+			{
+				i++;
+				if (error_data->input[i] == PIPE)
+					error_data->error_code = 258;
+			}
 		}
 		i++;
 	}
-	if (flag == 0)
-		error_data->error_code = 258;
+	printf ("EST CE QUE J'AI UNE ERREUR DE MULTIPLE PIPE?\n");
+	return (error_data->error_code);
 }
 
 int	error_handler(char *input)
@@ -72,11 +95,17 @@ int	error_handler(char *input)
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);
 	if (error_data.error_code == 0)
+		mul_pipe_error(&error_data);
+	if (error_data.error_code == 0)
 		red_error(&error_data);
 	if (error_data.error_code == 0)
 		quote_error(&error_data, DOUBLE_QUOTE);
-	else if (error_data.error_code == 0)
+	if (error_data.error_code == 0)
 		quote_error(&error_data, SINGLE_QUOTE);
 	ft_xfree(error_data.input);
+	if (error_data.error_code != 0)
+		printf ("OUI!\n");
+	else
+		printf ("PAS D'ERREUR!\n");
 	return (error_data.error_code);
 }
