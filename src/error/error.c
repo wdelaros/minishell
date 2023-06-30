@@ -47,15 +47,9 @@ static void	quote_error(t_err *error_data, int quote)
 	while (error_data->input[i])
 	{
 		if (error_data->input[i] == quote && flag == 0)
-		{
 			flag = 1;
-			i++;
-		}
-		if (error_data->input[i] == quote && flag == 1)
-		{
+		else if (error_data->input[i] == quote && flag == 1)
 			flag = 0;
-			i++;
-		}
 		i++;
 	}
 	if (flag == 0)

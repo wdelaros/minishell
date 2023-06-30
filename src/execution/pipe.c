@@ -73,11 +73,10 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
 	int	i;
 
-
-	while (current->next)
-		current = current->next;
 	if (current)
 	{
+		while (current->next)
+			current = current->next;
 		while (current->previous != NULL)
 		{
 			current = current->previous;
@@ -176,7 +175,7 @@ void	run_pipe(char	***cmd)
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
 			lcmd->fd_in = pfd[0];
-			if (lcmd->cmd || lcmd->redir_in || lcmd->redir_out)
+			if (lcmd->cmd)
 				struc()->skip[i] = 0;
 			i++;
 			if (!lcmd->next)

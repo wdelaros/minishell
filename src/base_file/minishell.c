@@ -11,21 +11,21 @@ static void	ft_error(int code)
 {
 	struc()->exit_code = 258;
 	if (code == 1)
-		printf("minishell: syntax error near unexpected token `|'\n");
+		ft_dprintf(2, "minishell: syntax error near unexpected token `|'\n");
 	else if (code == 2)
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		ft_dprintf(2, "minishell: syntax error near unexpected token `newline'\n");
 	else if (code == 3)
-		printf("minishell: syntax error near unexpected token `quote'\n");
+		ft_dprintf(2, "minishell: syntax error near unexpected token `quote'\n");
 }
 
 static void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 {
 	if (code == 127)
-		printf("minishell: %s: command not found\n", fcmd[0]);
+		ft_dprintf(2, "minishell: %s: command not found\n", fcmd[0]);
 	else if (code == 126)
-		printf("minishell: %s: Permission denied\n", fcmd[0]);
+		ft_dprintf(2, "minishell: %s: Permission denied\n", fcmd[0]);
 	else
-		printf("minishell: %s: exit 1", fcmd[0]);
+		ft_dprintf(2, "minishell: %s: exit 1", fcmd[0]);
 	ft_free_all_pipe(lcmd, cmd);
 	ft_free_null(struc()->path);
 	free(struc()->cmdpath);

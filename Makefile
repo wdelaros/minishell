@@ -97,3 +97,6 @@ re: fclean all
 
 run: all
 	@./minishell
+
+leak: all
+	@valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --suppressions=supp.txt ./minishell
