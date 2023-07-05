@@ -58,7 +58,10 @@ static void	argument_seperator(char *str, char **res, int *i)
 	temp = ft_calloc(len + 1, sizeof(char));
 	if (!temp)
 		return ;
-	ft_sstrlcpy(temp, &str[*i], len);
+	if (str[*i] == DOUBLE_QUOTE || str[*i] == SINGLE_QUOTE)
+		quote_handler();
+	else
+		ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_strdup(temp);
 	ft_xfree(temp);
 	*i += len;

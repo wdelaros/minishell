@@ -14,6 +14,8 @@ static int	nb_of_complete_command(t_input **ih)
 			count++;
 		temp = temp->next;
 	}
+	if ((*ih)->input != NULL && count == 0)
+		count++;
 	return (count);
 }
 

@@ -69,7 +69,8 @@ char	*copy_and_join(char *str, int i)
 int	is_command(char *str, int i, t_input *ih)
 {
 	if (str[i] && (str[i] == PIPE || str[i] == RED_IN || str[i] == RED_OUT
-			|| ft_isspace(str[i]) == YES))
+			|| ft_isspace(str[i]) == YES || str[i] == DOUBLE_QUOTE
+			|| str[i] == SINGLE_QUOTE))
 		return (NO);
 	if (i == 0 && ft_isspace(str[i]) == NO)
 		return (YES);
@@ -120,9 +121,9 @@ char	*red_handler(char *str, int *i)
 	if (str[len] == DOUBLE_QUOTE || str[len] == SINGLE_QUOTE)
 	{
 		if (str[len] == DOUBLE_QUOTE)
-			len += ft_strlen_until(&str[len], "\"", 0);
+			len += ft_strlen_until(&str[len], "\"", 0) + 1;
 		else
-			len += ft_strlen_until(&str[len], "\'", 0);
+			len += ft_strlen_until(&str[len], "\'", 0) + 1;
 	}
 	else
 	{

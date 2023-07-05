@@ -39,7 +39,7 @@ static void	red_error(t_err *error_data)
 	printf("EST CE QUE J'AI UNE ERREUR DE REDIRECTION?\n");
 }
 
-static void	quote_error(t_err *error_data, int quote)
+static void	quote_error(t_err *error_data)
 {
 	int	i;
 	int	flag;
@@ -48,10 +48,24 @@ static void	quote_error(t_err *error_data, int quote)
 	flag = 0;
 	while (error_data->input[i])
 	{
-		if (error_data->input[i] == quote && flag == 0)
+		if (error_data->input[i] == DOUBLE_QUOTE)
+		{
 			flag = 1;
-		else if (error_data->input[i] == quote && flag == 1)
-			flag = 0;
+			i++;
+			while (error_data->input[i] && error_data->input[i] != DOUBLE_QUOTE)
+				i++;
+			if (error_data->input[i] == DOUBLE_QUOTE)
+				flag = 0;
+		}
+		if (error_data->input[i] == SINGLE_QUOTE)
+		{
+			flag = 1;
+			i++;
+			while (error_data->input[i] && error_data->input[i] != SINGLE_QUOTE)
+				i++;
+			if (error_data->input[i] == SINGLE_QUOTE)
+				flag = 0;
+		}
 		i++;
 	}
 	if (flag == 1)
@@ -99,9 +113,7 @@ int	error_handler(char *input)
 	if (error_data.error_code == 0)
 		red_error(&error_data);
 	if (error_data.error_code == 0)
-		quote_error(&error_data, DOUBLE_QUOTE);
-	if (error_data.error_code == 0)
-		quote_error(&error_data, SINGLE_QUOTE);
+		quote_error(&error_data);
 	ft_xfree(error_data.input);
 	if (error_data.error_code != 0)
 		printf ("OUI!\n");
