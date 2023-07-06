@@ -32,37 +32,6 @@ static void	reset_fd(int	*fd)
 	dup2(fd[1], STDOUT_FILENO);
 }
 
-/// @brief make all redirection and execute a command
-/// @param lcmd the list of command
-/// @param pfd the file descriptor
-/// @param fd_out a copy of the stdout file descriptor
-/// @param cmd the command line
-static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
-{
-	if (struc()->pid[struc()->tmp_i] == -1)
-		return ;
-	if (!struc()->pid[struc()->tmp_i])
-	{
-		redir_input(lcmd, &pfd, cmd, fd_out);
-		redir_output(*lcmd, &pfd, struc()->tmp_i);
-		if (struc()->pipenum > 0)
-		{
-			close(pfd[0]);
-			close(pfd[1]);
-		}
-		close(fd_out);
-		rl_clear_history();
-		struc()->exit_code = 0;
-		if (is_builtin((*lcmd)->cmd))
-			run_builtin((*lcmd)->cmd);
-		else if ((*lcmd)->cmd)
-			exec((*lcmd)->cmd, *lcmd, cmd);
-		ft_free_all_pipe((*lcmd), cmd);
-		ft_free_null(struc()->envp);
-		exit(struc()->exit_code);
-	}
-}
-
 static int	is_builtin(char	**cmd)
 {
 	if (!ft_strcmp(cmd[0], "unset"))
@@ -93,6 +62,36 @@ static void	run_builtin(char	**cmd)
 		struc()->exit_code = ft_env(struc()->envp);
 }
 
+/// @brief make all redirection and execute a command
+/// @param lcmd the list of command
+/// @param pfd the file descriptor
+/// @param fd_out a copy of the stdout file descriptor
+/// @param cmd the command line
+static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
+{
+	if (struc()->pid[struc()->tmp_i] == -1)
+		return ;
+	if (!struc()->pid[struc()->tmp_i])
+	{
+		redir_input(lcmd, &pfd, cmd, fd_out);
+		redir_output(*lcmd, &pfd, struc()->tmp_i);
+		if (struc()->pipenum > 0)
+		{
+			close(pfd[0]);
+			close(pfd[1]);
+		}
+		close(fd_out);
+		rl_clear_history();
+		struc()->exit_code = 0;
+		if (is_builtin((*lcmd)->cmd))
+			run_builtin((*lcmd)->cmd);
+		else if ((*lcmd)->cmd)
+			exec((*lcmd)->cmd, *lcmd, cmd);
+		ft_free_all_pipe((*lcmd), cmd);
+		ft_free_null(struc()->envp);
+		exit(struc()->exit_code);
+	}
+}
 
 /// @brief 
 /// @param cmd the command line
