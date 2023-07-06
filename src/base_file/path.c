@@ -17,7 +17,10 @@ char	**findpath(t_data *data)
 	if (data->envp[i])
 		data->path = ft_split(data->envp[i] + 5, ':');
 	else
-		return (NULL);
+	{
+		data->path = ft_split("", ' ');
+		return (data->path);
+	}
 	i = 0;
 	while (data->path[i])
 	{

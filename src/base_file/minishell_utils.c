@@ -25,6 +25,7 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 		ft_dprintf(2, "minishell: %s: exit 1", fcmd[0]);
 	ft_free_all_pipe(lcmd, cmd);
 	ft_free_null(struc()->path);
+	ft_free_null(struc()->envp);
 	free(struc()->cmdpath);
 	exit (code);
 }

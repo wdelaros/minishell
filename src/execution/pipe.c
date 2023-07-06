@@ -16,9 +16,12 @@ static void	wait_end_cmd(void)
 			waitpid(struc()->pid[i], &status, 0);
 			j++;
 		}
+		else if (struc()->skip[i] == 2)
+			j++;
 		i++;
 	}
-	struc()->exit_code = exit_status(status);
+	if (!struc()->skip[i - 1])
+		struc()->exit_code = exit_status(status);
 }
 
 /// @brief reset the fd at the end of a command line
@@ -49,12 +52,47 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		}
 		close(fd_out);
 		rl_clear_history();
-		if ((*lcmd)->cmd)
+		struc()->exit_code = 0;
+		if (is_builtin((*lcmd)->cmd))
+			run_builtin((*lcmd)->cmd);
+		else if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
 		ft_free_all_pipe((*lcmd), cmd);
-		exit(0);
+		ft_free_null(struc()->envp);
+		exit(struc()->exit_code);
 	}
 }
+
+static int	is_builtin(char	**cmd)
+{
+	if (!ft_strcmp(cmd[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd[0], "env"))
+		return (1);
+	return (0);
+}
+
+int	ft_env(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+	return (0);
+}
+
+static void	run_builtin(char	**cmd)
+{
+	if (!ft_strcmp(cmd[0], "unset"))
+		struc()->exit_code = ft_unset(cmd[1]);
+	else if (!ft_strcmp(cmd[0], "env"))
+		struc()->exit_code = ft_env(struc()->envp);
+}
+
 
 /// @brief 
 /// @param cmd the command line
@@ -85,16 +123,24 @@ void	run_pipe(char	***cmd)
 				break ;
 			if (i < struc()->pipenum)
 				pipe(pfd);
-			struc()->pid[i] = fork();
-			struc()->is_child = 1;
-			struc()->tmp_i = i;
-			run_cmds(&lcmd, pfd, fd_out, cmd);
+			if (!is_builtin(lcmd->cmd) || struc()->pipenum > 0)
+			{
+				struc()->pid[i] = fork();
+				struc()->is_child = 1;
+				struc()->tmp_i = i;
+				run_cmds(&lcmd, pfd, fd_out, cmd);
+				struc()->skip[i] = 0;
+			}
+			else
+			{
+				run_builtin(lcmd->cmd);
+				struc()->skip[i] = 2;
+			}
 			if (struc()->pipenum > 0)
 				close(pfd[1]);
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
 			lcmd->fd_in = pfd[0];
-			struc()->skip[i] = 0;
 			i++;
 			if (!lcmd->next)
 				break ;

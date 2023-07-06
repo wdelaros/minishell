@@ -68,4 +68,7 @@ void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
 
 int		error_handler(char *input);
 
+char	**cpy_environement(char **env, char **cpy_env);
+int		ft_unset(char *variable);
+
 #endif

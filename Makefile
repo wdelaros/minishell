@@ -27,7 +27,7 @@ DEFAULT		=	\033[39m
 ERASE_LINE	=	\033[2K\r
 
 # Compiler and flags
-CC			=	gcc
+CC			=	gcc -g
 CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
@@ -49,7 +49,8 @@ SRCS		=	error.c\
 				token.c\
 				clean_option.c\
 				convert_list_to_string.c\
-				utils.c
+				utils.c\
+				unset.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

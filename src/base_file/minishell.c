@@ -41,9 +41,12 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 
 static void	initialize(int argc, char **argv, char **envp)
 {
+	char	**envcpy;
+
 	(void)argc;
 	(void)argv;
-	struc()->envp = envp;
+	envcpy = cpy_environement(NULL, envp);
+	struc()->envp = envcpy;
 	struc()->exit_code = 0;
 	struc()->is_child = 0;
 }
@@ -58,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 	initialize(argc, argv, envp);
 	while (1)
 	{
-		printf("%s\n", getcwd(NULL, 0));
 		struc()->is_child = 0;
 		struc()->input = readline("minishell> ");
 		if (!struc()->input)
@@ -78,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		printf("exit code: %d\n", struc()->exit_code);
 	}
+	ft_free_null(struc()->envp);
 	rl_clear_history();
 	return (0);
 }
