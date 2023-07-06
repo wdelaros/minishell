@@ -27,7 +27,7 @@ DEFAULT		=	\033[39m
 ERASE_LINE	=	\033[2K\r
 
 # Compiler and flags
-CC			=	gcc -g
+CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
@@ -49,6 +49,7 @@ SRCS		=	error.c\
 				token.c\
 				clean_option.c\
 				convert_list_to_string.c\
+				utils.c
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
@@ -63,7 +64,7 @@ all: dir $(NAME)
 # Generates output file
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
-	@$(CC) $(CFLAGS) src/*/*.c $(LDIR)$(LIBFT) uwu/C_tool.a -l readline -l ncurses \
+	@$(CC) $(CFLAGS) $(OBJS) $(LDIR)$(LIBFT) uwu/C_tool.a -l readline -l ncurses \
 	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"
