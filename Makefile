@@ -43,6 +43,7 @@ SRCS		=	error.c\
 				clean_space.c\
 				parsing_utils.c\
 				parsing.c\
+				pre_cleaner.c\
 				quote_handler.c\
 				token_utils.c\
 				token.c\

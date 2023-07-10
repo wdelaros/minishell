@@ -59,7 +59,7 @@ static void	argument_seperator(char *str, char **res, int *i)
 	if (!temp)
 		return ;
 	if (str[*i] == DOUBLE_QUOTE || str[*i] == SINGLE_QUOTE)
-		quote_handler();
+		temp = quote_handler(&str[*i], len, str[*i]);
 	else
 		ft_sstrlcpy(temp, &str[*i], len);
 	*res = ft_strdup(temp);

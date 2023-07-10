@@ -1,40 +1,29 @@
 #include "../../include/parsing.h"
 
-static void	quote_eraser(t_quote *qd, char *input, char quote)
+static void	quote_eraser(char *res, char *input, int len, char quote)
 {
-	qd->i++;
-	while (input[qd->i])
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < len)
 	{
-		if (input[qd->i] == quote)
-			break ;
-		qd->res[qd->i_res] = input[qd->i];
-		qd->i_res++;
-		qd->i++;
+		if (input[i] && input[i] != quote)
+		{
+			res[j] = input[i];
+			j++;
+		}
+		i++;
 	}
 }
 
-char	*quote_handler(char *input)
+char	*quote_handler(char *input, int len, char quote)
 {
-	t_quote	quote_data;
+	char	*res;
 
-	quote_data.i = 0;
-	quote_data.res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
-	quote_data.i_res = 0;
-	while (input[quote_data.i])
-	{
-		if (input[quote_data.i] == SINGLE_QUOTE)
-			quote_eraser(&quote_data, input, SINGLE_QUOTE);
-		else if (input[quote_data.i] == DOUBLE_QUOTE)
-			quote_eraser(&quote_data, input, DOUBLE_QUOTE);
-		else
-		{
-			quote_data.res[quote_data.i_res] = input[quote_data.i];
-			quote_data.i_res++;
-		}
-		quote_data.i++;
-	}
-	ft_xfree(input);
-	input = ft_strdup(quote_data.res);
-	ft_xfree(quote_data.res);
-	return (input);
+	printf ("BESOIN D'HANDLER DES QUOTE!\n");
+	res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+	quote_eraser(res, input, len, quote);
+	return (res);
 }

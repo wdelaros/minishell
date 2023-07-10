@@ -11,3 +11,17 @@ a faire:
 
 a régler:
 	le pipe devrait etre considéré comme un arg: echo "|"	avec le quote_handler
+
+	echo -nnnn    "allo     je" suis     "moi papelipoupi"
+	CE QUE CA DEVRAIT:
+        [C]  e |   c |   h |   o |  \0 | 
+		[C]  - |   n |   n |   n |   n |  \0 | 
+		[C]  a |   l |   l |   o |     |     |     |     |     |   j |   e |  \0 | 
+		[C]  s |   u |   i |   s |  \0 |				//espace pas clean ici
+		[C]  m |   o |   i |     |   p |   a |   p |   e |   l |   i |   p |   o |   u |   p |   i |  \0 |
+	MON RES:
+		[C]  e |   c |   h |   o |  \0 | 
+		[C]  - |   n |   n |   n |   n |  \0 | 
+		[C]  a |   l |   l |   o |     |     |     |     |     |   j |   e |  \0 | 
+		[C]  s |   u |   i |   s |     |     |     |     |     |  \0 |				//espace pas clean ici
+		[C]  m |   o |   i |     |   p |   a |   p |   e |   l |   i |   p |   o |   u |   p |   i |  \0 | 
