@@ -2,26 +2,12 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les "" ''
 	gérer le parsing du echo
-		gérer les $
+	gérer les $
+		.Prendre la len de la variable
+		.Realloc mon input
+		.Aller remplacer les char de la var par la variable
 	gérer le $? (voir le PDF)
 	gérer les signaux
 
-
 a régler:
-	le pipe devrait etre considéré comme un arg: echo "|"	avec le quote_handler
-
-	echo -nnnn    "allo     je" suis     "moi papelipoupi"
-	CE QUE CA DEVRAIT:
-        [C]  e |   c |   h |   o |  \0 | 
-		[C]  - |   n |   n |   n |   n |  \0 | 
-		[C]  a |   l |   l |   o |     |     |     |     |     |   j |   e |  \0 | 
-		[C]  s |   u |   i |   s |  \0 |				//espace pas clean ici
-		[C]  m |   o |   i |     |   p |   a |   p |   e |   l |   i |   p |   o |   u |   p |   i |  \0 |
-	MON RES:
-		[C]  e |   c |   h |   o |  \0 | 
-		[C]  - |   n |   n |   n |   n |  \0 | 
-		[C]  a |   l |   l |   o |     |     |     |     |     |   j |   e |  \0 | 
-		[C]  s |   u |   i |   s |     |     |     |     |     |  \0 |				//espace pas clean ici
-		[C]  m |   o |   i |     |   p |   a |   p |   e |   l |   i |   p |   o |   u |   p |   i |  \0 | 

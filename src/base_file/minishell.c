@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 			printf ("OUOUOUOOU J'AI UNE ERREUR!\n");
 		else if (err == RUN)
 		{
-			cmd = string_handler(struc()->input);
+			cmd = string_handler(struc()->input, envp);
 			run_pipe(cmd);
 		}
 		printf("exit code: %d\n", struc()->exit_code);

@@ -49,7 +49,6 @@ static void	clean_list(t_input **ih)
 			temp = temp->next;
 		pos++;
 	}
-	extra_space_handler(ih);
 }
 
 static int	do_need_cleaning(t_input **ih)
@@ -100,7 +99,7 @@ static void	change_input(t_input **ih)
 	}
 }
 
-char	***string_handler(char *input)
+char	***string_handler(char *input, char **env)
 {
 	t_input	*input_handler;
 	char	***res;
@@ -109,8 +108,7 @@ char	***string_handler(char *input)
 	res = NULL;
 	cpy_input = ft_strdup(input);
 	input_handler = create_node();
-	// var_handler();
-	//cpy_input = pre_cleaner(cpy_input);
+	cpy_input = var_handler(cpy_input, env);
 	token_separator(cpy_input, &input_handler);
 	printf("TOKEN TERMINER\n");
 	print_node(input_handler);
@@ -118,6 +116,7 @@ char	***string_handler(char *input)
 		change_input(&input_handler);
 	while (do_need_cleaning(&input_handler) == YES)
 		clean_list(&input_handler);
+	extra_space_handler(&input_handler);
 	printf ("LIST APRES CLEANING:\n");
 	print_node(input_handler);
 	res = convert_list_to_string(&input_handler);
@@ -126,6 +125,3 @@ char	***string_handler(char *input)
 	printf ("CONVERSION TERMINER\n\n");
 	return (res);
 }
-
-
-// echo "'"coucou"'"		=		echo 'coucou'

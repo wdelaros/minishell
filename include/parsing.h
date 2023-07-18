@@ -69,7 +69,7 @@ void	add_node(t_input **input, int id);
 void	free_list(t_input **input_handler);
 
 //parsing.c
-char	***string_handler(char *input);
+char	***string_handler(char *input, char **env);
 
 //pre_cleanr.c
 
@@ -93,5 +93,8 @@ void	print_node(t_input *list); //A enlever
 
 //utils.c
 void	parsing_strcpy_len(char *dest, char *src, int len);
+
+//var_handler.c
+char	*var_handler(char *input, char **env);
 
 #endif
