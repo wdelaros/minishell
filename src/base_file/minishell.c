@@ -42,11 +42,15 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 static void	initialize(int argc, char **argv, char **envp)
 {
 	char	**envcpy;
+	char	**export;
 
 	(void)argc;
 	(void)argv;
 	envcpy = cpy_environement(NULL, envp);
+	export = cpy_environement(NULL, envp);
+	//export OLDPWD
 	struc()->envp = envcpy;
+	struc()->export = export;
 	struc()->exit_code = 0;
 	struc()->is_child = 0;
 }
@@ -55,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
 	int		err;
+	// int j = 0;
 
 	if (signal_handler())
 		exit(1);
@@ -75,12 +80,31 @@ int	main(int argc, char **argv, char **envp)
 			ft_error(err);
 		else if (err == RUN)
 		{
+			// if (j == 1)
+			// {
+			// 	int i = 1;
+			// 	cmd = ft_calloc(20, sizeof(char **));
+			// 	while (i > 0)
+			// 	{
+			// 		i--;
+			// 		cmd[i] = ft_calloc(20, sizeof(char *));
+			// 	}
+
+			// 	cmd[0][0] = ft_strdup("unset");
+			// 	cmd[0][1] = ft_strdup("p WD");
+			// 	cmd[0][2] = ft_strdup("USER");
+			// 	cmd[0][3] = ft_strdup("HOME");
+			// 	cmd[0][4] = ft_strdup("PATH");
+			// }
+			// else
 			cmd = string_handler(struc()->input);
+			// j++;
 			run_pipe(cmd);
 		}
 		printf("exit code: %d\n", struc()->exit_code);
 	}
 	ft_free_null(struc()->envp);
+	ft_free_null(struc()->export);
 	rl_clear_history();
 	return (0);
 }

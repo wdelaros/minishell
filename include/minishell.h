@@ -23,6 +23,7 @@
 typedef struct s_data
 {
 	char		**envp;
+	char		**export;
 	char		**path;
 	char		*input;
 	char		*cmdpath;
@@ -69,6 +70,12 @@ void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
 int		error_handler(char *input);
 
 char	**cpy_environement(char **env, char **cpy_env);
-int		ft_unset(char *variable);
+int		ft_unset(char **unset);
+
+int		ft_env(char **envp);
+
+int		pwd(void);
+
+int		export(char **content);
 
 #endif

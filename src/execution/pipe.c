@@ -36,30 +36,34 @@ static int	is_builtin(char	**cmd)
 {
 	if (!ft_strcmp(cmd[0], "unset"))
 		return (1);
-	else if (!ft_strcmp(cmd[0], "env"))
+	else if (!ft_strcmp(cmd[0], "exit"))
 		return (1);
-	return (0);
-}
-
-int	ft_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		ft_printf("%s\n", envp[i]);
-		i++;
-	}
-	return (0);
-}
-
-static void	run_builtin(char	**cmd)
-{
-	if (!ft_strcmp(cmd[0], "unset"))
-		struc()->exit_code = ft_unset(cmd[1]);
+	else if (!ft_strcmp(cmd[0], "export"))
+		return (1);
 	else if (!ft_strcmp(cmd[0], "env"))
+		return (2);
+	else if (!ft_strcmp(cmd[0], "pwd"))
+		return (2);
+	return (0);
+}
+
+static void	run_builtin(t_cmd	*lcmd, char	***cmd)
+{
+	if (!ft_strcmp(lcmd->cmd[0], "unset"))
+		struc()->exit_code = ft_unset(lcmd->cmd);
+	else if (!ft_strcmp(lcmd->cmd[0], "env"))
 		struc()->exit_code = ft_env(struc()->envp);
+	else if (!ft_strcmp(lcmd->cmd[0], "export"))
+		struc()->exit_code = export(lcmd->cmd);
+	else if (!ft_strcmp(lcmd->cmd[0], "pwd"))
+		struc()->exit_code = pwd();
+	else if (!ft_strcmp(lcmd->cmd[0], "exit"))
+	{
+		ft_free_null(struc()->envp);
+		ft_free_null(struc()->export);
+		ft_free_all_pipe(lcmd, cmd);
+		exit(struc()->exit_code);
+	}
 }
 
 /// @brief make all redirection and execute a command
@@ -84,11 +88,12 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		rl_clear_history();
 		struc()->exit_code = 0;
 		if (is_builtin((*lcmd)->cmd))
-			run_builtin((*lcmd)->cmd);
+			run_builtin((*lcmd), cmd);
 		else if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
 		ft_free_all_pipe((*lcmd), cmd);
 		ft_free_null(struc()->envp);
+		ft_free_null(struc()->export);
 		exit(struc()->exit_code);
 	}
 }
@@ -122,7 +127,7 @@ void	run_pipe(char	***cmd)
 				break ;
 			if (i < struc()->pipenum)
 				pipe(pfd);
-			if (!is_builtin(lcmd->cmd) || struc()->pipenum > 0)
+			if (is_builtin(lcmd->cmd) != 1 || struc()->pipenum > 0)
 			{
 				struc()->pid[i] = fork();
 				struc()->is_child = 1;
@@ -132,7 +137,7 @@ void	run_pipe(char	***cmd)
 			}
 			else
 			{
-				run_builtin(lcmd->cmd);
+				run_builtin(lcmd, cmd);
 				struc()->skip[i] = 2;
 			}
 			if (struc()->pipenum > 0)

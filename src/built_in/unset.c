@@ -38,22 +38,28 @@ static char	**reset(char **env, char *variable, char **env_cpy)
 	return (env);
 }
 
-int	ft_unset(char *variable)
+int	ft_unset(char **unset)
 {
 	int		i;
 	int		j;
-	char	**unset;
 	char	**env_cpy;
 	char	**env;
 
 	env = struc()->envp;
-	unset = ft_split(variable, 32);
+	struc()->exit_code = 0;
 	if (!unset)
-		return (0);
-	j = 0;
+		return (struc()->exit_code);
+	j = 1;
 	while (unset[j])
 	{
 		i = 0;
+		if (ft_strsearch(unset[j], 32))
+		{
+			ft_dprintf(2, "minishell: unset: `%s': not a valid identifier\n", unset[j]);
+			struc()->exit_code = 1;
+			j++;
+			continue ;
+		}
 		unset[j] = ft_fstrjoin(unset[j], "=");
 		while (env[i])
 		{
@@ -63,16 +69,15 @@ int	ft_unset(char *variable)
 				ft_free_null(env);
 				env = ft_calloc(ft_strlen_double(env_cpy), sizeof(char *));
 				if (!env)
-					return (0);
+					return (struc()->exit_code);
 				env = reset(env, unset[j], env_cpy);
 				ft_free_null(env_cpy);
+				i--;
 			}
 			i++;
 		}
 		j++;
 	}
-	struc()->envp = cpy_environement(NULL, env);
-	ft_free_null(env);
-	ft_free_null(unset);
-	return (0);
+	struc()->envp = env;
+	return (struc()->exit_code);
 }

@@ -51,6 +51,10 @@ SRCS		=	error.c\
 				convert_list_to_string.c\
 				utils.c\
 				unset.c\
+				env.c\
+				pwd.c\
+				cd.c\
+				export.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
