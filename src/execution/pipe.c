@@ -12,11 +12,8 @@ static void	wait_end_cmd(void)
 	while (j < struc()->number_of_cmd)
 	{
 		if (struc()->skip[i] == 0)
-		{
 			waitpid(struc()->pid[i], &status, 0);
-			j++;
-		}
-		else if (struc()->skip[i] == 2)
+		if (struc()->skip[i] != 1)
 			j++;
 		i++;
 	}
@@ -36,10 +33,14 @@ static int	is_builtin(char	**cmd)
 {
 	if (!ft_strcmp(cmd[0], "unset"))
 		return (1);
+	else if (!ft_strcmp(cmd[0], "cd"))
+		return (1);
 	else if (!ft_strcmp(cmd[0], "exit"))
 		return (1);
 	else if (!ft_strcmp(cmd[0], "export"))
 		return (1);
+	else if (!ft_strcmp(cmd[0], "echo"))
+		return (2);
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (2);
 	else if (!ft_strcmp(cmd[0], "pwd"))
@@ -47,8 +48,18 @@ static int	is_builtin(char	**cmd)
 	return (0);
 }
 
-static void	run_builtin(t_cmd	*lcmd, char	***cmd)
+static void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
 {
+	if (pfd)
+	{
+		redir_input(&lcmd, &pfd, cmd, fd_out);
+		redir_output(lcmd, &pfd, struc()->tmp_i);
+		if (struc()->pipenum > 0)
+		{
+			close(pfd[0]);
+			close(pfd[1]);
+		}
+	}
 	if (!ft_strcmp(lcmd->cmd[0], "unset"))
 		struc()->exit_code = ft_unset(lcmd->cmd);
 	else if (!ft_strcmp(lcmd->cmd[0], "env"))
@@ -57,13 +68,12 @@ static void	run_builtin(t_cmd	*lcmd, char	***cmd)
 		struc()->exit_code = export(lcmd->cmd);
 	else if (!ft_strcmp(lcmd->cmd[0], "pwd"))
 		struc()->exit_code = pwd();
+	else if (!ft_strcmp(lcmd->cmd[0], "echo"))
+		;
+	else if (!ft_strcmp(lcmd->cmd[0], "cd"))
+		;
 	else if (!ft_strcmp(lcmd->cmd[0], "exit"))
-	{
-		ft_free_null(struc()->envp);
-		ft_free_null(struc()->export);
-		ft_free_all_pipe(lcmd, cmd);
-		exit(struc()->exit_code);
-	}
+		ft_exit(lcmd->cmd, lcmd, cmd, fd_out);
 }
 
 /// @brief make all redirection and execute a command
@@ -88,7 +98,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		rl_clear_history();
 		struc()->exit_code = 0;
 		if (is_builtin((*lcmd)->cmd))
-			run_builtin((*lcmd), cmd);
+			run_builtin((*lcmd), cmd, fd_out, NULL);
 		else if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
 		ft_free_all_pipe((*lcmd), cmd);
@@ -137,7 +147,7 @@ void	run_pipe(char	***cmd)
 			}
 			else
 			{
-				run_builtin(lcmd, cmd);
+				run_builtin(lcmd, cmd, fd_out, pfd);
 				struc()->skip[i] = 2;
 			}
 			if (struc()->pipenum > 0)

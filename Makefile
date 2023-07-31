@@ -55,6 +55,7 @@ SRCS		=	error.c\
 				pwd.c\
 				cd.c\
 				export.c\
+				exit.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

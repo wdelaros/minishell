@@ -38,6 +38,34 @@ static char	**reset(char **env, char *variable, char **env_cpy)
 	return (env);
 }
 
+void	checkexport(char *var, int j)
+{
+	char	**export;
+	int		i;
+
+	while (++j < 2)
+	{
+		i = 0;
+		while (struc()->export[i])
+		{
+			if (!ft_strncmp(var, struc()->export[i], ft_strlen(var) + (1 - j)))
+			{
+				export = cpy_environement(NULL, struc()->export);
+				ft_free_null(struc()->export);
+				struc()->export = ft_calloc(ft_strlen_double(export), sizeof(char *));
+				if (!struc()->export)
+					return ;
+				struc()->export = reset(struc()->export , var, export);
+				ft_free_null(export);
+				i--;
+			}
+			i++;
+		}
+		var = ft_fstrjoin(var, "=");
+	}
+	free(var);
+}
+
 int	ft_unset(char **unset)
 {
 	int		i;
@@ -53,13 +81,16 @@ int	ft_unset(char **unset)
 	while (unset[j])
 	{
 		i = 0;
-		if (ft_strsearch(unset[j], 32))
+		if ((!ft_isalpha(unset[j][0]) && unset[j][0] != '_') || \
+		ft_strsearch(unset[j], 32))
 		{
-			ft_dprintf(2, "minishell: unset: `%s': not a valid identifier\n", unset[j]);
+			ft_dprintf(2, "minishell: unset: `%s': not a valid identifier\n", \
+			unset[j]);
 			struc()->exit_code = 1;
 			j++;
 			continue ;
 		}
+		checkexport(ft_strdup(unset[j]), -1);
 		unset[j] = ft_fstrjoin(unset[j], "=");
 		while (env[i])
 		{

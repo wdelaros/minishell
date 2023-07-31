@@ -78,4 +78,6 @@ int		pwd(void);
 
 int		export(char **content);
 
+void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out);
+
 #endif

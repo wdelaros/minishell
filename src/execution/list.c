@@ -20,77 +20,68 @@ static t_cmd	*picreate_node(char	**redir_in, char	**cmd, char	**redir_out)
 	return (node);
 }
 
-static int ft_perror(char	***arg, int	i)
+static int	ft_perror(char ***arg, int i, t_pilist	*list)
 {
 	perror(arg[i][1]);
 	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
 	ft_strcmp(arg[i + 1][0], "|")))
 		i++;
-	return (i);
+	list->input = NULL;
+	list->output = NULL;
+	list->command = NULL;
+	struc()->number_of_cmd--;
+	if (struc()->number_of_cmd > 0)
+	{
+		while (ft_strcmp(arg[i][0], "|") && arg[i + 1])
+			i++;
+		struc()->pipenum--;
+	}
+	struc()->exit_code = 1;
+	return (i + 1);
 }
 
 static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 {
-	char	**input;
-	char	**command;
-	char	**output;
-	int		fd;
+	t_pilist	list;
 
-	input = NULL;
-	output = NULL;
-	command = NULL;
+	list.input = NULL;
+	list.output = NULL;
+	list.command = NULL;
 	while (arg && arg[i])
 	{
 		if (!ft_strcmp(arg[i][0], "<"))
 		{
-			if(access(arg[i][1], F_OK | R_OK))
+			if (access(arg[i][1], F_OK | R_OK))
 			{
-				i = ft_perror(arg, i);
-				input = NULL;
-				output = NULL;
-				command = NULL;
-				break ;
+				i = ft_perror(arg, i, &list);
+				continue ;
 			}
-			input = arg[i];
+			list.input = arg[i];
 		}
-		else if (!ft_strcmp(arg[i][0], ">"))
+		else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
 		{
-			fd = open(arg[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
-			if (fd == -1)
+			if (!ft_strcmp(arg[i][0], ">"))
+				list.fd = open(arg[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
+			else if (!ft_strcmp(arg[i][0], ">>"))
+				list.fd = open(arg[i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
+			if (list.fd == -1)
 			{
-				i = ft_perror(arg, i);
-				input = NULL;
-				output = NULL;
-				command = NULL;
-				break ;
+				i = ft_perror(arg, i, &list);
+				continue ;
 			}
-			close(fd);
-			output = arg[i];
-		}
-		else if (!ft_strcmp(arg[i][0], ">>"))
-		{
-			fd = open(arg[i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
-			if(fd == -1)
-			{
-				i = ft_perror(arg, i);
-				input = NULL;
-				output = NULL;
-				command = NULL;
-				break ;
-			}
-			close(fd);
-			output = arg[i];
+			close(list.fd);
+			list.output = arg[i];
 		}
 		else
-			command = arg[i];
+			list.command = arg[i];
 		if (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
 		ft_strcmp(arg[i + 1][0], "|")))
 			i++;
 		else
 			break ;
 	}
-	(*cmd) = picreate_node(input, command, output);
-	return (i + 1);
+	(*cmd) = picreate_node(list.input, list.command, list.output);
+	return (i);
 }
 
 t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
@@ -100,8 +91,9 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 
 	i = ft_parse_node(arg, &cmd, 0);
 	(*current) = cmd;
-	while (arg && *arg && arg[i])
+	while (arg && arg[i] && arg[i + 1])
 	{
+		i++;
 		i = ft_parse_node(arg, &(*current)->next, i);
 		(*current)->next->previous = (*current);
 		(*current) = (*current)->next;
