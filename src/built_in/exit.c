@@ -48,7 +48,7 @@ void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out)
 		ft_dprintf(2, "minishell: exit: %s: numeric argument required\n", \
 		cmd[1]);
 		free_and_exit(cmd, lcmd, to_free, fd_out);
-		exit (255);
+		exit (256);
 	}
 	else if (cmd[2])
 	{

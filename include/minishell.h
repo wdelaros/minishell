@@ -47,6 +47,14 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+typedef struct s_pilist
+{
+	char	**input;
+	char	**output;
+	char	**command;
+	int		fd;
+}				t_pilist;
+
 t_data	*struc(void);
 int		signal_handler(void);
 char	**findpath(t_data *data);
@@ -79,5 +87,7 @@ int		pwd(void);
 int		export(char **content);
 
 void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out);
+
+int		cd(char	*dir);
 
 #endif
