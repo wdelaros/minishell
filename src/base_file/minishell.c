@@ -39,29 +39,27 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	}
 }
 
-static void	initialize(int argc, char **argv, char **envp)
-{
-	char	**envcpy;
+	//export OLDPWD
 
+static void	initialize(int argc, char **argv, char **envp, t_data *data)
+{
 	(void)argc;
 	(void)argv;
-	envcpy = cpy_environement(NULL, envp);
-	struc()->export = cpy_environement(NULL, envp);
-	//export OLDPWD
-	struc()->envp = envcpy;
-	struc()->exit_code = 0;
-	struc()->is_child = 0;
+	data->envp = cpy_environement(NULL, envp);
+	data->export = cpy_environement(NULL, envp);
+	data->exit_code = 0;
+	data->is_child = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
 	int		err;
-	int j = 0;
+	int		j = 0;
 
 	if (signal_handler())
 		exit(1);
-	initialize(argc, argv, envp);
+	initialize(argc, argv, envp, struc());
 	while (1)
 	{
 		struc()->is_child = 0;
@@ -80,14 +78,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (j == 1)
 			{
-				int i = 1;
+				int	i = 1;
 				cmd = ft_calloc(100, sizeof(char **));
 				while (i > 0)
 				{
 					i--;
 					cmd[i] = ft_calloc(100, sizeof(char *));
 				}
-
 				cmd[0][0] = ft_strdup("export");
 				cmd[0][1] = ft_strdup("1");
 				cmd[0][2] = ft_strdup("1");

@@ -48,26 +48,34 @@ static int	is_builtin(char	**cmd)
 	return (0);
 }
 
-static void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
+static void	redir_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int **pfd)
 {
 	if (pfd)
 	{
-		redir_input(&lcmd, &pfd, cmd, fd_out);
-		redir_output(lcmd, &pfd, struc()->tmp_i);
+		redir_input(&lcmd, pfd, cmd, fd_out);
+		redir_output(lcmd, pfd, struc()->tmp_i);
 		if (struc()->pipenum > 0)
 		{
-			close(pfd[0]);
-			close(pfd[1]);
+			close(*pfd[0]);
+			close(*pfd[1]);
 		}
 	}
+}
+
+static void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
+{
+	t_data	*data;
+
+	data = struc();
+	redir_builtin(lcmd, cmd, fd_out, &pfd);
 	if (!ft_strcmp(lcmd->cmd[0], "unset"))
-		struc()->exit_code = ft_unset(lcmd->cmd);
+		data->exit_code = ft_unset(lcmd->cmd, data);
 	else if (!ft_strcmp(lcmd->cmd[0], "env"))
-		struc()->exit_code = ft_env(struc()->envp);
+		data->exit_code = ft_env(data->envp);
 	else if (!ft_strcmp(lcmd->cmd[0], "export"))
-		struc()->exit_code = export(lcmd->cmd);
+		data->exit_code = export(lcmd->cmd);
 	else if (!ft_strcmp(lcmd->cmd[0], "pwd"))
-		struc()->exit_code = pwd();
+		data->exit_code = pwd();
 	else if (!ft_strcmp(lcmd->cmd[0], "echo"))
 		;
 	else if (!ft_strcmp(lcmd->cmd[0], "cd"))

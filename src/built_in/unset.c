@@ -38,7 +38,7 @@ static char	**reset(char **env, char *variable, char **env_cpy)
 	return (env);
 }
 
-void	checkexport(char *var, int j)
+static void	checkexport(char *var, int j, t_data *data)
 {
 	char	**export;
 	int		i;
@@ -46,16 +46,17 @@ void	checkexport(char *var, int j)
 	while (++j < 2)
 	{
 		i = 0;
-		while (struc()->export[i])
+		while (data->export[i])
 		{
-			if (!ft_strncmp(var, struc()->export[i], ft_strlen(var) + (1 - j)))
+			if (!ft_strncmp(var, data->export[i], ft_strlen(var) + (1 - j)))
 			{
-				export = cpy_environement(NULL, struc()->export);
-				ft_free_null(struc()->export);
-				struc()->export = ft_calloc(ft_strlen_double(export), sizeof(char *));
-				if (!struc()->export)
+				export = cpy_environement(NULL, data->export);
+				ft_free_null(data->export);
+				data->export = ft_calloc(ft_strlen_double(export), \
+				sizeof(char *));
+				if (!data->export)
 					return ;
-				struc()->export = reset(struc()->export , var, export);
+				data->export = reset(data->export, var, export);
 				ft_free_null(export);
 				i--;
 			}
@@ -66,17 +67,15 @@ void	checkexport(char *var, int j)
 	free(var);
 }
 
-int	ft_unset(char **unset)
+int	ft_unset(char **unset, t_data *data)
 {
 	int		i;
 	int		j;
 	char	**env_cpy;
-	char	**env;
 
-	env = struc()->envp;
-	struc()->exit_code = 0;
+	data->exit_code = 0;
 	if (!unset)
-		return (struc()->exit_code);
+		return (data->exit_code);
 	j = 1;
 	while (unset[j])
 	{
@@ -86,22 +85,23 @@ int	ft_unset(char **unset)
 		{
 			ft_dprintf(2, "minishell: unset: `%s': not a valid identifier\n", \
 			unset[j]);
-			struc()->exit_code = 1;
+			data->exit_code = 1;
 			j++;
 			continue ;
 		}
-		checkexport(ft_strdup(unset[j]), -1);
+		checkexport(ft_strdup(unset[j]), -1, data);
 		unset[j] = ft_fstrjoin(unset[j], "=");
-		while (env[i])
+		while (data->envp[i])
 		{
-			if (!ft_strncmp(unset[j], env[i], ft_strlen(unset[j])))
+			if (!ft_strncmp(unset[j], data->envp[i], ft_strlen(unset[j])))
 			{
-				env_cpy = cpy_environement(NULL, env);
-				ft_free_null(env);
-				env = ft_calloc(ft_strlen_double(env_cpy), sizeof(char *));
-				if (!env)
-					return (struc()->exit_code);
-				env = reset(env, unset[j], env_cpy);
+				env_cpy = cpy_environement(NULL, data->envp);
+				ft_free_null(data->envp);
+				data->envp = ft_calloc(ft_strlen_double(env_cpy), \
+				sizeof(char *));
+				if (!data->envp)
+					return (1);
+				data->envp = reset(data->envp, unset[j], env_cpy);
 				ft_free_null(env_cpy);
 				i--;
 			}
@@ -109,6 +109,5 @@ int	ft_unset(char **unset)
 		}
 		j++;
 	}
-	struc()->envp = env;
-	return (struc()->exit_code);
+	return (data->exit_code);
 }
