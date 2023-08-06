@@ -81,43 +81,50 @@ static char	*ft_strtrim2(char const *s1, char set)
 	return (str);
 }
 
-char	**add_environement(char **env, char **cpy_env, char	*content)
+char	**add_environement(char **env, char **cpy_env, char	*content, int option)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (cpy_env[i])
 		i++;
 	env = ft_calloc(i + 2, sizeof(char *));
 	if (!env)
 		return (NULL);
 	i = 0;
-	while (cpy_env[i] && cpy_env[i + 1])
+	while (cpy_env[i])
 	{
-		env[i] = ft_strdup(cpy_env[i]);
+		if (option == 2 && ft_strsearch(cpy_env[i], '='))
+			env[j++] = ft_strdup(cpy_env[i]);
+		else if (option != 2)
+			env[i] = ft_strdup(cpy_env[i]);
 		i++;
 	}
-	env[i] = ft_strdup(content);
-	return (ft_free_null(cpy_env), env);
+	if (option == 1)
+	{
+		env[i] = ft_strdup(content);
+		return (ft_free_null(cpy_env), env);
+	}
+	return (env);
 }
 
 static void	parse_export(char	*content)
 {
 	char	**export;
 	char	*check_ex;
-	char	*check_ex2;
 	int		i;
 
 	i = 0;
 	export = struc()->export;
-	check_ex = NULL;
-	check_ex = ft_fstrjoin(ft_strtrim2(content, '='), "=");
-	check_ex2 = ft_strtrim2(content, '=');
+	check_ex = ft_strtrim2(content, '=');
+	if (ft_strsearch(content, '='))
+		check_ex = ft_fstrjoin(check_ex, "=");
 	while (export[i])
 	{
-		if ((ft_strsearch(content, '=') && !ft_strncmp(export[i], check_ex, \
-		ft_strlen(check_ex))) || (!ft_strsearch(content, '=') && \
-		!ft_strcmp(export[i], check_ex2)))
+		if (ft_strsearch(export[i], '=') && ft_strsearch(check_ex, '=') && \
+		!ft_strncmp(export[i], check_ex, ft_strlen(check_ex)))
 		{
 			free(export[i]);
 			export[i] = ft_strdup(content);
@@ -125,7 +132,7 @@ static void	parse_export(char	*content)
 		}
 		i++;
 	}
-	export = add_environement(NULL, export, content);
+	export = add_environement(NULL, export, content, 1);
 	struc()->export = export;
 	free(check_ex);
 }
@@ -154,6 +161,8 @@ int	export(char **content)
 			parse_export(content[i]);
 			i++;
 		}
+		ft_free_null(struc()->envp);
+		struc()->envp = add_environement(NULL, struc()->export, NULL, 2);
 	}
 	return (struc()->exit_code);
 }

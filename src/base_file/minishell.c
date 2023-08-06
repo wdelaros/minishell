@@ -86,8 +86,8 @@ int	main(int argc, char **argv, char **envp)
 					cmd[i] = ft_calloc(100, sizeof(char *));
 				}
 				cmd[0][0] = ft_strdup("export");
-				cmd[0][1] = ft_strdup("1");
-				cmd[0][2] = ft_strdup("1");
+				cmd[0][1] = ft_strdup("allo");
+				cmd[0][2] = ft_strdup("salut=allo");
 			}
 			else
 				cmd = string_handler(struc()->input);
