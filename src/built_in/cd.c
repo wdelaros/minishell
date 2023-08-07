@@ -34,6 +34,7 @@ int	cd(char	*dir)
 			ft_dprintf(2, "%s cd: OLDPWD not set\n", MINI);
 			return (1);
 		}
+		pwd();
 	}
 	chdir(dir);
 	return (0);
