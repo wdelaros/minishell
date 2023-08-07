@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/built_in.h"
 
 char	**cpy_environement(char **env, char **cpy_env)
 {
@@ -83,8 +83,7 @@ int	ft_unset(char **unset, t_data *data)
 		if ((!ft_isalpha(unset[j][0]) && unset[j][0] != '_') || \
 		ft_strsearch(unset[j], 32))
 		{
-			ft_dprintf(2, "minishell: unset: `%s': not a valid identifier\n", \
-			unset[j]);
+			ft_dprintf(2, "%s unset: `%s': %s\n", MINI, unset[j], ERR);
 			data->exit_code = 1;
 			j++;
 			continue ;

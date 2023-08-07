@@ -78,16 +78,18 @@ void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
 int		error_handler(char *input);
 
 char	**cpy_environement(char **env, char **cpy_env);
+
+/*--------------------built_in--------------------*/
 int		ft_unset(char **unset, t_data *data);
+
+int		cd(char	*dir);
 
 int		ft_env(char **envp);
 
 int		pwd(void);
 
-int		export(char **content);
+int		export(char **content, t_data *data);
 
 void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out);
-
-int		cd(char	*dir);
 
 #endif

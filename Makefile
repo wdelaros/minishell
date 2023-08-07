@@ -55,6 +55,7 @@ SRCS		=	error.c\
 				pwd.c\
 				cd.c\
 				export.c\
+				export_utils.c\
 				exit.c\
 
 OBJS_DIR	=	obj/

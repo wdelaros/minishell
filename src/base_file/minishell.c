@@ -43,12 +43,27 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 
 static void	initialize(int argc, char **argv, char **envp, t_data *data)
 {
+	int		i;
+	char	***cmd;
+
 	(void)argc;
 	(void)argv;
 	data->envp = cpy_environement(NULL, envp);
 	data->export = cpy_environement(NULL, envp);
+	i = 1;
+	cmd = ft_calloc(3, sizeof(char **));
+	while (i > 0)
+	{
+		i--;
+		cmd[i] = ft_calloc(7, sizeof(char *));
+	}
+	cmd[0][0] = ft_strdup("export");
+	cmd[0][1] = ft_strdup("OLDPWD");
 	data->exit_code = 0;
 	data->is_child = 0;
+	export(cmd[0], data);
+	ft_free_null(cmd[0]);
+	free(cmd);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -86,7 +101,7 @@ int	main(int argc, char **argv, char **envp)
 					cmd[i] = ft_calloc(100, sizeof(char *));
 				}
 				cmd[0][0] = ft_strdup("export");
-				cmd[0][1] = ft_strdup("allo");
+				cmd[0][1] = ft_strdup("");
 				cmd[0][2] = ft_strdup("salut=allo");
 			}
 			else

@@ -1,6 +1,6 @@
-#include "../../include/minishell.h"
+#include "../../include/built_in.h"
 
-static char	*get_var(const char *var)
+char	*get_var(const char *var)
 {
 	int	i;
 
@@ -14,14 +14,15 @@ static char	*get_var(const char *var)
 	return (NULL);
 }
 
-int cd(char	*dir)
+int	cd(char	*dir)
 {
 	if (!dir || !ft_strcmp(dir, "~"))
 	{
 		dir = get_var("HOME=");
+		printf("%s\n", dir);
 		if (!dir)
 		{
-			ft_dprintf(2, "minishell: cd: HOME not set\n");
+			ft_dprintf(2, "%s cd: HOME not set\n", MINI);
 			return (1);
 		}
 	}
@@ -30,7 +31,7 @@ int cd(char	*dir)
 		dir = get_var("OLDPWD=");
 		if (!dir)
 		{
-			ft_dprintf(2, "minishell: cd: OLDPWD not set\n");
+			ft_dprintf(2, "%s cd: OLDPWD not set\n", MINI);
 			return (1);
 		}
 	}

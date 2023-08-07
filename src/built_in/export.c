@@ -1,87 +1,7 @@
-#include "../../include/minishell.h"
+#include "../../include/built_in.h"
 
-static char	**ft_sort_params(int nbr_param, char **tabexport)
-{
-	int		i;
-	int		j;
-	char	*temp;
-
-	i = 0;
-	while (i < nbr_param)
-	{
-		j = i + 1;
-		while (j < nbr_param)
-		{
-			if (ft_strcmp(tabexport[j], tabexport[i]) < 0)
-			{
-				temp = tabexport[i];
-				tabexport[i] = tabexport[j];
-				tabexport[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (tabexport);
-}
-
-static void	print_export(void)
-{
-	char	**export;
-	int		i;
-	int		j;
-
-	i = 0;
-	export = struc()->export;
-	export = ft_sort_params(ft_strlen_double(export), export);
-	while (export[i])
-	{
-		j = 0;
-		ft_printf("declare -x ");
-		while (export[i][j] != '=' && export[i][j])
-		{
-			ft_putchar_fd(export[i][j], 1);
-			j++;
-		}
-		if (ft_strsearch(export[i], '='))
-		{
-			ft_putchar_fd('=', 1);
-			ft_printf("\"%s\"", ft_strchr(export[i], '=') + 1);
-		}
-		ft_printf("\n");
-		i++;
-	}
-}
-
-/// @brief Allocates a new string by trimming leading and trailing characters 
-/// from a given string.
-/// @param s1 The string to be trimmed.
-/// @param set The characters to be trimmed.
-/// @return The newly allocated string, or NULL if allocation failed.
-static char	*ft_strtrim2(char const *s1, char set)
-{
-	char	*str;
-	size_t	i;
-	size_t	index;
-
-	index = 0;
-	if (!s1 || !set)
-		return (NULL);
-	while (s1[index] && s1[index] != set)
-		index++;
-	if (!s1[index])
-		index = ft_strlen(s1);
-	str = malloc(sizeof(char) * (index + 1));
-	if (!str)
-		return (0);
-	i = -1;
-	while (++i < index)
-		str[i] = s1[i];
-	str[i] = '\0';
-	return (str);
-}
-
-char	**add_environement(char **env, char **cpy_env, char	*content, int option)
+char	**add_environement(char **env, char **cpy_env, char *content, \
+int option)
 {
 	int	i;
 	int	j;
@@ -110,6 +30,34 @@ char	**add_environement(char **env, char **cpy_env, char	*content, int option)
 	return (env);
 }
 
+static void	parse_export2(char	*content, char **export, char *check_ex)
+{
+	int		i;
+
+	i = 0;
+	free(check_ex);
+	check_ex = ft_strtrim2(content, '=');
+	while (export[i])
+	{
+		if (!ft_strsearch(export[i], '=') && !ft_strcmp(export[i], check_ex))
+		{
+			free(export[i]);
+			export[i] = ft_strdup(content);
+			free(check_ex);
+			return ;
+		}
+		else if (!ft_strncmp(export[i], check_ex, ft_strlen(check_ex)))
+		{
+			free(check_ex);
+			return ;
+		}
+		i++;
+	}
+	free(check_ex);
+	export = add_environement(NULL, export, content, 1);
+	struc()->export = export;
+}
+
 static void	parse_export(char	*content)
 {
 	char	**export;
@@ -128,41 +76,64 @@ static void	parse_export(char	*content)
 		{
 			free(export[i]);
 			export[i] = ft_strdup(content);
+			free(check_ex);
 			return ;
 		}
 		i++;
 	}
-	export = add_environement(NULL, export, content, 1);
-	struc()->export = export;
-	free(check_ex);
+	parse_export2(content, export, check_ex);
 }
 
-int	export(char **content)
+int	parse_content(char *content, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if ((!ft_isalpha(content[0]) && content[0] != '_') || \
+	ft_strsearch(content, 32))
+	{
+		ft_dprintf(2, "%s export: `%s': %s\n", MINI, content, ERR);
+		data->exit_code = 1;
+		return (1);
+	}
+	while (content[i])
+	{
+		if (content[i] == '=')
+			break ;
+		else if (!ft_isalnum(content[i]) && content[i] != '_')
+		{
+			ft_dprintf(2, "%s export: `%s': %s\n", MINI, content, ERR);
+			data->exit_code = 1;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	export(char **content, t_data *data)
 {
 	int	i;
 
 	i = 1;
-	struc()->exit_code = 0;
+	data->exit_code = 0;
 	if (!content[i])
 		print_export();
 	else
 	{
 		while (content[i])
 		{
-			if ((!ft_isalpha(content[i][0]) && content[i][0] != '_') || \
-			ft_strsearch(content[i], 32))
+			if (parse_content(content[i], data))
 			{
-				ft_dprintf(2, "minishell: export: `%s': "\
-				"not a valid identifier\n", content[i]);
-				struc()->exit_code = 1;
 				i++;
 				continue ;
 			}
-			parse_export(content[i]);
+			else
+				parse_export(content[i]);
 			i++;
 		}
-		ft_free_null(struc()->envp);
-		struc()->envp = add_environement(NULL, struc()->export, NULL, 2);
+		ft_free_null(data->envp);
+		data->envp = add_environement(NULL, data->export, NULL, 2);
 	}
-	return (struc()->exit_code);
+	return (data->exit_code);
 }

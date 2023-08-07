@@ -73,7 +73,7 @@ static void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
 	else if (!ft_strcmp(lcmd->cmd[0], "env"))
 		data->exit_code = ft_env(data->envp);
 	else if (!ft_strcmp(lcmd->cmd[0], "export"))
-		data->exit_code = export(lcmd->cmd);
+		data->exit_code = export(lcmd->cmd, data);
 	else if (!ft_strcmp(lcmd->cmd[0], "pwd"))
 		data->exit_code = pwd();
 	else if (!ft_strcmp(lcmd->cmd[0], "echo"))
