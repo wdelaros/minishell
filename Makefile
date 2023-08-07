@@ -49,6 +49,7 @@ SRCS		=	error.c\
 				clean_option.c\
 				convert_list_to_string.c\
 				var_handler.c\
+				parsing_list.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))

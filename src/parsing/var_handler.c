@@ -85,7 +85,7 @@ char	*var_handler(char *input, char **env)
 	if (input[pos - 1] == SINGLE_QUOTE)
 		return (input);
 	printf ("VERIF FAIT!\n");
-	len = ft_strlen_until_space(&input[pos]);
+	// len = ft_strlen_until_space(&input[pos]);
 	check_env = ft_calloc(len + 1, sizeof(char));
 	ft_strlcpy(check_env, &input[pos], len + 1);
 	check_env = find_var(check_env, env, len);

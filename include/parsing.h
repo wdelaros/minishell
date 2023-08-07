@@ -52,43 +52,32 @@ typedef struct s_quote
 }				t_quote;
 
 //clean_option.c
-void	clean_option_handler(t_input **ih);
 
 //clean_space.c
-void	extra_space_handler(t_input **input);
+
+//list.c
+void	print_node(t_input *list);
+t_input	*create_node(void);
+void	add_node(t_input **input, int id);
+void	free_list(t_input **input_handler);
 
 //convert_list_to_string.c
 char	***convert_list_to_string(t_input **ih);
 
 //parsing_utils.c
-int		ft_strlen_until(char *str, char *c, int check_space);
+int		ft_strlen_until(char *str, char *c);
 char	*ft_sstrjoin(char const *s1, char const *s2);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
-t_input	*create_node(void);
-void	add_node(t_input **input, int id);
-void	free_list(t_input **input_handler);
 
 //parsing.c
 char	***string_handler(char *input, char **env);
-
-//pre_cleanr.c
-
-char	*pre_cleaner(char *str);
 
 //quote_handler.c
 char	*quote_handler(char *input, int len, char quote);
 
 //token_utils.c
-int		token_handler_quote(char *str, int i);
-int		token_len_quote(char *str);
-int		ft_strlen_until_space(char *str);
-char	*copy_and_join(char *str, int i);
-int		is_command(char *str, int i, t_input *ih);
-int		ft_strlen_until_alpha(char *str);
-char	*red_handler(char *str, int *i);
 
 //token.c
-void	token_separator(char *str, t_input **ih);
 void	print_node(t_input *list); //A enlever
 
 //utils.c
