@@ -79,7 +79,7 @@ static void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
 	else if (!ft_strcmp(lcmd->cmd[0], "echo"))
 		;
 	else if (!ft_strcmp(lcmd->cmd[0], "cd"))
-		cd(lcmd->cmd[1]);
+		data->exit_code = cd(lcmd->cmd[1]);
 	else if (!ft_strcmp(lcmd->cmd[0], "exit"))
 		ft_exit(lcmd->cmd, lcmd, cmd, fd_out);
 }

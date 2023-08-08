@@ -27,10 +27,10 @@ typedef struct s_data
 	char		**path;
 	char		*input;
 	char		*cmdpath;
+	int			exit_code;
+	int			is_child;
 	pid_t		*pid;
 	pid_t		*skip;
-	int			is_child;
-	int			exit_code;
 	int			pipenum;
 	int			number_of_cmd;
 	int			redirnum;
@@ -54,6 +54,15 @@ typedef struct s_pilist
 	char	**command;
 	int		fd;
 }				t_pilist;
+
+typedef struct s_exec
+{
+	pid_t		*pid;
+	pid_t		*skip;
+	int			pipenum;
+	int			redirnum;
+	int			tmp_i;
+}				t_exec;
 
 t_data	*struc(void);
 int		signal_handler(void);
@@ -82,15 +91,10 @@ char	**cpy_environement(char **env, char **cpy_env);
 /*--------------------built_in--------------------*/
 
 int		ft_unset(char **unset, t_data *data);
-
 int		cd(char	*dir);
-
 int		ft_env(char **envp);
-
 int		pwd(void);
-
 int		export(char **content, t_data *data);
-
 void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out);
 
 #endif

@@ -79,7 +79,7 @@ char	**unset_var(char **env_cpy, char *unset, t_data *data)
 		return (NULL);
 	}
 	data->envp = reset(data->envp, unset, env_cpy);
-	return(ft_free_null(env_cpy));
+	return (ft_free_null(env_cpy));
 }
 
 int	ft_unset(char **unset, t_data *data)
@@ -101,11 +101,9 @@ int	ft_unset(char **unset, t_data *data)
 		unset[j] = ft_fstrjoin(unset[j], "=");
 		while (data->envp[i])
 		{
-			if (!ft_strncmp(unset[j], data->envp[i], ft_strlen(unset[j])))
-			{
+			if (!ft_strncmp(unset[j], data->envp[i], ft_strlen(unset[j])) \
+			&& i--)
 				env_cpy = unset_var(env_cpy, unset[j], data);
-				i--;
-			}
 			i++;
 		}
 		j++;
