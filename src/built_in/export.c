@@ -84,7 +84,7 @@ static void	parse_export(char	*content)
 	parse_export2(content, export, check_ex);
 }
 
-int	parse_content(char *content, t_data *data)
+int	parse_content(char *content, t_data *data, const char *built)
 {
 	int	i;
 
@@ -92,7 +92,7 @@ int	parse_content(char *content, t_data *data)
 	if ((!ft_isalpha(content[0]) && content[0] != '_') || \
 	ft_strsearch(content, 32))
 	{
-		ft_dprintf(2, "%s export: `%s': %s\n", MINI, content, ERR);
+		ft_dprintf(2, "%s %s: `%s': %s\n", MINI, built, content, ERR);
 		data->exit_code = 1;
 		return (1);
 	}
@@ -102,7 +102,7 @@ int	parse_content(char *content, t_data *data)
 			break ;
 		else if (!ft_isalnum(content[i]) && content[i] != '_')
 		{
-			ft_dprintf(2, "%s export: `%s': %s\n", MINI, content, ERR);
+			ft_dprintf(2, "%s %s: `%s': %s\n", MINI, built, content, ERR);
 			data->exit_code = 1;
 			return (1);
 		}
@@ -123,11 +123,8 @@ int	export(char **content, t_data *data)
 	{
 		while (content[i])
 		{
-			if (parse_content(content[i], data))
-			{
-				i++;
+			if (parse_content(content[i], data, "export") && i++)
 				continue ;
-			}
 			else
 				parse_export(content[i]);
 			i++;

@@ -67,6 +67,21 @@ static void	checkexport(char *var, int j, t_data *data)
 	free(var);
 }
 
+char	**unset_var(char **env_cpy, char *unset, t_data *data)
+{
+	env_cpy = cpy_environement(NULL, data->envp);
+	ft_free_null(data->envp);
+	data->envp = ft_calloc(ft_strlen_double(env_cpy), \
+	sizeof(char *));
+	if (!data->envp)
+	{
+		data->exit_code = 1;
+		return (NULL);
+	}
+	data->envp = reset(data->envp, unset, env_cpy);
+	return(ft_free_null(env_cpy));
+}
+
 int	ft_unset(char **unset, t_data *data)
 {
 	int		i;
@@ -80,28 +95,15 @@ int	ft_unset(char **unset, t_data *data)
 	while (unset[j])
 	{
 		i = 0;
-		if ((!ft_isalpha(unset[j][0]) && unset[j][0] != '_') || \
-		ft_strsearch(unset[j], 32))
-		{
-			ft_dprintf(2, "%s unset: `%s': %s\n", MINI, unset[j], ERR);
-			data->exit_code = 1;
-			j++;
+		if (parse_content(unset[j], data, "unset") && j++)
 			continue ;
-		}
 		checkexport(ft_strdup(unset[j]), -1, data);
 		unset[j] = ft_fstrjoin(unset[j], "=");
 		while (data->envp[i])
 		{
 			if (!ft_strncmp(unset[j], data->envp[i], ft_strlen(unset[j])))
 			{
-				env_cpy = cpy_environement(NULL, data->envp);
-				ft_free_null(data->envp);
-				data->envp = ft_calloc(ft_strlen_double(env_cpy), \
-				sizeof(char *));
-				if (!data->envp)
-					return (1);
-				data->envp = reset(data->envp, unset[j], env_cpy);
-				ft_free_null(env_cpy);
+				env_cpy = unset_var(env_cpy, unset[j], data);
 				i--;
 			}
 			i++;

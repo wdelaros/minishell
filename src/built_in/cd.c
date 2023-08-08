@@ -16,26 +16,23 @@ char	*get_var(const char *var)
 
 int	cd(char	*dir)
 {
-	if (!dir || !ft_strcmp(dir, "~"))
+	int	err;
+
+	if (!dir)
 	{
 		dir = get_var("HOME=");
-		printf("%s\n", dir);
 		if (!dir)
 		{
 			ft_dprintf(2, "%s cd: HOME not set\n", MINI);
 			return (1);
 		}
 	}
-	else if (!ft_strcmp(dir, "-"))
+	err = chdir(dir);
+	if (err)
 	{
-		dir = get_var("OLDPWD=");
-		if (!dir)
-		{
-			ft_dprintf(2, "%s cd: OLDPWD not set\n", MINI);
-			return (1);
-		}
-		pwd();
+		ft_dprintf(2, "%s cd: ", MINI);
+		perror(dir);
+		return (1);
 	}
-	chdir(dir);
 	return (0);
 }
