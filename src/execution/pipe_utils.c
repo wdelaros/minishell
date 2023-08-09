@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/execution.h"
 
 /// @brief free
 /// @param current struct to free 

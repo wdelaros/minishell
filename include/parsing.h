@@ -1,5 +1,5 @@
 #ifndef PARSING_H
-#define PARSING_H
+# define PARSING_H
 
 # define MAXI 214748364
 # define SPACE 32

@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/execution.h"
 
 /// @brief create a node for a command
 /// @param redir_in the input redirection

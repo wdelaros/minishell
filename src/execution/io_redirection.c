@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/execution.h"
 
 /// @brief redirect the output to a file
 /// @param file the name of the file

@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/execution.h"
 
 /// @brief wait the end of each command
 static void	wait_end_cmd(void)
@@ -122,8 +122,7 @@ void	run_pipe(char	***cmd)
 {
 	t_cmd	*current;
 	t_cmd	*lcmd;
-	int		pfd[2];
-	int		fd_out;
+	t_exec	ex;
 	int		i;
 
 	count(cmd, 0);
@@ -135,7 +134,7 @@ void	run_pipe(char	***cmd)
 	{
 		i = 0;
 		lcmd->fd_in = 0;
-		fd_out = dup(STDOUT_FILENO);
+		ex.fd_out = dup(STDOUT_FILENO);
 		while (lcmd)
 		{
 			struc()->skip[i] = 1;
@@ -144,33 +143,33 @@ void	run_pipe(char	***cmd)
 			if (!lcmd->next && lcmd->cmd && (!ft_strcmp(lcmd->cmd[0], "|")))
 				break ;
 			if (i < struc()->pipenum)
-				pipe(pfd);
+				pipe(ex.pfd);
 			if (is_builtin(lcmd->cmd) != 1 || struc()->pipenum > 0)
 			{
 				struc()->pid[i] = fork();
 				struc()->is_child = 1;
 				struc()->tmp_i = i;
-				run_cmds(&lcmd, pfd, fd_out, cmd);
+				run_cmds(&lcmd, ex.pfd, ex.fd_out, cmd);
 				struc()->skip[i] = 0;
 			}
 			else
 			{
-				run_builtin(lcmd, cmd, fd_out, pfd);
+				run_builtin(lcmd, cmd, ex.fd_out, ex.pfd);
 				struc()->skip[i] = 2;
 			}
 			if (struc()->pipenum > 0)
-				close(pfd[1]);
+				close(ex.pfd[1]);
 			if (lcmd->previous && struc()->pipenum > 0)
 				close(lcmd->previous->previous->fd_in);
-			lcmd->fd_in = pfd[0];
+			lcmd->fd_in = ex.pfd[0];
 			i++;
 			if (!lcmd->next)
 				break ;
 			lcmd = lcmd->next;
 		}
-		close(fd_out);
+		close(ex.fd_out);
 		if (struc()->pipenum > 0)
-			reset_fd(pfd);
+			reset_fd(ex.pfd);
 		wait_end_cmd();
 	}
 	ft_free_all_pipe(current, cmd);
