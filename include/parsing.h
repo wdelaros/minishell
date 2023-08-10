@@ -55,11 +55,12 @@ typedef struct s_quote
 
 //clean_space.c
 
-//list.c
+//parsing_list.c
 void	print_node(t_input *list);
 t_input	*create_node(void);
 void	add_node(t_input **input, int id);
 void	free_list(t_input **input_handler);
+void	create_list(t_input **list, char **input);
 
 //convert_list_to_string.c
 char	***convert_list_to_string(t_input **ih);
@@ -78,7 +79,9 @@ char	*quote_handler(char *input, int len, char quote);
 //token_utils.c
 
 //token.c
-void	print_node(t_input *list); //A enlever
+int		is_command(char **input, int i);
+int		is_option(char **input, int i);
+int		is_separator(char **input, int i);
 
 //utils.c
 void	parsing_strcpy_len(char *dest, char *src, int len);

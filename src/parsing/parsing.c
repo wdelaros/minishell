@@ -89,13 +89,8 @@ char	***string_handler(char *input, char **env)
 	cpy_input = ft_strdup(input);
 	input_handler = create_node();
 	cpy_input = put_separator(cpy_input);
-	Ct_mprintf(cpy_input, ft_strlen(cpy_input), 1, 'A');
 	temp = ft_split(cpy_input, 29);
-	while (temp[i])
-	{
-		Ct_mprintf(temp[i], ft_strlen(temp[i]), 1, 'B');
-		i++;
-	}
+	create_list(&input_handler, temp);
 	// cpy_input = var_handler(cpy_input, env);
 	// print_node(input_handler);
 	res = convert_list_to_string(&input_handler);

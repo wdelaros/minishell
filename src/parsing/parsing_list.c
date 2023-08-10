@@ -59,3 +59,26 @@ void	free_list(t_input **input_handler)
 		free((*input_handler));
 	}
 }
+
+void	create_list(t_input **list, char **input)
+{
+	t_input	*temp;
+	int		i;
+
+	temp = *list;
+	i = 0;
+	temp = ft_calloc(ft_strlen_double(input), sizeof(t_input));
+	while (input[i])
+	{
+		if (is_command(input, i) == YES)
+			add_node(&temp, COMMAND);
+		else if (is_option(input, i) == YES)
+			add_node(&temp, OPTION);
+		else if (is_separator(input, i) == YES)
+			add_node(&temp, SEPARATOR);
+		else
+			add_node(&temp, ARGUMENT);
+		i++;
+		temp = temp->next;
+	}
+}
