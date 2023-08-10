@@ -3,13 +3,16 @@
 
 # include "minishell.h"
 
+typedef struct s_e_data
+{
+	pid_t		*pid;
+	pid_t		*skip;
+	int			number_of_cmd;
+	int			tmp_i;
+}				t_e_data;
+
 typedef struct s_exec
 {
-	// pid_t		*pid;
-	// pid_t		*skip;
-	// int			pipenum;
-	// int			redirnum;
-	// int			tmp_i;
 	int			pfd[2];
 	int			fd_out;
 }				t_exec;
@@ -21,5 +24,14 @@ typedef struct s_pilist
 	char	**command;
 	int		fd;
 }				t_pilist;
+
+t_e_data	*e_struc(void);
+
+void		redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out);
+void		redir_output(t_cmd	*lcmd, int	**pfd, int i);
+
+t_cmd		*ft_setnode(char	***arg, t_cmd	**current);
+
+void		count(char ***cmd, int i);
 
 #endif

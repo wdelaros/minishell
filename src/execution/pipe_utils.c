@@ -28,8 +28,8 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 		}
 		free(cmd);
 	}
-	ft_xfree(struc()->pid);
-	ft_xfree(struc()->skip);
+	ft_xfree(e_struc()->pid);
+	ft_xfree(e_struc()->skip);
 }
 
 /// @brief create all output file, count the number of command
@@ -39,7 +39,7 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 void	count(char ***cmd, int i)
 {
 	struc()->pipenum = 0;
-	struc()->number_of_cmd = 0;
+	e_struc()->number_of_cmd = 0;
 	while (cmd && cmd[i])
 	{
 		if (cmd[i][0] && !ft_strcmp(cmd[i][0], "|"))
@@ -51,7 +51,7 @@ void	count(char ***cmd, int i)
 		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">>"))
 			;
 		else if (cmd[i][0])
-			struc()->number_of_cmd++;
+			e_struc()->number_of_cmd++;
 		i++;
 	}
 }

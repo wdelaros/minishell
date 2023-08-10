@@ -84,6 +84,6 @@ void	redir_output(t_cmd	*lcmd, int	**pfd, int i)
 			close((*pfd)[1]);
 		}
 	}
-	if (i < (struc()->number_of_cmd - 1))
+	if (i < (e_struc()->number_of_cmd - 1))
 		dup2((*pfd)[1], STDOUT_FILENO);
 }

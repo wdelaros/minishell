@@ -29,8 +29,8 @@ static int	ft_perror(char ***arg, int i, t_pilist	*list)
 	list->input = NULL;
 	list->output = NULL;
 	list->command = NULL;
-	struc()->number_of_cmd--;
-	if (struc()->number_of_cmd > 0)
+	e_struc()->number_of_cmd--;
+	if (e_struc()->number_of_cmd > 0)
 	{
 		while (ft_strcmp(arg[i][0], "|") && arg[i + 1])
 			i++;

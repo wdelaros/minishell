@@ -29,12 +29,7 @@ typedef struct s_data
 	char		*cmdpath;
 	int			exit_code;
 	int			is_child;
-	pid_t		*pid;
-	pid_t		*skip;
 	int			pipenum;
-	int			number_of_cmd;
-	int			redirnum;
-	int			tmp_i;
 }				t_data;
 
 typedef struct s_cmd
@@ -57,19 +52,14 @@ void	print_cell(char	***cell);
 void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
 int		exit_status(int status);
 
-void	run_pipe(char	***cmd);
-
-void	ft_free_all_pipe(t_cmd *current, char ***cmd);
-void	count(char ***cmd, int i);
-
-t_cmd	*ft_setnode(char	***arg, t_cmd	**current);
-
-void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out);
-void	redir_output(t_cmd	*lcmd, int	**pfd, int i);
-
 int		error_handler(char *input);
 
 char	**cpy_environement(char **env, char **cpy_env);
+
+/*--------------------execution--------------------*/
+
+void	run_pipe(char	***cmd);
+void	ft_free_all_pipe(t_cmd *current, char ***cmd);
 
 /*--------------------built_in--------------------*/
 
