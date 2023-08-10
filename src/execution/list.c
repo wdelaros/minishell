@@ -40,7 +40,35 @@ static int	ft_perror(char ***arg, int i, t_pilist	*list)
 	return (i + 1);
 }
 
-static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
+static int	parse_redir(t_pilist *list, char ***arg, int *i)
+{
+	if (!ft_strcmp(arg[*i][0], "<"))
+	{
+		if (access(arg[*i][1], F_OK | R_OK))
+		{
+			*i = ft_perror(arg, *i, list);
+			return (1);
+		}
+		list->input = arg[*i];
+	}
+	else if (!ft_strcmp(arg[*i][0], ">") || !ft_strcmp(arg[*i][0], ">>"))
+	{
+		if (!ft_strcmp(arg[*i][0], ">"))
+			list->fd = open(arg[*i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
+		else if (!ft_strcmp(arg[*i][0], ">>"))
+			list->fd = open(arg[*i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
+		if (list->fd == -1)
+		{
+			*i = ft_perror(arg, *i, list);
+			return (1);
+		}
+		close(list->fd);
+		list->output = arg[*i];
+	}
+	return (0);
+}
+
+static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 {
 	t_pilist	list;
 
@@ -49,28 +77,11 @@ static int	ft_parse_node(char	***arg, t_cmd	**cmd, int i)
 	list.command = NULL;
 	while (arg && arg[i])
 	{
-		if (!ft_strcmp(arg[i][0], "<"))
+		if (!ft_strcmp(arg[i][0], "<") || !ft_strcmp(arg[i][0], ">") \
+		|| !ft_strcmp(arg[i][0], ">>"))
 		{
-			if (access(arg[i][1], F_OK | R_OK))
-			{
-				i = ft_perror(arg, i, &list);
+			if (parse_redir(&list, arg, &i))
 				continue ;
-			}
-			list.input = arg[i];
-		}
-		else if (!ft_strcmp(arg[i][0], ">") || !ft_strcmp(arg[i][0], ">>"))
-		{
-			if (!ft_strcmp(arg[i][0], ">"))
-				list.fd = open(arg[i][1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
-			else if (!ft_strcmp(arg[i][0], ">>"))
-				list.fd = open(arg[i][1], O_RDWR | O_APPEND | O_CREAT, S_IRWXU);
-			if (list.fd == -1)
-			{
-				i = ft_perror(arg, i, &list);
-				continue ;
-			}
-			close(list.fd);
-			list.output = arg[i];
 		}
 		else
 			list.command = arg[i];
