@@ -39,8 +39,6 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	}
 }
 
-	//export OLDPWD
-
 static void	initialize(int argc, char **argv, char **envp, t_data *data)
 {
 	int		i;
