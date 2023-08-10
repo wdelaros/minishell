@@ -14,24 +14,26 @@ char	*get_var(const char *var)
 	return (NULL);
 }
 
-static void	update_env(char *var, char *var2)
+static void	update_export(char *var, char *var2)
 {
+	t_data	*data;
 	char	*trim_var;
-	int	i;
+	int		i;
 
 	i = 0;
+	data = struc();
 	trim_var = ft_strtrim2(var, '=');
-	while (struc()->envp[i])
+	while (struc()->export[i])
 	{
-		if (!ft_strncmp(struc()->envp[i], var, ft_strlen(var)))
+		if (!ft_strncmp(struc()->export[i], var, ft_strlen(var)))
 		{
-			free(struc()->envp[i]);
-			struc()->envp[i] = ft_strjoin(var, var2);
+			free(struc()->export[i]);
+			data->export[i] = ft_strjoin(var, var2);
 		}
-		else if (!ft_strcmp(struc()->envp[i], trim_var))
+		else if (!ft_strcmp(struc()->export[i], trim_var))
 		{
-			free(struc()->envp[i]);
-			struc()->envp[i] = ft_strjoin(var, var2);
+			free(struc()->export[i]);
+			data->export[i] = ft_strjoin(var, var2);
 		}
 		i++;
 	}
@@ -39,9 +41,36 @@ static void	update_env(char *var, char *var2)
 	free(trim_var);
 }
 
+static void	update_env(char *var, char *var2)
+{
+	t_data	*data;
+	char	*trim_var;
+	int		i;
+
+	i = 0;
+	data = struc();
+	trim_var = ft_strtrim2(var, '=');
+	while (struc()->envp[i])
+	{
+		if (!ft_strncmp(struc()->envp[i], var, ft_strlen(var)))
+		{
+			free(struc()->envp[i]);
+			data->envp[i] = ft_strjoin(var, var2);
+		}
+		else if (!ft_strcmp(struc()->envp[i], trim_var))
+		{
+			free(struc()->envp[i]);
+			data->envp[i] = ft_strjoin(var, var2);
+		}
+		i++;
+	}
+	update_export(var, var2);
+	free(trim_var);
+}
+
 int	cd(char	*dir)
 {
-	int	err;
+	int		err;
 	char	*m_pwd;
 
 	if (!dir)
