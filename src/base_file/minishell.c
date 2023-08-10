@@ -70,7 +70,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	***cmd;
 	int		err;
-	int		j = 0;
 
 	if (signal_handler())
 		exit(1);
@@ -91,22 +90,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_error(err);
 		else if (err == RUN)
 		{
-			if (j == 1)
-			{
-				int	i = 1;
-				cmd = ft_calloc(100, sizeof(char **));
-				while (i > 0)
-				{
-					i--;
-					cmd[i] = ft_calloc(100, sizeof(char *));
-				}
-				cmd[0][0] = ft_strdup("exit");
-				cmd[0][1] = ft_strdup("1");
-				cmd[0][2] = ft_strdup("a");
-			}
-			else
-				cmd = string_handler(struc()->input);
-			j++;
+			cmd = string_handler(struc()->input);
 			run_pipe(cmd);
 		}
 		printf("exit code: %d\n", struc()->exit_code);
