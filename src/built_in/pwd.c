@@ -2,5 +2,8 @@
 
 int	pwd(void)
 {
-	return (ft_printf("%s\n", getcwd(NULL, 0)), 0);
+	char	*str;
+
+	str = getcwd(NULL, 0);
+	return (ft_printf("%s\n", str), free(str), 0);
 }

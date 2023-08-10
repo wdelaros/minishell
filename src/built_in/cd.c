@@ -14,9 +14,35 @@ char	*get_var(const char *var)
 	return (NULL);
 }
 
+static void	update_env(char *var, char *var2)
+{
+	char	*trim_var;
+	int	i;
+
+	i = 0;
+	trim_var = ft_strtrim2(var, '=');
+	while (struc()->envp[i])
+	{
+		if (!ft_strncmp(struc()->envp[i], var, ft_strlen(var)))
+		{
+			free(struc()->envp[i]);
+			struc()->envp[i] = ft_strjoin(var, var2);
+		}
+		else if (!ft_strcmp(struc()->envp[i], trim_var))
+		{
+			free(struc()->envp[i]);
+			struc()->envp[i] = ft_strjoin(var, var2);
+		}
+		i++;
+	}
+	free(var2);
+	free(trim_var);
+}
+
 int	cd(char	*dir)
 {
 	int	err;
+	char	*m_pwd;
 
 	if (!dir)
 	{
@@ -27,12 +53,16 @@ int	cd(char	*dir)
 			return (1);
 		}
 	}
+	m_pwd = getcwd(NULL, 0);
 	err = chdir(dir);
 	if (err)
 	{
 		ft_dprintf(2, "%s cd: ", MINI);
 		perror(dir);
+		free(m_pwd);
 		return (1);
 	}
+	update_env("OLDPWD=", m_pwd);
+	update_env("PWD=", getcwd(NULL, 0));
 	return (0);
 }
