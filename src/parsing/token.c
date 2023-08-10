@@ -11,6 +11,9 @@ int	is_command(char **input, int i)
 
 int	is_option(char **input, int i)
 {
+	if (input[i][0] == '-')
+		return (YES);
+	return (NO);
 }
 
 int	is_separator(char **input, int i)

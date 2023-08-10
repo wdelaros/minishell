@@ -27,12 +27,14 @@
 /// @param next Next element
 /// @param input Raw seperated string
 /// @param token Token of input
+/// @param is_quoted If the possible var in input must be i
 typedef struct s_input
 {
 	struct s_input	*prev;
 	struct s_input	*next;
 	char			*input;
 	int				token;
+	int				is_quoted;
 }				t_input;
 
 typedef struct s_conv
@@ -74,7 +76,7 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 char	***string_handler(char *input, char **env);
 
 //quote_handler.c
-char	*quote_handler(char *input, int len, char quote);
+void	quote_handler(t_input **input);
 
 //token_utils.c
 

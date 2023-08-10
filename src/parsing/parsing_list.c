@@ -4,7 +4,7 @@ void	print_node(t_input *list)
 {
 	while (list)
 	{
-		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'A');
+		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'C');
 		printf ("ID: %d\n", list->token);
 		list = list->next;
 	}
@@ -67,7 +67,6 @@ void	create_list(t_input **list, char **input)
 
 	temp = *list;
 	i = 0;
-	temp = ft_calloc(ft_strlen_double(input), sizeof(t_input));
 	while (input[i])
 	{
 		if (is_command(input, i) == YES)
@@ -78,6 +77,7 @@ void	create_list(t_input **list, char **input)
 			add_node(&temp, SEPARATOR);
 		else
 			add_node(&temp, ARGUMENT);
+		temp->input = ft_strdup(input[i]);
 		i++;
 		temp = temp->next;
 	}
