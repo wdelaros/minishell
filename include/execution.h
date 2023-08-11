@@ -33,5 +33,7 @@ void		redir_output(t_cmd	*lcmd, int	**pfd, int i);
 t_cmd		*ft_setnode(char	***arg, t_cmd	**current);
 
 void		count(char ***cmd, int i);
+void		reset_fd(int *fd);
+void		wait_end_cmd(void);
 
 #endif

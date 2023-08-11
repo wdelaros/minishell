@@ -1,5 +1,34 @@
 #include "../../include/execution.h"
 
+/// @brief wait the end of each command
+void	wait_end_cmd(void)
+{
+	int	status;
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (j < e_struc()->number_of_cmd)
+	{
+		if (e_struc()->skip[i] == 0)
+			waitpid(e_struc()->pid[i], &status, 0);
+		if (e_struc()->skip[i] != 1)
+			j++;
+		i++;
+	}
+	if (!e_struc()->skip[i - 1])
+		struc()->exit_code = exit_status(status);
+}
+
+/// @brief reset the fd at the end of a command line
+/// @param fd the file descriptor
+void	reset_fd(int *fd)
+{
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+}
+
 /// @brief free
 /// @param current struct to free 
 /// @param cmd triple pointer to free
