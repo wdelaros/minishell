@@ -1,6 +1,5 @@
 #include "../../include/parsing.h"
 
-
 static int	nb_of_complete_command(t_input **ih)
 {
 	t_input	*temp;
@@ -11,9 +10,13 @@ static int	nb_of_complete_command(t_input **ih)
 	while (temp)
 	{
 		if (temp->token == 0 || temp->token == 3)
-			count++;
+			if ((temp->token == 3 && temp->input[0] == PIPE)
+				|| temp->token == 0)
+				count++;
 		temp = temp->next;
 	}
+	if ((*ih)->input != NULL && count == 0)
+		count++;
 	return (count);
 }
 
@@ -69,30 +72,12 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	printf ("MALLOC DU NOMBRE DE STRING DANS CHACUNE DES COMMAND COMPLETE!\n");
 }
 
-static char	**redirection_tranfer(char **dest, char *src)
+static char	**redirection_tranfer(char **dest, char *red, char *arg)
 {
-	int	i;
-	int	len;
-	int	start;
-
-	i = 0;
-	len = 0;
 	free (dest);
 	dest = ft_calloc(3, sizeof(char *));
-	while (src[len] && (src[len] == RED_IN || src[len] == RED_OUT))
-		len++;
-	dest[0] = ft_calloc(len + 1, sizeof(char));
-	parsing_strcpy_len(dest[0], src, len);
-	while (src[len] && src[len] == SPACE)
-		len++;
-	start = len;
-	while (src[len])
-	{
-		len++;
-		i++;
-	}
-	dest[1] = ft_calloc(i + 1, sizeof(char));
-	parsing_strcpy_len(dest[1], &src[start], i);
+	dest[0] = ft_strdup(red);
+	dest[1] = ft_strdup(arg);
 	printf ("STRING QUI A ÉTÉ COPIER DANS RED_TRANSFER:%s:FIN:\n", dest[0]);
 	printf ("STRING QUI A ÉTÉ COPIER DANS RED_TRANSFER:%s:FIN:\n", dest[1]);
 	return (dest);
@@ -120,8 +105,11 @@ char	***convert_list_to_string(t_input **ih)
 			k = 0;
 		}
 		if (temp->input[0] == RED_IN || temp->input[0] == RED_OUT)
+		{
 			data.res[data.i] = redirection_tranfer(data.res[data.i],
-					temp->input);
+					temp->input, temp->next->input);
+			temp = temp->next;
+		}
 		else
 			data.res[data.i][data.j] = ft_strdup(temp->input);
 		printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);

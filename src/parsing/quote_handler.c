@@ -1,40 +1,111 @@
 #include "../../include/parsing.h"
 
-static void	quote_eraser(t_quote *qd, char *input, char quote)
+static int	double_quote_handler(char **res, char **input, size_t *i, size_t *j)
 {
-	qd->i++;
-	while (input[qd->i])
+	char	*double_input;
+	char	*double_res;
+	size_t	double_i;
+	size_t	double_j;
+	int		var;
+
+	double_input = *input;
+	double_res = *res;
+	double_i = *i;
+	double_j = *j;
+	var = NO;
+	while (double_input[double_i] && double_input[double_i] != DOUBLE_QUOTE)
 	{
-		if (input[qd->i] == quote)
-			break ;
-		qd->res[qd->i_res] = input[qd->i];
-		qd->i_res++;
-		qd->i++;
+		if (double_input[double_i] == '$')
+			var = YES;
+		double_res[double_j] = double_input[double_i];
+		double_i++;
+		double_j++;
 	}
+	*i = double_i;
+	*j = double_j;
+	return (var);
 }
 
-char	*quote_handler(char *input)
+static int	quote_size(char *input)
 {
-	t_quote	quote_data;
+	int		i;
+	int		count;
+	char	quote;
 
-	quote_data.i = 0;
-	quote_data.res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
-	quote_data.i_res = 0;
-	while (input[quote_data.i])
+	i = 0;
+	count = 0;
+	while (input[i])
 	{
-		if (input[quote_data.i] == SINGLE_QUOTE)
-			quote_eraser(&quote_data, input, SINGLE_QUOTE);
-		else if (input[quote_data.i] == DOUBLE_QUOTE)
-			quote_eraser(&quote_data, input, DOUBLE_QUOTE);
-		else
+		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
 		{
-			quote_data.res[quote_data.i_res] = input[quote_data.i];
-			quote_data.i_res++;
+			quote = input[i];
+			i++;
+			while (input[i] && input[i] != quote)
+			{
+				i++;
+				count++;
+			}
 		}
-		quote_data.i++;
+		else
+			count++;
+		i++;
 	}
-	ft_xfree(input);
-	input = ft_strdup(quote_data.res);
-	ft_xfree(quote_data.res);
-	return (input);
+	return (count);
+}
+
+static char	*quote_interpreter(char *input, int *is_quoted)
+{
+	size_t	i;
+	size_t	j;
+	char	*res;
+
+	i = 0;
+	j = 0;
+	res = ft_calloc(quote_size(input), sizeof(char));
+	while (input[i])
+	{
+		if (input[i] == SINGLE_QUOTE)
+		{
+			i++;
+			while (input[i] && input[i] != SINGLE_QUOTE)
+				res[j++] = input[i++];
+		}
+		else if (input[i] == DOUBLE_QUOTE)
+		{
+			i++;
+			*is_quoted = double_quote_handler(&res, &input, &i, &j);
+		}
+		else
+			res[j++] = input[i];
+		i++;
+	}
+	return (res);
+}
+
+static int	is_quote(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+			return (YES);
+		i++;
+	}
+	return (NO);
+}
+
+void	quote_handler(t_input **input)
+{
+	t_input	*temp;
+
+	temp = *input;
+	while (temp->next)
+	{
+		if (is_quote(temp->input) == YES)
+			temp->input = quote_interpreter(temp->input, &temp->is_quoted);
+		printf ("VAR? %d\n", temp->is_quoted);
+		temp = temp->next;
+	}
 }

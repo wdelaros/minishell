@@ -1,6 +1,6 @@
 #include "../../include/parsing.h"
 
-int	ft_strlen_until(char *str, char *c, int check_space)
+int	ft_strlen_until(char *str, char *c)
 {
 	int	i;
 	int	j;
@@ -8,16 +8,12 @@ int	ft_strlen_until(char *str, char *c, int check_space)
 
 	len = ft_strlen(str);
 	j = 0;
-	if (c[j] == '\0' && check_space == 1)
-		len = ft_strlen_until_space(str);
 	while (c[j])
 	{
 		i = 0;
 		while (str[i])
 		{
 			if ((str[i] == c[j] && i != 0 && len > i))
-				len = i;
-			else if (check_space == 1 && str[i] == SPACE && len > i)
 				len = i;
 			i++;
 		}
@@ -70,53 +66,4 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 		dst[i] = '\0';
 	}
 	return (ft_strlen(src));
-}
-
-t_input	*create_node(void)
-{
-	t_input	*temp;
-
-	temp = ft_calloc(1, sizeof(t_input));
-	if (!temp)
-		return (NULL);
-	temp->token = -1;
-	temp->next = NULL;
-	temp->prev = NULL;
-	return (temp);
-}
-
-void	add_node(t_input **input, int id)
-{
-	t_input	*current;
-
-	if (*input == NULL)
-	{
-		(*input) = create_node();
-		return ;
-	}
-	current = (*input);
-	while (current->next != NULL)
-		current = current->next;
-	current->next = create_node();
-	if (!current->next)
-		return ;
-	current->next->prev = current;
-	current->token = id;
-}
-
-void	free_list(t_input **input_handler)
-{
-	while ((*input_handler)->next)
-		(*input_handler) = (*input_handler)->next;
-	if ((*input_handler))
-	{
-		while ((*input_handler)->prev != NULL)
-		{
-			(*input_handler) = (*input_handler)->prev;
-			free((*input_handler)->next->input);
-			free((*input_handler)->next);
-		}
-		free((*input_handler)->input);
-		free((*input_handler));
-	}
 }

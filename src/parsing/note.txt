@@ -2,12 +2,12 @@
 '' = string literal, char par char tel quel
 
 a faire:
-	gérer les ""''
 	gérer le parsing du echo
-		gérer les $
+	gérer les $
+		.Prendre la len de la variable
+		.Realloc mon input
+		.Aller remplacer les char de la var par la variable
 	gérer le $? (voir le PDF)
 	gérer les signaux
 
-
 a régler:
-	problem problematique: > "je suis un monsieur.txt" cat

@@ -27,12 +27,14 @@
 /// @param next Next element
 /// @param input Raw seperated string
 /// @param token Token of input
+/// @param is_quoted If the possible var in input must be i
 typedef struct s_input
 {
 	struct s_input	*prev;
 	struct s_input	*next;
 	char			*input;
 	int				token;
+	int				is_quoted;
 }				t_input;
 
 typedef struct s_conv
@@ -51,43 +53,42 @@ typedef struct s_quote
 	char	*res;
 }				t_quote;
 
-//token.c
-void	token_separator(char *str, t_input **ih);
-void	print_node(t_input *list); //A enlever
+//clean_option.c
 
-//token_utils.c
-int		token_handler_quote(char *str, int i);
-int		token_len_quote(char *str);
-int		ft_strlen_until_space(char *str);
-char	*copy_and_join(char *str, int i);
-int		is_command(char *str, int i, t_input *ih);
-int		ft_strlen_until_alpha(char *str);
-char	*red_handler(char *str, int *i);
+//clean_space.c
 
-//quote_handler.c
-char	*quote_handler(char *input);
-
-//parsing.c
-char	***string_handler(char *input);
-
-//parsing_utils.c
-int		ft_strlen_until(char *str, char *c, int check_space);
-char	*ft_sstrjoin(char const *s1, char const *s2);
-size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
+//parsing_list.c
+void	print_node(t_input *list);
 t_input	*create_node(void);
 void	add_node(t_input **input, int id);
 void	free_list(t_input **input_handler);
+void	create_list(t_input **list, char **input);
 
 //convert_list_to_string.c
 char	***convert_list_to_string(t_input **ih);
 
-//clean_space.c
-void	extra_space_handler(t_input **input);
+//parsing_utils.c
+int		ft_strlen_until(char *str, char *c);
+char	*ft_sstrjoin(char const *s1, char const *s2);
+size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 
-//clean_option.c
-void	clean_option_handler(t_input **ih);
+//parsing.c
+char	***string_handler(char *input, char **env);
+
+//quote_handler.c
+void	quote_handler(t_input **input);
+
+//token_utils.c
+
+//token.c
+int		is_command(char **input, int i);
+int		is_option(char **input, int i);
+int		is_separator(char **input, int i);
 
 //utils.c
 void	parsing_strcpy_len(char *dest, char *src, int len);
+
+//var_handler.c
+void	var_handler(t_input **list, char **env);
 
 #endif
