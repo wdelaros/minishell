@@ -62,6 +62,7 @@ static void	initialize(int argc, char **argv, char **envp, t_data *data)
 	export(cmd[0], data);
 	ft_free_null(cmd[0]);
 	free(cmd);
+	logo();
 }
 
 int	main(int argc, char **argv, char **envp)

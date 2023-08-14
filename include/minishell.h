@@ -49,6 +49,7 @@ void	find_executable(char	**fcmd, int i);
 void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free);
 
 void	print_cell(char	***cell);
+void	logo(void);
 void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
 int		exit_status(int status);
 

@@ -38,33 +38,8 @@ static void	update_export(char *var, char *var2)
 		i++;
 	}
 	free(var2);
-	free(trim_var);
-}
-
-static void	update_env(char *var, char *var2)
-{
-	t_data	*data;
-	char	*trim_var;
-	int		i;
-
-	i = 0;
-	data = struc();
-	trim_var = ft_strtrim2(var, '=');
-	while (struc()->envp[i])
-	{
-		if (!ft_strncmp(struc()->envp[i], var, ft_strlen(var)))
-		{
-			free(struc()->envp[i]);
-			data->envp[i] = ft_strjoin(var, var2);
-		}
-		else if (!ft_strcmp(struc()->envp[i], trim_var))
-		{
-			free(struc()->envp[i]);
-			data->envp[i] = ft_strjoin(var, var2);
-		}
-		i++;
-	}
-	update_export(var, var2);
+	ft_free_null(data->envp);
+	data->envp = add_environement(NULL, data->export, NULL, 2);
 	free(trim_var);
 }
 
@@ -91,7 +66,7 @@ int	cd(char	*dir)
 		free(m_pwd);
 		return (1);
 	}
-	update_env("OLDPWD=", m_pwd);
-	update_env("PWD=", getcwd(NULL, 0));
+	update_export("OLDPWD=", m_pwd);
+	update_export("PWD=", getcwd(NULL, 0));
 	return (0);
 }

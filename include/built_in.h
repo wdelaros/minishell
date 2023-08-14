@@ -13,4 +13,7 @@ int		parse_content(char *content, t_data *data, const char *built);
 
 char	*get_var(const char *var);
 
+char	**add_environement(char **env, char **cpy_env, char *content, \
+int option);
+
 #endif
