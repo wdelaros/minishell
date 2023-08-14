@@ -69,7 +69,7 @@ static void	quote_error(t_err *error_data)
 		i++;
 	}
 	if (flag == 1)
-		error_data->error_code = 258;
+		error_data->error_code = 3;
 	printf("EST CE QUE J'AI UNE ERREUR DE QUOTE?\n");
 }
 
