@@ -89,6 +89,6 @@ int		is_separator(char **input, int i);
 void	parsing_strcpy_len(char *dest, char *src, int len);
 
 //var_handler.c
-char	*var_handler(char *input, char **env);
+void	var_handler(t_input **list, char **env);
 
 #endif

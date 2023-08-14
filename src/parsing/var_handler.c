@@ -1,97 +1,121 @@
 #include "../../include/parsing.h"
 
-static char	*find_var(char *var, char **env, size_t len)
+static char	*get_var(char *var, char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(&var[1], env[i], len - 1) == 0)
-			break ;
+		if (!ft_strncmp(envp[i], var, ft_strlen(var)))
+			return (envp[i] + ft_strlen(var));
 		i++;
 	}
-	return (env[i]);
+	return (NULL);
 }
 
-static size_t	var_len(char *env)
+static size_t	size_of_var(char *input, char **env)
 {
+	int		i;
 	size_t	len;
-	size_t	i;
+	char	*temp;
 
 	i = 0;
-	len = 0;
-	while (env[i] && env[i] != '=')
-		i++;
-	if (env[i] == '=')
-		i++;
-	while (env[i])
+	temp = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+	while (input[i] && ft_isalpha(input[i]))
 	{
+		temp[i] = input[i];
 		i++;
-		len++;
 	}
-	printf ("VAR:%s	", env);
-	printf ("LEN DE LA VAR:%zu\n", len);
+	len = ft_strlen(get_var(temp, env));
+	printf ("Size of var:	%zu\n", len);
+	ft_xfree(temp);
 	return (len);
 }
 
-static char	*copy_var(char *input, char *env)
+static size_t	size_projection(char *input, char **env)
 {
-	char	*copy;
+	size_t	size;
+	int		i;
+
+	size = 0;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == DOUBLE_QUOTE)
+		{
+			i++;
+			size++;
+			while (input[i] && input[i] != DOUBLE_QUOTE)
+			{
+				if (input[i] == '$')
+				{
+					size += size_of_var(&input[i + 1], env);
+					while (input[i]
+						&& (ft_isalpha(input[i]) == YES || input[i] == '$'))
+						i++;
+				}
+				i++;
+				size++;
+			}
+		}
+		size++;
+		i++;
+	}
+	printf ("Input:	%s Size projected:	%zu\n", input, size);
+	return (size);
+}
+
+static char	*double_quote_condition(char *input, char **env)
+{
+	char	*res;
 	int		i;
 	int		j;
-	int		k;
+	int		len;
+	char	*var;
 
 	i = 0;
 	j = 0;
-	k = 0;
-	copy = ft_strdup(input);
-	printf ("LEN DU NOUVEAU INPUT:%lu\n", ft_strlen(copy) + var_len(env));
-	ft_xfree(input);
-	input = ft_calloc(ft_strlen(copy) + var_len(env) + 1, sizeof(char));
-	while (copy[i])
+	res = ft_calloc(size_projection(input, env) + 1, sizeof(char));
+	while (input[i])
 	{
-		if (copy[i] == '$')
+		if (input[i] == '$' && i++)
 		{
-			while (env[k] != '=')
-				k++;
-			while (env[++k])
-			{
-				input[j] = env[k];
-				j++;
-			}
-			while (copy[i] && copy[i] != SPACE)
-				i++;
+			len = i;
+			while (input[len] && ft_isalpha(input[len]) == YES)
+				len++;
+			var = ft_fstrjoin(ft_substr(input, i, len - i), "=");
+			res = ft_strjoin(res, get_var(var, env));
+			i = len;
+			j = ft_strlen(res);
 		}
-		input[j] = copy[i];
-		j++;
-		i++;
+		res[j++] = input[i++];
 	}
-	printf("NEW INPUT:%s\n", input);
-	ft_xfree(copy);
-	return (input);
+	return (res);
 }
 
-char	*var_handler(char *input, char **env)
+void	var_handler(t_input **list, char **env)
 {
-	int		pos;
-	size_t	len;
-	char	*check_env;
+	int		i;
+	t_input	*temp;
 
-	pos = 0;
-	len = 0;
-	while (input[pos] && input[pos] != '$')
-		pos++;
-	if (input[pos - 1] == SINGLE_QUOTE)
-		return (input);
-	printf ("VERIF FAIT!\n");
-	// len = ft_strlen_until_space(&input[pos]);
-	check_env = ft_calloc(len + 1, sizeof(char));
-	ft_strlcpy(check_env, &input[pos], len + 1);
-	check_env = find_var(check_env, env, len);
-	printf ("TROUVER LA VAR:%s\n", check_env);
-	input = copy_var(input, check_env);
-	printf("INPUT:%s\n", input);
-	//free(check_env);
-	return (input);
+	temp = *list;
+	while (temp->next)
+	{
+		i = 0;
+		while (temp->input[i])
+		{
+			if (temp->input[i] == DOUBLE_QUOTE || temp->input[i] == '$')
+			{
+				temp->input = double_quote_condition(temp->input, env);
+			}
+			else if (temp->input[i] == SINGLE_QUOTE && i++)
+			{
+				while (temp->input[i] && temp->input[i] != SINGLE_QUOTE)
+					i++;
+			}
+			i++;
+		}
+		temp = temp->next;
+	}
 }

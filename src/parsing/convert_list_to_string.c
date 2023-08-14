@@ -1,6 +1,5 @@
 #include "../../include/parsing.h"
 
-
 static int	nb_of_complete_command(t_input **ih)
 {
 	t_input	*temp;
