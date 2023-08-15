@@ -55,6 +55,7 @@ void	*ft_calloc(size_t count, size_t size);
 void	*ft_realloc(void *old, size_t size, size_t len, size_t new_len);
 void	*ft_xfree(void	*pointer);
 
+size_t	ft_strcat(char *dst, char *src);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);

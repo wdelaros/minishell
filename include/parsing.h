@@ -53,10 +53,6 @@ typedef struct s_quote
 	char	*res;
 }				t_quote;
 
-//clean_option.c
-
-//clean_space.c
-
 //parsing_list.c
 void	print_node(t_input *list);
 t_input	*create_node(void);
@@ -78,15 +74,10 @@ char	***string_handler(char *input, char **env);
 //quote_handler.c
 void	quote_handler(t_input **input);
 
-//token_utils.c
-
 //token.c
 int		is_command(char **input, int i);
 int		is_option(char **input, int i);
 int		is_separator(char **input, int i);
-
-//utils.c
-void	parsing_strcpy_len(char *dest, char *src, int len);
 
 //var_handler.c
 void	var_handler(t_input **list, char **env);

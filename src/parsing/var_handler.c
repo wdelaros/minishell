@@ -28,7 +28,6 @@ static size_t	size_of_var(char *input, char **env)
 		i++;
 	}
 	len = ft_strlen(get_var(temp, env));
-	printf ("Size of var:	%zu\n", len);
 	ft_xfree(temp);
 	return (len);
 }
@@ -54,6 +53,9 @@ static size_t	size_projection(char *input, char **env)
 					while (input[i]
 						&& (ft_isalpha(input[i]) == YES || input[i] == '$'))
 						i++;
+					i++;
+					size++;
+					break ;
 				}
 				i++;
 				size++;
@@ -62,15 +64,14 @@ static size_t	size_projection(char *input, char **env)
 		size++;
 		i++;
 	}
-	printf ("Input:	%s Size projected:	%zu\n", input, size);
 	return (size);
 }
 
 static char	*double_quote_condition(char *input, char **env)
 {
 	char	*res;
-	int		i;
 	int		j;
+	int		i;
 	int		len;
 	char	*var;
 
@@ -79,13 +80,17 @@ static char	*double_quote_condition(char *input, char **env)
 	res = ft_calloc(size_projection(input, env) + 1, sizeof(char));
 	while (input[i])
 	{
-		if (input[i] == '$' && i++)
+		if (input[i] == DOUBLE_QUOTE && input[i + 1] && input[i + 1] == '$')
 		{
+			while (input[i] && input[i] != '$')
+				res[j++] = input[i++];
+			i++;
 			len = i;
 			while (input[len] && ft_isalpha(input[len]) == YES)
 				len++;
 			var = ft_fstrjoin(ft_substr(input, i, len - i), "=");
-			res = ft_strjoin(res, get_var(var, env));
+			ft_strcat(res, get_var(var, env));
+			ft_xfree(var);
 			i = len;
 			j = ft_strlen(res);
 		}
@@ -105,15 +110,14 @@ void	var_handler(t_input **list, char **env)
 		i = 0;
 		while (temp->input[i])
 		{
-			if (temp->input[i] == DOUBLE_QUOTE || temp->input[i] == '$')
+			if (temp->input[i] == DOUBLE_QUOTE)
 			{
 				temp->input = double_quote_condition(temp->input, env);
+				break ;
 			}
 			else if (temp->input[i] == SINGLE_QUOTE && i++)
-			{
 				while (temp->input[i] && temp->input[i] != SINGLE_QUOTE)
 					i++;
-			}
 			i++;
 		}
 		temp = temp->next;

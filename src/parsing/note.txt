@@ -11,3 +11,5 @@ a faire:
 	gérer les signaux
 
 a régler:
+
+echo	"$USER"

@@ -41,15 +41,13 @@ SRCS		=	error.c\
 				pipe.c\
 				pipe_utils.c\
 				signal_handler.c\
-				clean_space.c\
 				parsing_utils.c\
 				parsing.c\
 				quote_handler.c\
-				token_utils.c\
 				token.c\
-				clean_option.c\
 				convert_list_to_string.c\
-				utils.c\
+				var_handler.c\
+				parsing_list.c\
 				unset.c\
 				env.c\
 				pwd.c\
@@ -58,8 +56,6 @@ SRCS		=	error.c\
 				export_utils.c\
 				exit.c\
 				e_utils.c\
-				var_handler.c\
-				parsing_list.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
