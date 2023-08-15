@@ -14,95 +14,107 @@ static char	*get_var(char *var, char **envp)
 	return (NULL);
 }
 
-static size_t	size_of_var(char *input, char **env)
+// static size_t	size_of_var(char *input, char **env)
+// {
+// 	int		i;
+// 	size_t	len;
+// 	char	*temp;
+
+// 	i = 0;
+// 	temp = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+// 	while (input[i] && ft_isalpha(input[i]))
+// 	{
+// 		temp[i] = input[i];
+// 		i++;
+// 	}
+// 	len = ft_strlen(get_var(temp, env));
+// 	ft_xfree(temp);
+// 	return (len);
+// }
+
+// static size_t	size_projection(char *input, char **env)
+// {
+// 	size_t	size;
+// 	int		i;
+
+// 	size = 0;
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == DOUBLE_QUOTE)
+// 		{
+// 			i++;
+// 			size++;
+// 			while (input[i] && input[i] != DOUBLE_QUOTE)
+// 			{
+// 				if (input[i] == '$')
+// 				{
+// 					size += size_of_var(&input[i + 1], env);
+// 					while (input[i]
+// 						&& (ft_isalpha(input[i]) == YES || input[i] == '$'))
+// 						i++;
+// 					i++;
+// 					size++;
+// 					break ;
+// 				}
+// 				i++;
+// 				size++;
+// 			}
+// 		}
+// 		size++;
+// 		i++;
+// 	}
+// 	return (size);
+// }
+
+static int	skip_quote(char *input, int i, int quote)
 {
-	int		i;
-	size_t	len;
-	char	*temp;
-
-	i = 0;
-	temp = ft_calloc(ft_strlen(input) + 1, sizeof(char));
-	while (input[i] && ft_isalpha(input[i]))
-	{
-		temp[i] = input[i];
-		i++;
-	}
-	len = ft_strlen(get_var(temp, env));
-	ft_xfree(temp);
-	return (len);
-}
-
-static size_t	size_projection(char *input, char **env)
-{
-	size_t	size;
-	int		i;
-
-	size = 0;
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == DOUBLE_QUOTE)
-		{
+	i++;
+	if (quote == 1)
+		while (input[i] && input[i] != SINGLE_QUOTE)
 			i++;
-			size++;
-			while (input[i] && input[i] != DOUBLE_QUOTE)
-			{
-				if (input[i] == '$')
-				{
-					size += size_of_var(&input[i + 1], env);
-					while (input[i]
-						&& (ft_isalpha(input[i]) == YES || input[i] == '$'))
-						i++;
-					i++;
-					size++;
-					break ;
-				}
-				i++;
-				size++;
-			}
-		}
-		size++;
-		i++;
-	}
-	return (size);
+	else if (quote == 2)
+		while (input[i] && input[i] != DOUBLE_QUOTE)
+			i++;
+	return (i);
 }
 
-static char	*double_quote_condition(char *input, char **env)
+static int	double_quote_condition(char *input, char **env, int i)
 {
-	char	*res;
-	int		j;
-	int		i;
-	int		len;
+	int		max_len;
 	char	*var;
+	int		j;
+	int		start;
 
-	i = 0;
-	j = 0;
-	res = ft_calloc(size_projection(input, env) + 1, sizeof(char));
-	while (input[i])
+	max_len = skip_quote(input, i, 2);
+	printf("%d	%d\n", i, max_len);
+	start = i;
+	var = ft_calloc (max_len, sizeof(char));
+	while (i <= max_len)
 	{
-		if (input[i] == DOUBLE_QUOTE && input[i + 1] && input[i + 1] == '$')
+		if (input[i] && input[i] == '$' && i++)
 		{
-			while (input[i] && input[i] != '$')
-				res[j++] = input[i++];
-			i++;
-			len = i;
-			while (input[len] && ft_isalpha(input[len]) == YES)
-				len++;
-			var = ft_fstrjoin(ft_substr(input, i, len - i), "=");
-			ft_strcat(res, get_var(var, env));
-			ft_xfree(var);
-			i = len;
-			j = ft_strlen(res);
+			j = 0;
+			while (input[i] && ft_isalpha(input[i]) == YES)
+				var[j++] = input[i++];
+			var = ft_strjoin(var, "=");
+			var = get_var(var, env);
+			printf("%d	%d\n", start, max_len);
+			ft_str_search_replace(input, ft_substr(input, start, (max_len - start) + 1), var);
 		}
-		res[j++] = input[i++];
+		i++;
 	}
-	return (res);
+	return (skip_quote(input, start, 2));
 }
+
+// static int	normal_condition(char *input, char **env, int i)
+// {
+// }
 
 void	var_handler(t_input **list, char **env)
 {
-	int		i;
 	t_input	*temp;
+	int		i;
 
 	temp = *list;
 	while (temp->next)
@@ -110,16 +122,18 @@ void	var_handler(t_input **list, char **env)
 		i = 0;
 		while (temp->input[i])
 		{
-			if (temp->input[i] == DOUBLE_QUOTE)
+			if (temp->input[i] == '$')
 			{
-				temp->input = double_quote_condition(temp->input, env);
-				break ;
+				;
+				// i = normal_condition(temp->input, env, i);
 			}
-			else if (temp->input[i] == SINGLE_QUOTE && i++)
-				while (temp->input[i] && temp->input[i] != SINGLE_QUOTE)
-					i++;
+			else if (temp->input[i] == DOUBLE_QUOTE)
+				i = double_quote_condition(temp->input, env, i);
+			else if (temp->input[i] == SINGLE_QUOTE)
+				i = skip_quote(temp->input, i, 1);
 			i++;
 		}
+		printf ("RES DE LA STRING: %s\n", temp->input);
 		temp = temp->next;
 	}
 }

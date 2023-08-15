@@ -12,4 +12,4 @@ a faire:
 
 a régler:
 
-echo	"$USER"
+echo '$USER'"$USER"'$USER'

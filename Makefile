@@ -56,6 +56,7 @@ SRCS		=	error.c\
 				export_utils.c\
 				exit.c\
 				e_utils.c\
+				var_utils.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
