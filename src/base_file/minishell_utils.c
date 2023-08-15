@@ -39,7 +39,11 @@ int	exit_status(int status)
 	if (WIFEXITED(status))
 		result = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+			ft_printf("^\\Quit: 3");
 		result = (128 + WTERMSIG(status));
+	}
 	return (result);
 }
 

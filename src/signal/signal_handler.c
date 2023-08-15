@@ -17,6 +17,7 @@ static void	to_be_clearing(int sig)
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+			struc()->exit_code = 1;
 		}
 		struc()->is_child = 0;
 	}

@@ -7,9 +7,6 @@ int	pwd(void)
 	struc()->exit_code = 0;
 	str = getcwd(NULL, 0);
 	if (!str)
-	{
-		perror(str);
-		struc()->exit_code = 1;
-	}
+		str = ft_strdup(struc()->current_pwd);
 	return (ft_printf("%s\n", str), free(str), struc()->exit_code);
 }

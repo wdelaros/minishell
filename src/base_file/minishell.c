@@ -61,6 +61,7 @@ static void	initialize(int argc, char **argv, char **envp, t_data *data)
 	data->is_child = 0;
 	export(cmd[0], data);
 	ft_free_null(cmd[0]);
+	data->current_pwd = getcwd(NULL, 0);
 	free(cmd);
 	logo();
 }
@@ -79,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 		struc()->input = readline("minishell> ");
 		if (!struc()->input)
 		{
-			ft_putendl_fd("EXIT", 1);
+			ft_printf("minishell> exit\n");
 			break ;
 		}
 		if (ft_strcmp("", struc()->input))

@@ -14,23 +14,22 @@ char	*get_var(const char *var)
 	return (NULL);
 }
 
-static void	update_export(char *var, char *var2)
+static void	update_export(char *var, char *var2, t_data	*data)
 {
-	t_data	*data;
 	char	*trim_var;
 	int		i;
 
 	i = 0;
-	data = struc();
+	if (!var2)
+	{
+		free(var2);
+		return ;
+	}
 	trim_var = ft_strtrim2(var, '=');
 	while (struc()->export[i])
 	{
-		if (!ft_strncmp(struc()->export[i], var, ft_strlen(var)))
-		{
-			free(struc()->export[i]);
-			data->export[i] = ft_strjoin(var, var2);
-		}
-		else if (!ft_strcmp(struc()->export[i], trim_var))
+		if (!ft_strncmp(struc()->export[i], var, ft_strlen(var)) || \
+		!ft_strcmp(struc()->export[i], trim_var))
 		{
 			free(struc()->export[i]);
 			data->export[i] = ft_strjoin(var, var2);
@@ -52,21 +51,18 @@ int	cd(char	*dir)
 	{
 		dir = get_var("HOME=");
 		if (!dir)
-		{
-			ft_dprintf(2, "%s cd: HOME not set\n", MINI);
-			return (1);
-		}
+			return (ft_dprintf(2, "%s cd: HOME not set\n", MINI), 1);
 	}
-	m_pwd = getcwd(NULL, 0);
 	err = chdir(dir);
 	if (err)
+		return (ft_dprintf(2, "%s cd: ", MINI), perror(dir), 1);
+	update_export("OLDPWD=", ft_strdup(struc()->current_pwd), struc());
+	update_export("PWD=", getcwd(NULL, 0), struc());
+	m_pwd = getcwd(NULL, 0);
+	if (m_pwd)
 	{
-		ft_dprintf(2, "%s cd: ", MINI);
-		perror(dir);
-		free(m_pwd);
-		return (1);
+		free(struc()->current_pwd);
+		struc()->current_pwd = m_pwd;
 	}
-	update_export("OLDPWD=", m_pwd);
-	update_export("PWD=", getcwd(NULL, 0));
 	return (0);
 }
