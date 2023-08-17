@@ -52,7 +52,7 @@ void	find_executable(char	**fcmd, int i)
 			i++;
 		}
 	}
-	if (!access(fcmd[0], F_OK))
+	if (!access(fcmd[0], F_OK) || !access(struc()->cmdpath, F_OK))
 	{
 		if (!strncmp("./", fcmd[0], 2))
 			struc()->cmdpath = ft_strdup(fcmd[0]);

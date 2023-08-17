@@ -2,16 +2,23 @@
 
 void	print_cell(char	***cell)
 {
-	int		j;
+	int	i;
+	int	j;
 
-	j = 0;
-	while (cell[0][j])
+	i = 0;
+	while (cell[i])
 	{
-		ft_printf("-----------------------------------\n");
-		ft_printf("| i = %d                            \n", j);
-		ft_printf("| cmd : %s            \n", cell[0][j]);
-		ft_printf("-----------------------------------\n");
-		j++;
+		j = 0;
+		while (cell[i][j])
+		{
+			ft_printf("-----------------------------------\n");
+			ft_printf("| i = %d                            \n", i);
+			ft_printf("| j = %d                            \n", j);
+			ft_printf("| cmd : %s            \n", cell[i][j]);
+			ft_printf("-----------------------------------\n");
+			j++;
+		}
+		i++;
 	}
 }
 

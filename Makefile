@@ -58,6 +58,7 @@ SRCS		=	error.c\
 				export_utils.c\
 				exit.c\
 				e_utils.c\
+				exec_builtin.c\
 				var_handler.c\
 				parsing_list.c\
 

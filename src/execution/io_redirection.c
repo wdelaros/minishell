@@ -27,13 +27,13 @@ void	input_to_pipe(t_cmd	*cmd)
 	if (cmd->previous)
 	{
 		if (dup2(cmd->previous->previous->fd_in, STDIN_FILENO) == -1)
-			ft_printf("dup2 stdin failed\n", 2);
+			ft_dprintf(2, "dup2 stdin failed\n", 2);
 		if (close(cmd->previous->previous->fd_in) == -1)
-			ft_printf("close stdin failed\n", 2);
+			ft_dprintf(2, "close stdin failed\n", 2);
 	}
 	else
 		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
-			ft_printf("dup2 stdin failed\n", 2);
+			ft_dprintf(2, "dup2 stdin failed\n", 2);
 }
 
 /// @brief redirect input of file or a pipe
