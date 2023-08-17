@@ -20,25 +20,6 @@ static void	ft_error(int code)
 		"minishell: syntax error near unexpected token `quote'\n");
 }
 
-/**
- * execute a command
- * execve(the path of the command, the command, environment)
-*/
-void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
-{
-	struc()->path = findpath(struc());
-	find_executable(fcmd, 0);
-	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
-	{
-		if (access(struc()->cmdpath, F_OK))
-			ft_exit_message(fcmd, lcmd, cmd_to_free, 127);
-		else if (access(struc()->cmdpath, X_OK))
-			ft_exit_message(fcmd, lcmd, cmd_to_free, 126);
-		else
-			ft_exit_message(fcmd, lcmd, cmd_to_free, 1);
-	}
-}
-
 static void	initialize(int argc, char **argv, char **envp, t_data *data)
 {
 	int		i;

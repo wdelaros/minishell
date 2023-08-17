@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+#include "../../include/execution.h"
 
 /**
  * find the path for the excutable
@@ -47,7 +47,7 @@ void	find_executable(char	**fcmd, int i)
 			struc()->cmdpath = ft_strdup(tmp);
 			free(tmp);
 			if (!access(struc()->cmdpath, F_OK))
-				return ;
+				break ;
 			free(struc()->cmdpath);
 			i++;
 		}
@@ -55,9 +55,9 @@ void	find_executable(char	**fcmd, int i)
 	if (!access(fcmd[0], F_OK))
 	{
 		if (!strncmp("./", fcmd[0], 2))
-			struc()->cmdpath = fcmd[0];
+			struc()->cmdpath = ft_strdup(fcmd[0]);
 		else if (!strncmp("/", fcmd[0], 1))
-			struc()->cmdpath = fcmd[0];
+			struc()->cmdpath = ft_strdup(fcmd[0]);
 		if (struc()->cmdpath && !access(struc()->cmdpath, F_OK))
 			return ;
 	}

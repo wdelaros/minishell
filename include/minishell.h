@@ -45,14 +45,9 @@ typedef struct s_cmd
 
 t_data	*struc(void);
 int		signal_handler(void);
-char	**findpath(t_data *data);
-void	find_executable(char	**fcmd, int i);
-void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free);
 
 void	print_cell(char	***cell);
 void	logo(void);
-void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
-int		exit_status(int status);
 
 int		error_handler(char *input);
 
