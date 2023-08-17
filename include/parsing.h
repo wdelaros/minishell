@@ -83,6 +83,6 @@ int		is_separator(char **input, int i);
 void	var_handler(t_input **list, char **env);
 
 //var_utils.c
-void	ft_str_search_replace(char *str, char *search, char *replace);
+void	ft_str_search_replace(char **str, int start, char *replace);
 
 #endif

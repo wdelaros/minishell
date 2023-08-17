@@ -79,32 +79,44 @@ static int	skip_quote(char *input, int i, int quote)
 	return (i);
 }
 
-static int	double_quote_condition(char *input, char **env, int i)
+static int	double_quote_condition(char **input, char **env, int i)
 {
 	int		max_len;
 	char	*var;
 	int		j;
 	int		start;
+	char	*temp;
 
-	max_len = skip_quote(input, i, 2);
+	temp = *input;
+	max_len = skip_quote(temp, i, 2);
 	printf("%d	%d\n", i, max_len);
 	start = i;
-	var = ft_calloc (max_len, sizeof(char));
-	while (i <= max_len)
+	var = ft_calloc (max_len + 1, sizeof(char));
+	while (i < max_len)
 	{
-		if (input[i] && input[i] == '$' && i++)
+		if (temp[i] && temp[i] == '$' && i++)
 		{
+			printf ("hihi\n");
 			j = 0;
-			while (input[i] && ft_isalpha(input[i]) == YES)
-				var[j++] = input[i++];
+			while (temp[i] && ft_isalpha(temp[i]) == YES)
+				var[j++] = temp[i++];
 			var = ft_strjoin(var, "=");
-			var = get_var(var, env);
-			printf("%d	%d\n", start, max_len);
-			ft_str_search_replace(input, ft_substr(input, start, (max_len - start) + 1), var);
+			var = ft_strdup(get_var(var, env));
+			ft_str_search_replace(&temp, i, var);
+			i = start;
+			printf ("TEMP SPECIAL UWU: %p	", temp);
+			Ct_mprintf(temp, ft_strlen(temp) + 1, 1, 'D');
+			ft_bzero(var, max_len);
 		}
 		i++;
 	}
-	return (skip_quote(input, start, 2));
+	printf ("TEMP DANS LA FONCTION DE PISS: %p	", temp);
+	Ct_mprintf(temp, ft_strlen(temp) + 1, 1, 'E');
+	*input = temp;
+	printf ("RES DANS LA FONCTION DE PISS: %p	", *input);
+	Ct_mprintf(*input, ft_strlen(*input) + 1, 1, 'F');
+	ft_xfree(var);
+	return (skip_quote(temp, start, 2));
 }
 
 // static int	normal_condition(char *input, char **env, int i)
@@ -128,12 +140,15 @@ void	var_handler(t_input **list, char **env)
 				// i = normal_condition(temp->input, env, i);
 			}
 			else if (temp->input[i] == DOUBLE_QUOTE)
-				i = double_quote_condition(temp->input, env, i);
+			{
+				i = double_quote_condition(&temp->input, env, i);
+				printf ("RES FINALE: %p	", temp->input);
+				Ct_mprintf(temp->input, ft_strlen(temp->input) + 1, 1, 'G');
+			}
 			else if (temp->input[i] == SINGLE_QUOTE)
 				i = skip_quote(temp->input, i, 1);
 			i++;
 		}
-		printf ("RES DE LA STRING: %s\n", temp->input);
 		temp = temp->next;
 	}
 }
