@@ -2,7 +2,7 @@
 # define ERROR_H
 
 # include "../libft/libft.h"
-# include "../uwu/C_tool.h"
+# include "../uwu/inc/C_tool.h"
 # include <stdio.h>
 
 # define DOUBLE_QUOTE 34

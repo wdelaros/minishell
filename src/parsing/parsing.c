@@ -44,6 +44,7 @@ static char	*wagadoo_machine(char *input, int i)
 			j++;
 		}
 	}
+	ft_xfree(input);
 	return (temp);
 }
 
@@ -58,13 +59,13 @@ static char	*put_separator(char *input)
 			i += ft_strlen_until(&input[i], "\"");
 		if (input[i] == SINGLE_QUOTE)
 			i += ft_strlen_until(&input[i], "\'");
-		if (((input[i + 1] == RED_IN || input[i + 1] == RED_OUT
+		if (input[i + 1] && ((input[i + 1] == RED_IN || input[i + 1] == RED_OUT
 					|| input[i + 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
 			&& input[i] != RED_IN)
 			input = wagadoo_machine(input, i);
-		if (((input[i - 1] == RED_IN || input[i - 1] == RED_OUT
-					|| input[i - 1] == PIPE))
+		if (i > 0 && input[i - 1] && ((input[i - 1] == RED_IN
+					|| input[i - 1] == RED_OUT || input[i - 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
 			&& input[i] != RED_IN)
 			input = wagadoo_machine(input, i - 1);
@@ -87,7 +88,7 @@ char	***string_handler(char *input, char **env)
 	cpy_input = put_separator(cpy_input);
 	create_list(&input_handler, ft_split(cpy_input, 29));
 	var_handler(&input_handler, env);
-	quote_handler(&input_handler);
+	// quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);

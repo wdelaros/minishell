@@ -81,4 +81,5 @@ void	create_list(t_input **list, char **input)
 		i++;
 		temp = temp->next;
 	}
+	parsing_xfree_double(input);
 }

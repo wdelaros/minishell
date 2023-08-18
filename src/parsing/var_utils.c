@@ -1,5 +1,19 @@
 #include "../../include/parsing.h"
 
+static char	*get_var(char *var, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp(envp[i], var, ft_strlen(var)))
+			return (envp[i] + ft_strlen(var));
+		i++;
+	}
+	return (NULL);
+}
+
 // static int	do_search(char *str, char *search)
 // {
 // 	int	i;
@@ -34,6 +48,11 @@ void	ft_str_search_replace(char **str, int end, char *replace)
 	size = 0;
 	res = NULL;
 	temp = *str;
+	if (temp[i] == '$')
+	{
+		size++;
+		i--;
+	}
 	while (temp[i] && temp[i - 1] && temp[i] != '$')
 	{
 		size++;
@@ -43,20 +62,35 @@ void	ft_str_search_replace(char **str, int end, char *replace)
 	ft_strlcpy(res, temp, i + 1);
 	if (!replace)
 	{
-		temp = ft_strdup(res);
-		*str = temp;
+		ft_xfree(*str);
+		*str = ft_strdup(res);
 		ft_xfree(res);
 		return ;
 	}
-	ft_strcat(res, replace);
-	ft_strcat(res, &temp[end]);
-	printf ("RES: %p	", res);
-	Ct_mprintf(res, ft_strlen(res) + 1, 1, 'A');
-	temp = ft_strdup(res);
-	printf ("TEMP: %p	", temp);
-	Ct_mprintf(temp, ft_strlen(temp) + 1, 1, 'B');
+	res = ft_fstrjoin(res, replace);
+	res = ft_fstrjoin(res, &temp[end]);
+	ft_xfree(*str);
+	*str = ft_strdup(res);
 	ft_xfree(res);
-	*str = temp;
-	printf ("STR: %p	", *str);
-	Ct_mprintf(*str, ft_strlen(*str) + 1, 1, 'C');
+}
+
+char	*wagadoo_machine_2(char *str, char **env, int i, int max_len)
+{
+	int		j;
+	char	*var;
+	char	*new;
+	char	*temp;
+
+	j = 0;
+	var = ft_calloc (max_len + 1, sizeof(char));
+	while (str[i] && ft_isalpha(str[i]) == YES)
+		var[j++] = str[i++];
+	temp = ft_fstrjoin(var, "=");
+	var = ft_strdup(get_var(temp, env));
+	ft_str_search_replace(&str, i, var);
+	new = ft_strdup(str);
+	ft_xfree(temp);
+	ft_xfree(str);
+	ft_xfree(var);
+	return (new);
 }

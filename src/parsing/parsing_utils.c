@@ -67,3 +67,16 @@ size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize)
 	}
 	return (ft_strlen(src));
 }
+
+void	parsing_xfree_double(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		ft_xfree(str[i]);
+		i++;
+	}
+	ft_xfree(str);
+}
