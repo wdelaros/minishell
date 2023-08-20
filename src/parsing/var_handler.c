@@ -31,9 +31,26 @@ static int	double_quote_condition(char **input, char **env, int i)
 	return (skip_quote(*input, start, 2));
 }
 
-// static int	normal_condition(char *input, char **env, int i)
-// {
-// }
+static int	normal_condition(char **input, char **env, int i)
+{
+	char	*temp;
+	char	*var;
+	char	*var_temp;
+	int		j;
+
+	temp = *input;
+	j = 0;
+	var = ft_calloc (ft_strlen(temp), sizeof(char));
+	if (temp[i] == '$')
+		i++;
+	while (temp[i] && ft_isalpha(temp[i]) == YES)
+		var[j++] = temp[i++];
+	var_temp = ft_fstrjoin(var, "=");
+	var = ft_strdup(get_var_parsing(var_temp, env));
+	ft_xfree(*input);
+	*input = ft_strdup(var);
+	return (i);
+}
 
 void	var_handler(t_input **list, char **env)
 {
@@ -47,10 +64,7 @@ void	var_handler(t_input **list, char **env)
 		while (temp->input[i])
 		{
 			if (temp->input[i] == '$')
-			{
-				;
-				// i = normal_condition(temp->input, env, i);
-			}
+				i = normal_condition(&temp->input, env, i);
 			else if (temp->input[i] == DOUBLE_QUOTE)
 				i = double_quote_condition(&temp->input, env, i);
 			else if (temp->input[i] == SINGLE_QUOTE)

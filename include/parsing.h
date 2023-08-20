@@ -85,6 +85,7 @@ void	var_handler(t_input **list, char **env);
 
 //var_utils.c
 void	ft_str_search_replace(char **str, int start, char *replace);
+char	*get_var_parsing(char *var, char **envp);
 char	*wagadoo_machine_2(char *str, char **env, int i, int max_len);
 
 #endif

@@ -1,6 +1,6 @@
 #include "../../include/parsing.h"
 
-static char	*get_var(char *var, char **envp)
+char	*get_var_parsing(char *var, char **envp)
 {
 	int	i;
 
@@ -14,28 +14,26 @@ static char	*get_var(char *var, char **envp)
 	return (NULL);
 }
 
-// static int	do_search(char *str, char *search)
-// {
-// 	int	i;
+static int	size_of_guedille(char *temp, int *i)
+{
+	int	size;
+	int	j;
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (ft_strncmp(&str[i], search, ft_strlen(search)) == 0)
-// 			return (i);
-// 		i++;
-// 	}
-// 	return (-1);
-// }
-
-// static void	do_replace(char *str, char *res, int start, int size)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	(void)size;
-// 	ft_strlcpy(res, str, (ft_strlen(str) - start) + 1);
-// }
+	size = 0;
+	j = (*i);
+	if (temp[j] == '$')
+	{
+		size++;
+		j--;
+	}
+	while (temp[j] && temp[j - 1] && temp[j] != '$')
+	{
+		size++;
+		j--;
+	}
+	*i = j;
+	return (size);
+}
 
 void	ft_str_search_replace(char **str, int end, char *replace)
 {
@@ -45,23 +43,15 @@ void	ft_str_search_replace(char **str, int end, char *replace)
 	char	*temp;
 
 	i = end;
-	size = 0;
 	res = NULL;
 	temp = *str;
-	if (temp[i] == '$')
-	{
-		size++;
-		i--;
-	}
-	while (temp[i] && temp[i - 1] && temp[i] != '$')
-	{
-		size++;
-		i--;
-	}
-	res = ft_calloc(ft_strlen(temp) + (ft_strlen(replace) - size), sizeof(char));
+	size = size_of_guedille(temp, &i);
+	res = ft_calloc(ft_strlen(temp) + (ft_strlen(replace) - size),
+			sizeof(char));
 	ft_strlcpy(res, temp, i + 1);
 	if (!replace)
 	{
+		res = ft_fstrjoin(res, &temp[end]);
 		ft_xfree(*str);
 		*str = ft_strdup(res);
 		ft_xfree(res);
@@ -86,7 +76,7 @@ char	*wagadoo_machine_2(char *str, char **env, int i, int max_len)
 	while (str[i] && ft_isalpha(str[i]) == YES)
 		var[j++] = str[i++];
 	temp = ft_fstrjoin(var, "=");
-	var = ft_strdup(get_var(temp, env));
+	var = ft_strdup(get_var_parsing(temp, env));
 	ft_str_search_replace(&str, i, var);
 	new = ft_strdup(str);
 	ft_xfree(temp);
