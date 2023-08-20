@@ -88,7 +88,8 @@ char	***string_handler(char *input, char **env)
 	cpy_input = put_separator(cpy_input);
 	create_list(&input_handler, ft_split(cpy_input, 29));
 	var_handler(&input_handler, env);
-	// quote_handler(&input_handler);
+	print_node(input_handler);
+	quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);

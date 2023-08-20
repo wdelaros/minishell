@@ -38,7 +38,7 @@ static int	normal_condition(char **input, char **env, int i)
 	char	*var_temp;
 	int		j;
 
-	temp = *input;
+	temp = ft_strdup(*input);
 	j = 0;
 	var = ft_calloc (ft_strlen(temp), sizeof(char));
 	if (temp[i] == '$')
@@ -47,8 +47,11 @@ static int	normal_condition(char **input, char **env, int i)
 		var[j++] = temp[i++];
 	var_temp = ft_fstrjoin(var, "=");
 	var = ft_strdup(get_var_parsing(var_temp, env));
+	ft_xfree(var_temp);
 	ft_xfree(*input);
 	*input = ft_strdup(var);
+	*input = ft_fstrjoin(*input, &temp[i]);
+	ft_xfree(temp);
 	return (i);
 }
 
