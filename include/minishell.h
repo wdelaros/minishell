@@ -20,10 +20,13 @@
 # define RUN 0
 # define GROSSE_ERROR 1
 
-//commenter dans uwu/color.h
-# define GRN "\x1b[32;49m"
-//commenter dans uwu/color.h
-# define WHT "\x1b[0m"
+# ifndef GRN
+#  define GRN "\x1b[32;49m"
+# endif
+
+# ifndef WHT
+#  define WHT "\x1b[0m"
+# endif
 
 typedef struct s_data
 {
