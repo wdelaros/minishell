@@ -20,6 +20,11 @@
 # define RUN 0
 # define GROSSE_ERROR 1
 
+//commenter dans uwu/color.h
+# define GRN "\x1b[32;49m"
+//commenter dans uwu/color.h
+# define WHT "\x1b[0m"
+
 typedef struct s_data
 {
 	char		**envp;
@@ -28,9 +33,9 @@ typedef struct s_data
 	char		*input;
 	char		*cmdpath;
 	int			exit_code;
+	char		*current_pwd;
 	int			is_child;
 	int			pipenum;
-	char		*current_pwd;
 }				t_data;
 
 typedef struct s_cmd

@@ -32,6 +32,35 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 	}
 }
 
+void	run_pipe2(char	***cmd, int *i, t_cmd **lcmd, t_exec *ex)
+{
+	e_struc()->skip[*i] = 1;
+	if ((*lcmd)->next && (*lcmd)->cmd && !ft_strcmp((*lcmd)->cmd[0], "|"))
+		(*lcmd) = (*lcmd)->next;
+	if (*i < struc()->pipenum)
+		pipe((*ex).pfd);
+	if (is_builtin((*lcmd)->cmd) != 1 || struc()->pipenum > 0)
+	{
+		e_struc()->pid[*i] = fork();
+		struc()->is_child = 1;
+		e_struc()->tmp_i = *i;
+		run_cmds(lcmd, (*ex).pfd, (*ex).fd_out, cmd);
+		e_struc()->skip[*i] = 0;
+	}
+	else
+	{
+		run_builtin((*lcmd), cmd, (*ex).fd_out, (*ex).pfd);
+		e_struc()->skip[*i] = 2;
+	}
+	if (struc()->pipenum > 0)
+		close((*ex).pfd[1]);
+	if ((*lcmd)->previous && struc()->pipenum > 0)
+		close((*lcmd)->previous->previous->fd_in);
+	(*lcmd)->fd_in = (*ex).pfd[0];
+	*i += 1;
+	(*lcmd) = (*lcmd)->next;
+}
+
 /// @brief 
 /// @param cmd the command line
 void	run_pipe(char	***cmd)
@@ -44,39 +73,6 @@ void	run_pipe(char	***cmd)
 	count(cmd, 0);
 	current = NULL;
 	lcmd = ft_setnode(cmd, &current);
-	// int j = 0;
-	// while (lcmd)
-	// {
-	// 	ft_printf("\n-----------------------\n");
-	// 	ft_printf("cmd number %d:\ninput: ", j);
-	// 	i = 0;
-	// 	while (lcmd->redir_in && lcmd->redir_in[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->redir_in[i]);
-	// 		i++;
-	// 	}
-	// 	ft_printf("\ncmd: ");
-	// 	i = 0;
-	// 	while (lcmd->cmd && lcmd->cmd[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->cmd[i]);
-	// 		i++;
-	// 	}
-	// 	ft_printf("\noutput: ");
-	// 	i = 0;
-	// 	while (lcmd->redir_out && lcmd->redir_out[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->redir_out[i]);
-	// 		i++;
-	// 	}
-	// 	j++;
-	// 	if (!lcmd->next)
-	// 		break ;
-	// 	lcmd = lcmd->next;
-	// }
-	// 	ft_printf("\n-----------------------\n");
-	// while (lcmd->previous)
-	// 	lcmd = lcmd->previous;
 	e_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	e_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
 	if (e_struc()->number_of_cmd > 0)
@@ -85,37 +81,7 @@ void	run_pipe(char	***cmd)
 		lcmd->fd_in = 0;
 		ex.fd_out = dup(STDOUT_FILENO);
 		while (lcmd)
-		{
-			e_struc()->skip[i] = 1;
-			if (lcmd->next && lcmd->cmd && !ft_strcmp(lcmd->cmd[0], "|"))
-				lcmd = lcmd->next;
-			if (!lcmd->next && lcmd->cmd && (!ft_strcmp(lcmd->cmd[0], "|")))
-				break ;
-			if (i < struc()->pipenum)
-				pipe(ex.pfd);
-			if (is_builtin(lcmd->cmd) != 1 || struc()->pipenum > 0)
-			{
-				e_struc()->pid[i] = fork();
-				struc()->is_child = 1;
-				e_struc()->tmp_i = i;
-				run_cmds(&lcmd, ex.pfd, ex.fd_out, cmd);
-				e_struc()->skip[i] = 0;
-			}
-			else
-			{
-				run_builtin(lcmd, cmd, ex.fd_out, ex.pfd);
-				e_struc()->skip[i] = 2;
-			}
-			if (struc()->pipenum > 0)
-				close(ex.pfd[1]);
-			if (lcmd->previous && struc()->pipenum > 0)
-				close(lcmd->previous->previous->fd_in);
-			lcmd->fd_in = ex.pfd[0];
-			i++;
-			if (!lcmd->next)
-				break ;
-			lcmd = lcmd->next;
-		}
+			run_pipe2(cmd, &i, &lcmd, &ex);
 		close(ex.fd_out);
 		if (struc()->pipenum > 0)
 			reset_fd(ex.pfd);
