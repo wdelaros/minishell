@@ -20,6 +20,35 @@ static void	ft_error(int code)
 		"minishell: syntax error near unexpected token `quote'\n");
 }
 
+void	ft_prompt(char	***cmd, int err)
+{
+	while (1)
+	{
+		struc()->is_child = 0;
+		if (struc()->current_pwd && ft_strlen(struc()->current_pwd) > 1)
+			ft_printf(GRN"%s "WHT, ft_strrchr(struc()->current_pwd, '/') + 1);
+		else if (struc()->current_pwd && ft_strlen(struc()->current_pwd) == 1)
+			ft_printf(GRN"%s "WHT, ft_strrchr(struc()->current_pwd, '/'));
+		struc()->input = readline("minishell> ");
+		if (!struc()->input)
+		{
+			ft_printf("minishell> exit\n");
+			break ;
+		}
+		if (ft_strcmp("", struc()->input))
+			add_history(struc()->input);
+		err = error_handler(struc()->input);
+		if (err != RUN)
+			ft_error(err);
+		else if (err == RUN)
+		{
+			cmd = string_handler(struc()->input, struc()->envp);
+			run_pipe(cmd);
+		}
+		ft_printf("exit code: %d\n", struc()->exit_code);
+	}
+}
+
 static void	initialize(int argc, char **argv, char **envp, t_data *data)
 {
 	int		i;
@@ -27,9 +56,9 @@ static void	initialize(int argc, char **argv, char **envp, t_data *data)
 
 	(void)argc;
 	(void)argv;
+	i = 1;
 	data->envp = cpy_environement(NULL, envp);
 	data->export = cpy_environement(NULL, envp);
-	i = 1;
 	cmd = ft_calloc(3, sizeof(char **));
 	while (i > 0)
 	{
@@ -49,35 +78,12 @@ static void	initialize(int argc, char **argv, char **envp, t_data *data)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	***cmd;
-	int		err;
-
 	if (signal_handler())
 		exit(1);
 	initialize(argc, argv, envp, struc());
-	while (1)
-	{
-		struc()->is_child = 0;
-		struc()->input = readline("minishell> ");
-		if (!struc()->input)
-		{
-			ft_printf("minishell> exit\n");
-			break ;
-		}
-		if (ft_strcmp("", struc()->input))
-			add_history(struc()->input);
-		err = error_handler(struc()->input);
-		if (err != RUN)
-			ft_error(err);
-		else if (err == RUN)
-		{
-			cmd = string_handler(struc()->input, envp);
-			run_pipe(cmd);
-		}
-		printf("exit code: %d\n", struc()->exit_code);
-	}
+	ft_prompt(NULL, 0);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);
 	rl_clear_history();
-	return (0);
+	return (struc()->exit_code);
 }
