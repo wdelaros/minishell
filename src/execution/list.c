@@ -26,18 +26,13 @@ static int	ft_perror(char ***arg, int i, t_pilist	*list)
 	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
 	ft_strcmp(arg[i + 1][0], "|")))
 		i++;
-	list->input = NULL;
-	list->output = NULL;
-	list->command = NULL;
-	e_struc()->number_of_cmd--;
-	if (e_struc()->number_of_cmd > 0)
+	if (ft_strcmp(arg[i][0], "|") && !arg[i + 1])
 	{
-		while (ft_strcmp(arg[i][0], "|") && arg[i + 1])
-			i++;
-		struc()->pipenum--;
+		e_struc()->number_of_cmd--;
+		struc()->exit_code = 1;
 	}
-	struc()->exit_code = 1;
-	return (i + 1);
+	list->command = NULL;
+	return (i);
 }
 
 static int	parse_redir(t_pilist *list, char ***arg, int *i)
@@ -46,6 +41,7 @@ static int	parse_redir(t_pilist *list, char ***arg, int *i)
 	{
 		if (access(arg[*i][1], F_OK | R_OK))
 		{
+			list->input = arg[*i];
 			*i = ft_perror(arg, *i, list);
 			return (1);
 		}
@@ -81,7 +77,7 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 		|| !ft_strcmp(arg[i][0], ">>"))
 		{
 			if (parse_redir(&list, arg, &i))
-				continue ;
+				;
 		}
 		else
 			list.command = arg[i];

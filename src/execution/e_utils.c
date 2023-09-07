@@ -30,7 +30,7 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 {
 	struc()->path = findpath(struc());
-	find_executable(fcmd, 0);
+	find_executable(fcmd, 0, struc());
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
 	{
 		if (access(struc()->cmdpath, F_OK))

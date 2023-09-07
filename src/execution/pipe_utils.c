@@ -29,6 +29,12 @@ void	reset_fd(int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 }
 
+void	free_env(void)
+{
+	ft_free_null(struc()->envp);
+	ft_free_null(struc()->export);
+}
+
 /// @brief free
 /// @param current struct to free 
 /// @param cmd triple pointer to free

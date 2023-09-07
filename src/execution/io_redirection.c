@@ -50,14 +50,15 @@ void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out)
 			close(fd_out);
 			if (struc()->pipenum > 0)
 			{
-				if ((*lcmd)->previous)
+				if ((*lcmd)->previous && (*lcmd)->previous->previous)
 					close((*lcmd)->previous->previous->fd_in);
 				close((*pfd)[0]);
 				close((*pfd)[1]);
 			}
 			ft_free_all_pipe((*lcmd), cmd);
+			free_env();
 			rl_clear_history();
-			exit (1);
+			exit (struc()->exit_code);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);

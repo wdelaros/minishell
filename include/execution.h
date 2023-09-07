@@ -37,10 +37,11 @@ t_cmd		*ft_setnode(char	***arg, t_cmd	**current);
 
 void		count(char ***cmd, int i);
 void		reset_fd(int *fd);
+void		free_env(void);
 void		wait_end_cmd(void);
 
 char		**findpath(t_data *data);
-void		find_executable(char	**fcmd, int i);
+void		find_executable(char	**fcmd, int i, t_data	*data);
 
 int			is_builtin(char	**cmd);
 void		redir_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int *pfd);

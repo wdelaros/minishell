@@ -35,31 +35,29 @@ char	**findpath(t_data *data)
 /**
  * check if the excutable exist
 */
-void	find_executable(char	**fcmd, int i)
+void	find_executable(char	**fcmd, int i, t_data *data)
 {
-	char	*tmp;
-
-	if (struc()->path)
+	if (data->path)
 	{
-		while (struc()->path[i])
+		while (data->path[i])
 		{
-			tmp = ft_rstrjoin(fcmd[0], struc()->path[i]);
-			struc()->cmdpath = ft_strdup(tmp);
-			free(tmp);
-			if (!access(struc()->cmdpath, F_OK))
+			data->cmdpath = ft_rstrjoin(fcmd[0], data->path[i]);
+			if (!access(data->cmdpath, F_OK))
 				break ;
-			free(struc()->cmdpath);
+			free(data->cmdpath);
+			data->cmdpath = NULL;
 			i++;
 		}
 	}
-	if (!access(fcmd[0], F_OK) || !access(struc()->cmdpath, F_OK))
+	if (!access(fcmd[0], F_OK) || (data->cmdpath && \
+	!access(data->cmdpath, F_OK)))
 	{
 		if (!strncmp("./", fcmd[0], 2))
-			struc()->cmdpath = ft_strdup(fcmd[0]);
+			data->cmdpath = ft_strdup(fcmd[0]);
 		else if (!strncmp("/", fcmd[0], 1))
-			struc()->cmdpath = ft_strdup(fcmd[0]);
-		if (struc()->cmdpath && !access(struc()->cmdpath, F_OK))
+			data->cmdpath = ft_strdup(fcmd[0]);
+		if (data->cmdpath && !access(data->cmdpath, F_OK))
 			return ;
 	}
-	struc()->cmdpath = ft_strdup("");
+	data->cmdpath = ft_strdup("");
 }

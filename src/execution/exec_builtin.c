@@ -2,6 +2,8 @@
 
 int	is_builtin(char	**cmd)
 {
+	if (!cmd)
+		return (0);
 	if (!ft_strcmp(cmd[0], "unset"))
 		return (1);
 	else if (!ft_strcmp(cmd[0], "cd"))
