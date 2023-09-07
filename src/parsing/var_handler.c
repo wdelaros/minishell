@@ -67,7 +67,11 @@ void	var_handler(t_input **list, char **env)
 		while (temp->input[i])
 		{
 			if (temp->input[i] == '$')
+			{
+				printf ("SUISE UWU\n");
 				i = normal_condition(&temp->input, env, i);
+				printf ("UI\n");
+			}
 			else if (temp->input[i] == DOUBLE_QUOTE)
 				i = double_quote_condition(&temp->input, env, i);
 			else if (temp->input[i] == SINGLE_QUOTE)

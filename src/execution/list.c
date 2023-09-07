@@ -17,6 +17,8 @@ static t_cmd	*picreate_node(char	**redir_in, char	**cmd, char	**redir_out)
 	node->redir_out = redir_out;
 	node->previous = NULL;
 	node->next = NULL;
+	if (!cmd)
+		e_struc()->number_of_cmd--;
 	return (node);
 }
 
@@ -28,7 +30,6 @@ static int	ft_perror(char ***arg, int i, t_pilist	*list)
 		i++;
 	if (ft_strcmp(arg[i][0], "|") && !arg[i + 1])
 	{
-		e_struc()->number_of_cmd--;
 		struc()->exit_code = 1;
 	}
 	list->command = NULL;
@@ -41,7 +42,6 @@ static int	parse_redir(t_pilist *list, char ***arg, int *i)
 	{
 		if (access(arg[*i][1], F_OK | R_OK))
 		{
-			list->input = arg[*i];
 			*i = ft_perror(arg, *i, list);
 			return (1);
 		}

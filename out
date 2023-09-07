@@ -1,0 +1,14 @@
+Makefile
+include
+libft
+minishell
+minishell.dSYM
+note.txt
+obj
+out
+readline
+src
+supp.txt
+test
+uwu
+|

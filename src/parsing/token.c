@@ -3,7 +3,9 @@
 int	is_command(char **input, int i)
 {
 	printf ("ASGIDF: %c\n", *input[i]);
-	if (i == 0 && is_separator(input, i) == NO)
+	if (is_separator(input, i) == YES)
+		return (NO);
+	if (i == 0)
 		return (YES);
 	if (i > 0 && input[i - 1][0] == PIPE)
 		return (YES);
