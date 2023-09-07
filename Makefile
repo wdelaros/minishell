@@ -57,8 +57,6 @@ SRCS		=	error.c\
 				exit.c\
 				e_utils.c\
 				exec_builtin.c\
-				var_handler.c\
-				parsing_list.c\
 				var_utils.c\
 
 OBJS_DIR	=	obj/
