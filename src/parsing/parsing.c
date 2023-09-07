@@ -90,6 +90,7 @@ char	***string_handler(char *input, char **env)
 	var_handler(&input_handler, env);
 	print_node(input_handler);
 	quote_handler(&input_handler);
+	print_node(input_handler);
 	res = convert_list_to_string(&input_handler);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);

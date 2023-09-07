@@ -79,6 +79,7 @@ void	quote_handler(t_input **input);
 int		is_command(char **input, int i);
 int		is_option(char **input, int i);
 int		is_separator(char **input, int i);
+int		is_after_red(char **input, int i);
 
 //var_handler.c
 void	var_handler(t_input **list, char **env);
