@@ -19,7 +19,7 @@
 # define YES 1
 
 # include "../libft/libft.h"
-# include "../uwu/C_tool.h"
+# include "../uwu/inc/C_tool.h"
 # include <stdio.h>
 
 /// @brief List of inputs
@@ -53,10 +53,6 @@ typedef struct s_quote
 	char	*res;
 }				t_quote;
 
-//clean_option.c
-
-//clean_space.c
-
 //parsing_list.c
 void	print_node(t_input *list);
 t_input	*create_node(void);
@@ -70,6 +66,7 @@ char	***convert_list_to_string(t_input **ih);
 //parsing_utils.c
 int		ft_strlen_until(char *str, char *c);
 char	*ft_sstrjoin(char const *s1, char const *s2);
+void	parsing_xfree_double(char **str);
 size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 
 //parsing.c
@@ -78,17 +75,18 @@ char	***string_handler(char *input, char **env);
 //quote_handler.c
 void	quote_handler(t_input **input);
 
-//token_utils.c
-
 //token.c
 int		is_command(char **input, int i);
 int		is_option(char **input, int i);
 int		is_separator(char **input, int i);
-
-//utils.c
-void	parsing_strcpy_len(char *dest, char *src, int len);
+int		is_after_red(char **input, int i);
 
 //var_handler.c
 void	var_handler(t_input **list, char **env);
+
+//var_utils.c
+void	ft_str_search_replace(char **str, int start, char *replace);
+char	*get_var_parsing(char *var, char **envp);
+char	*wagadoo_machine_2(char *str, char **env, int i, int max_len);
 
 #endif

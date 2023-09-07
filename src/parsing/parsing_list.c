@@ -75,10 +75,13 @@ void	create_list(t_input **list, char **input)
 			add_node(&temp, OPTION);
 		else if (is_separator(input, i) == YES)
 			add_node(&temp, SEPARATOR);
+		else if (is_after_red(input, i) == YES)
+			add_node(&temp, 4);
 		else
 			add_node(&temp, ARGUMENT);
 		temp->input = ft_strdup(input[i]);
 		i++;
 		temp = temp->next;
 	}
+	parsing_xfree_double(input);
 }

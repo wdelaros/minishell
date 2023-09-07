@@ -1,103 +1,64 @@
 #include "../../include/parsing.h"
 
-static char	*get_var(char *var, char **envp)
+static int	skip_quote(char *input, int i, int quote)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (!ft_strncmp(envp[i], var, ft_strlen(var)))
-			return (envp[i] + ft_strlen(var));
-		i++;
-	}
-	return (NULL);
-}
-
-static size_t	size_of_var(char *input, char **env)
-{
-	int		i;
-	size_t	len;
-	char	*temp;
-
-	i = 0;
-	temp = ft_calloc(ft_strlen(input) + 1, sizeof(char));
-	while (input[i] && ft_isalpha(input[i]))
-	{
-		temp[i] = input[i];
-		i++;
-	}
-	len = ft_strlen(get_var(temp, env));
-	printf ("Size of var:	%zu\n", len);
-	ft_xfree(temp);
-	return (len);
-}
-
-static size_t	size_projection(char *input, char **env)
-{
-	size_t	size;
-	int		i;
-
-	size = 0;
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == DOUBLE_QUOTE)
-		{
+	i++;
+	if (quote == 1)
+		while (input[i] && input[i] != SINGLE_QUOTE)
 			i++;
-			size++;
-			while (input[i] && input[i] != DOUBLE_QUOTE)
-			{
-				if (input[i] == '$')
-				{
-					size += size_of_var(&input[i + 1], env);
-					while (input[i]
-						&& (ft_isalpha(input[i]) == YES || input[i] == '$'))
-						i++;
-				}
-				i++;
-				size++;
-			}
-		}
-		size++;
-		i++;
-	}
-	printf ("Input:	%s Size projected:	%zu\n", input, size);
-	return (size);
+	else if (quote == 2)
+		while (input[i] && input[i] != DOUBLE_QUOTE)
+			i++;
+	return (i);
 }
 
-static char	*double_quote_condition(char *input, char **env)
+static int	double_quote_condition(char **input, char **env, int i)
 {
-	char	*res;
-	int		i;
-	int		j;
-	int		len;
-	char	*var;
+	int		max_len;
+	int		start;
 
-	i = 0;
-	j = 0;
-	res = ft_calloc(size_projection(input, env) + 1, sizeof(char));
-	while (input[i])
+	max_len = skip_quote(*input, i, 2);
+	start = i;
+	while (i < max_len)
 	{
-		if (input[i] == '$' && i++)
+		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
-			len = i;
-			while (input[len] && ft_isalpha(input[len]) == YES)
-				len++;
-			var = ft_fstrjoin(ft_substr(input, i, len - i), "=");
-			res = ft_strjoin(res, get_var(var, env));
-			i = len;
-			j = ft_strlen(res);
+			*input = wagadoo_machine_2(*input, env, i, max_len);
+			i = start;
 		}
-		res[j++] = input[i++];
+		i++;
 	}
-	return (res);
+	return (skip_quote(*input, start, 2));
+}
+
+static int	normal_condition(char **input, char **env, int i)
+{
+	char	*temp;
+	char	*var;
+	char	*var_temp;
+	int		j;
+
+	temp = ft_strdup(*input);
+	j = 0;
+	var = ft_calloc (ft_strlen(temp), sizeof(char));
+	if (temp[i] == '$')
+		i++;
+	while (temp[i] && ft_isalpha(temp[i]) == YES)
+		var[j++] = temp[i++];
+	var_temp = ft_fstrjoin(var, "=");
+	var = ft_strdup(get_var_parsing(var_temp, env));
+	ft_xfree(var_temp);
+	ft_xfree(*input);
+	*input = ft_strdup(var);
+	*input = ft_fstrjoin(*input, &temp[i]);
+	ft_xfree(temp);
+	return (i);
 }
 
 void	var_handler(t_input **list, char **env)
 {
-	int		i;
 	t_input	*temp;
+	int		i;
 
 	temp = *list;
 	while (temp->next)
@@ -105,15 +66,12 @@ void	var_handler(t_input **list, char **env)
 		i = 0;
 		while (temp->input[i])
 		{
-			if (temp->input[i] == DOUBLE_QUOTE || temp->input[i] == '$')
-			{
-				temp->input = double_quote_condition(temp->input, env);
-			}
-			else if (temp->input[i] == SINGLE_QUOTE && i++)
-			{
-				while (temp->input[i] && temp->input[i] != SINGLE_QUOTE)
-					i++;
-			}
+			if (temp->input[i] == '$')
+				i = normal_condition(&temp->input, env, i);
+			else if (temp->input[i] == DOUBLE_QUOTE)
+				i = double_quote_condition(&temp->input, env, i);
+			else if (temp->input[i] == SINGLE_QUOTE)
+				i = skip_quote(temp->input, i, 1);
 			i++;
 		}
 		temp = temp->next;

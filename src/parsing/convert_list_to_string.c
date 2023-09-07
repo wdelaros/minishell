@@ -58,7 +58,7 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	i = 0;
 	data->i = 0;
 	data->j = 0;
-	count = nb_of_complete_command(ih);
+	count = nb_of_complete_command(ih) + 1;
 	printf ("\nNOMBRE DE COMPLETE COMMAND: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
 	data->sizeofcom = ft_calloc(count, sizeof(int));
@@ -97,6 +97,7 @@ char	***convert_list_to_string(t_input **ih)
 	{
 		if (k == data.sizeofcom[data.i])
 		{
+			printf ("SIZECOM: %d\n", data.sizeofcom[data.i]);
 			if (!temp->next)
 				return (data.res);
 			printf ("ARRIVER A LA FIN DE LA COMMANDE\n");
@@ -117,6 +118,25 @@ char	***convert_list_to_string(t_input **ih)
 		k++;
 		temp = temp->next;
 	}
+	// int	i;
+	// int	j;
+
+	// i = 0;
+	// while (data.res[i])
+	// {
+	// 	j = 0;
+	// 	while (data.res[i][j])
+	// 	{
+	// 		ft_printf("-----------------------------------\n");
+	// 		ft_printf("| i = %d                            \n", i);
+	// 		ft_printf("| j = %d                            \n", j);
+	// 		ft_printf("| cmd : %s            \n", data.res[i][j]);
+	// 		ft_printf("-----------------------------------\n");
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
+	printf ("COUCOU?\n");
 	ft_xfree(data.sizeofcom);
 	return (data.res);
 }
