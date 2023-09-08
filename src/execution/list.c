@@ -24,20 +24,6 @@ static t_cmd	*picreate_node(char	**redir_in, char **cmd, char **redir_out)
 	return (node);
 }
 
-static int	ft_perror(char ***arg, int i, t_pilist	*list)
-{
-	perror(arg[i][1]);
-	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
-	ft_strcmp(arg[i + 1][0], "|")))
-		i++;
-	if (ft_strcmp(arg[i][0], "|") && !arg[i + 1])
-		struc()->exit_code = 1;
-	list->input = NULL;
-	list->command = NULL;
-	list->output = NULL;
-	return (i);
-}
-
 static int	parse_redir(t_pilist *list, char ***arg, int *i)
 {
 	if (!ft_strcmp(arg[*i][0], "<"))
@@ -93,34 +79,14 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 	return (i);
 }
 
-t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
+static t_cmd	**finalize_list(t_cmd	**current)
 {
-	t_cmd	*cmd;
-	int		i;
-
-	i = ft_parse_node(arg, &cmd, 0);
-	(*current) = cmd;
-	while (arg && arg[i] && arg[i + 1])
-	{
-		i++;
-		i = ft_parse_node(arg, &(*current)->next, i);
-		(*current)->next->previous = (*current);
-		(*current) = (*current)->next;
-	}
-	while ((*current) && (*current)->next)
-		(*current) = (*current)->next;
 	while ((*current) && (*current)->previous)
 	{
 		if ((*current)->cmd && !strcmp((*current)->cmd[0], "|"))
-		{
-			(*current) = (*current)->previous;
 			struc()->pipenum++;
-		}
 		else if ((*current)->good == 1)
-		{
-			(*current) = (*current)->previous;
 			e_struc()->number_of_cmd++;
-		}
 		else
 		{
 			if (e_struc()->number_of_cmd > 0)
@@ -134,9 +100,32 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 					(*current)->previous = NULL;
 				}
 			}
-			break ;
+			return (current);
 		}
+		(*current) = (*current)->previous;
 	}
+	return (current);
+}
+
+t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	struc()->pipenum = 0;
+	e_struc()->number_of_cmd = 0;
+	i = ft_parse_node(arg, &cmd, 0);
+	(*current) = cmd;
+	while (arg && arg[i] && arg[i + 1])
+	{
+		i++;
+		i = ft_parse_node(arg, &(*current)->next, i);
+		(*current)->next->previous = (*current);
+		(*current) = (*current)->next;
+	}
+	while ((*current) && (*current)->next)
+		(*current) = (*current)->next;
+	current = finalize_list(current);
 	e_struc()->number_of_cmd++;
 	cmd = (*current);
 	return (cmd);

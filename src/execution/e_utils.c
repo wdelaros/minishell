@@ -42,6 +42,20 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 	}
 }
 
+int	ft_perror(char ***arg, int i, t_pilist	*list)
+{
+	perror(arg[i][1]);
+	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
+	ft_strcmp(arg[i + 1][0], "|")))
+		i++;
+	if (ft_strcmp(arg[i][0], "|") && !arg[i + 1])
+		struc()->exit_code = 1;
+	list->input = NULL;
+	list->command = NULL;
+	list->output = NULL;
+	return (i);
+}
+
 int	exit_status(int status)
 {
 	int	result;

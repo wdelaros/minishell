@@ -70,12 +70,10 @@ void	run_pipe(char	***cmd)
 	t_exec	ex;
 	int		i;
 
-	struc()->pipenum = 0;
-	e_struc()->number_of_cmd = 0;
+	if (!cmd || !cmd[0] || !cmd[0][0])
+		return ;
 	current = NULL;
 	lcmd = ft_setnode(cmd, &current);
-	printf("number of cmd:%d\n", e_struc()->number_of_cmd);
-	printf("number of pipe:%d\n", struc()->pipenum);
 	e_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	e_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
 	if (e_struc()->number_of_cmd > 0)

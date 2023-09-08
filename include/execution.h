@@ -27,6 +27,7 @@ typedef struct s_pilist
 
 t_e_data	*e_struc(void);
 void		exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free);
+int			ft_perror(char ***arg, int i, t_pilist	*list);
 void		ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
 int			exit_status(int status);
 
