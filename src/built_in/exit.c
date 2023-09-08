@@ -28,6 +28,7 @@ static int	free_and_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out)
 
 	exitnum = ft_atoi(cmd[1]);
 	close(fd_out);
+	free(struc()->current_pwd);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);
 	ft_free_all_pipe(lcmd, to_free);

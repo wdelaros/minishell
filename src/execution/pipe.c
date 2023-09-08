@@ -26,6 +26,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		else if ((*lcmd)->cmd)
 			exec((*lcmd)->cmd, *lcmd, cmd);
 		ft_free_all_pipe((*lcmd), cmd);
+		free(struc()->current_pwd);
 		ft_free_null(struc()->envp);
 		ft_free_null(struc()->export);
 		exit(struc()->exit_code);

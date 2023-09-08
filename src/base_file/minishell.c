@@ -82,6 +82,7 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	initialize(envp, struc());
 	ft_prompt(NULL, 0);
+	free(struc()->current_pwd);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);
 	rl_clear_history();

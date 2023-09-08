@@ -16,6 +16,7 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 	else
 		ft_dprintf(2, "minishell: %s: is a directory\n", fcmd[0]);
 	ft_free_all_pipe(lcmd, cmd);
+	free(struc()->current_pwd);
 	ft_free_null(struc()->path);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);
