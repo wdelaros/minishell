@@ -14,7 +14,7 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 	else if (code == 126)
 		ft_dprintf(2, "minishell: %s: Permission denied\n", fcmd[0]);
 	else
-		ft_dprintf(2, "minishell: %s: exit 1", fcmd[0]);
+		ft_dprintf(2, "minishell: %s: is a directory\n", fcmd[0]);
 	ft_free_all_pipe(lcmd, cmd);
 	ft_free_null(struc()->path);
 	ft_free_null(struc()->envp);
@@ -52,7 +52,7 @@ int	exit_status(int status)
 	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == 3)
-			ft_printf("^\\Quit: 3");
+			ft_printf("^\\Quit: 3\n");
 		result = (128 + WTERMSIG(status));
 	}
 	return (result);

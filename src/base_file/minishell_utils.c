@@ -36,3 +36,17 @@ void	logo(void)
 		" \\▓▓      \\▓▓\\▓▓\\▓▓   \\▓▓\\▓▓\\▓▓▓▓▓▓▓ \\▓▓   \\▓▓ \\▓▓▓▓▓▓▓\\▓▓\\▓▓",
 		"\x1b[31m""				     by wdelaros and rapelcha""\x1b[0m");
 }
+
+char	*ft_prompt_line(void)
+{
+	char	*line;
+
+	line = NULL;
+	if (struc()->current_pwd && ft_strlen(struc()->current_pwd) > 1)
+		line = ft_fstrjoin(ft_strjoin(GRN"", \
+		ft_strrchr(struc()->current_pwd, '/') + 1), WHT" minishell> ");
+	else if (struc()->current_pwd && ft_strlen(struc()->current_pwd) == 1)
+		line = ft_fstrjoin(ft_strjoin(GRN"", \
+		ft_strrchr(struc()->current_pwd, '/')), WHT" minishell> ");
+	return (line);
+}

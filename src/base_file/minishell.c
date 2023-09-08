@@ -20,16 +20,16 @@ static void	ft_error(int code)
 		"minishell: syntax error near unexpected token `quote'\n");
 }
 
-void	ft_prompt(char	***cmd, int err)
+static void	ft_prompt(char	***cmd, int err)
 {
+	char	*line;
+
 	while (1)
 	{
 		struc()->is_child = 0;
-		if (struc()->current_pwd && ft_strlen(struc()->current_pwd) > 1)
-			ft_printf(GRN"%s "WHT, ft_strrchr(struc()->current_pwd, '/') + 1);
-		else if (struc()->current_pwd && ft_strlen(struc()->current_pwd) == 1)
-			ft_printf(GRN"%s "WHT, ft_strrchr(struc()->current_pwd, '/'));
-		struc()->input = readline("minishell> ");
+		line = ft_prompt_line();
+		struc()->input = readline(line);
+		free(line);
 		if (!struc()->input)
 		{
 			ft_printf("minishell> exit\n");
@@ -49,13 +49,11 @@ void	ft_prompt(char	***cmd, int err)
 	}
 }
 
-static void	initialize(int argc, char **argv, char **envp, t_data *data)
+static void	initialize(char **envp, t_data *data)
 {
 	int		i;
 	char	***cmd;
 
-	(void)argc;
-	(void)argv;
 	i = 1;
 	data->envp = cpy_environement(NULL, envp);
 	data->export = cpy_environement(NULL, envp);
@@ -78,9 +76,11 @@ static void	initialize(int argc, char **argv, char **envp, t_data *data)
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	if (signal_handler())
 		exit(1);
-	initialize(argc, argv, envp, struc());
+	initialize(envp, struc());
 	ft_prompt(NULL, 0);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);

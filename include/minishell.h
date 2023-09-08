@@ -47,6 +47,7 @@ typedef struct s_cmd
 	char			**redir_in;
 	char			**redir_out;
 	int				fd_in;
+	int				good;
 	struct s_cmd	*previous;
 	struct s_cmd	*next;
 }				t_cmd;
@@ -55,6 +56,7 @@ t_data	*struc(void);
 int		signal_handler(void);
 
 void	print_cell(char	***cell);
+char	*ft_prompt_line(void);
 void	logo(void);
 
 int		error_handler(char *input);
