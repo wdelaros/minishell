@@ -1,31 +1,5 @@
 #include "../../include/parsing.h"
 
-// static int	double_quote_handler(char **res, char **input, size_t *i, size_t *j)
-// {
-// 	char	*double_input;
-// 	char	*double_res;
-// 	size_t	double_i;
-// 	size_t	double_j;
-// 	int		var;
-
-// 	double_input = *input;
-// 	double_res = *res;
-// 	double_i = *i;
-// 	double_j = *j;
-// 	var = NO;
-// 	while (double_input[double_i] && double_input[double_i] != DOUBLE_QUOTE)
-// 	{
-// 		if (double_input[double_i] == '$')
-// 			var = YES;
-// 		double_res[double_j] = double_input[double_i];
-// 		double_i++;
-// 		double_j++;
-// 	}
-// 	*i = double_i;
-// 	*j = double_j;
-// 	return (var);
-// }
-
 static int	quote_size(char *input)
 {
 	int		i;
