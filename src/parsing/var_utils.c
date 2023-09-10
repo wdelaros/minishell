@@ -21,7 +21,7 @@ static int	size_of_guedille(char *temp, int *i)
 
 	size = 0;
 	j = (*i);
-	printf ("DE KOSSÉ: %s	%d\n", temp, *i);
+	//printf ("DE KOSSÉ: %s	%d\n", temp, *i);
 	if (temp[j] == '$')
 	{
 		size++;
@@ -47,11 +47,11 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 	res = NULL;
 	temp = *str;
 	size = size_of_guedille(temp, &i);
-	printf ("SIZE?: %d\n", size);
+	//printf ("SIZE?: %d\n", size);
 	res = ft_calloc(ft_strlen(temp) + (ft_strlen(replace) - size),
 			sizeof(char));
 	ft_strlcpy(res, temp, i + 1);
-	printf ("PREMIER CPY: %s\n", res);
+	//printf ("PREMIER CPY: %s\n", res);
 	if (!replace)
 	{
 		res = ft_fstrjoin(res, &temp[start]);
@@ -61,9 +61,9 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 		return ;
 	}
 	res = ft_fstrjoin(res, replace);
-	printf ("DEUXIEME CPY: %s\n", res);
+	//printf ("DEUXIEME CPY: %s\n", res);
 	res = ft_fstrjoin(res, &temp[start]);
-	printf ("TROISIEME CPY: %s\n", res);
+	//printf ("TROISIEME CPY: %s\n", res);
 	ft_xfree(*str);
 	*str = ft_strdup(res);
 	ft_xfree(res);
