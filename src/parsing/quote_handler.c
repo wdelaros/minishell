@@ -61,7 +61,7 @@ static char	*quote_interpreter(char *input)
 
 	i = 0;
 	j = 0;
-	res = ft_calloc(quote_size(input), sizeof(char));
+	res = ft_calloc(quote_size(input) + 1, sizeof(char));
 	while (input[i])
 	{
 		if (input[i] == SINGLE_QUOTE)
