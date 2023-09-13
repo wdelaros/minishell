@@ -12,8 +12,8 @@ int	is_builtin(char	**cmd)
 		return (1);
 	else if (!ft_strcmp(cmd[0], "export"))
 		return (1);
-	// else if (!ft_strcmp(cmd[0], "echo"))
-	// 	return (2);
+	else if (!ft_strcmp(cmd[0], "echo"))
+		return (2);
 	else if (!ft_strcmp(cmd[0], "env"))
 		return (2);
 	else if (!ft_strcmp(cmd[0], "pwd"))
@@ -49,8 +49,8 @@ void	run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd)
 		data->exit_code = export(lcmd->cmd, data);
 	else if (!ft_strcmp(lcmd->cmd[0], "pwd"))
 		data->exit_code = pwd();
-	// else if (!ft_strcmp(lcmd->cmd[0], "echo"))
-	// 	data->exit_code = echo();
+	else if (!ft_strcmp(lcmd->cmd[0], "echo"))
+		data->exit_code = echo(lcmd->cmd);
 	else if (!ft_strcmp(lcmd->cmd[0], "cd"))
 		data->exit_code = cd(lcmd->cmd[1]);
 	else if (!ft_strcmp(lcmd->cmd[0], "exit"))

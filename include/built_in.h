@@ -15,5 +15,4 @@ char	*get_var(const char *var);
 
 char	**add_environement(char **env, char **cpy_env, char *content, \
 int option);
-
 #endif
