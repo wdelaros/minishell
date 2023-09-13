@@ -46,6 +46,7 @@ typedef struct s_cmd
 	char			**cmd;
 	char			**redir_in;
 	char			**redir_out;
+	char			*tmp_file[12];
 	int				fd_in;
 	int				good;
 	struct s_cmd	*previous;
@@ -66,6 +67,7 @@ char	**cpy_environement(char **env, char **cpy_env);
 /*--------------------execution--------------------*/
 
 void	run_pipe(char	***cmd);
+void	ft_free_triple_pointer(char	***cmd);
 void	ft_free_all_pipe(t_cmd *current, char ***cmd);
 
 /*--------------------built_in--------------------*/

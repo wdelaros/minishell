@@ -71,6 +71,7 @@ void	run_pipe(char	***cmd)
 	t_exec	ex;
 	int		i;
 
+
 	if (!cmd || !cmd[0] || !cmd[0][0])
 		return ;
 	current = NULL;

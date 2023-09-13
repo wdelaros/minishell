@@ -24,6 +24,44 @@ static t_cmd	*picreate_node(char	**redir_in, char **cmd, char **redir_out)
 	return (node);
 }
 
+static int ft_here_doc(t_pilist *list, char **str, char *delimiter, char ***cmd)
+{
+	int		fd;
+	pid_t	pid;
+	int		status;
+	char	*line;
+
+	(void)cmd;
+	ft_xfree(str[1]);
+	str[1] = ft_strdup("allo.txt");
+	pid = fork();
+	struc()->is_child = 1;
+	if (!pid)
+	{
+		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
+		line = readline("> ");
+		while (strcmp(line, delimiter))
+		{
+			ft_dprintf(fd, "%s\n", line);
+			ft_xfree(line);
+			line = readline("> ");
+		}
+		ft_xfree(line);
+		close(fd);
+		free(delimiter);
+		ft_free_triple_pointer(cmd);
+		free_env();
+		free(struc()->current_pwd);
+		rl_clear_history();
+		exit(0);
+	}
+	list->input = str;
+	waitpid(pid, &status, 0);
+	if (exit_status(status) == 130)
+		return (free(delimiter), 130);
+	return (free(delimiter), 0);
+}
+
 static int	parse_redir(t_pilist *list, char ***arg, int *i)
 {
 	if (!ft_strcmp(arg[*i][0], "<"))
@@ -62,10 +100,14 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 	while (arg && arg[i])
 	{
 		if (!ft_strcmp(arg[i][0], "<") || !ft_strcmp(arg[i][0], ">") \
-		|| !ft_strcmp(arg[i][0], ">>"))
+		|| !ft_strcmp(arg[i][0], ">>") || !ft_strcmp(arg[i][0], "<<"))
 		{
-			if (parse_redir(&list, arg, &i))
-				break ;
+			if (ft_strcmp(arg[i][0], "<<"))
+				if (parse_redir(&list, arg, &i))
+					break ;
+			if (!ft_strcmp(arg[i][0], "<<") && \
+			ft_here_doc(&list, arg[i], ft_strdup(arg[i][1]), arg))
+				return (-1);
 		}
 		else
 			list.command = arg[i];
@@ -115,11 +157,21 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	struc()->pipenum = 0;
 	e_struc()->number_of_cmd = 0;
 	i = ft_parse_node(arg, &cmd, 0);
+	if (i == -1)
+	{
+		struc()->exit_code = 1;
+		return (cmd);
+	}
 	(*current) = cmd;
 	while (arg && arg[i] && arg[i + 1])
 	{
 		i++;
 		i = ft_parse_node(arg, &(*current)->next, i);
+		if (i == -1)
+		{
+			struc()->exit_code = 1;
+			return (cmd);
+		}
 		(*current)->next->previous = (*current);
 		(*current) = (*current)->next;
 	}

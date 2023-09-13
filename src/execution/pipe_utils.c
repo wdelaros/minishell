@@ -35,13 +35,27 @@ void	free_env(void)
 	ft_free_null(struc()->export);
 }
 
+void	ft_free_triple_pointer(char	***cmd)
+{
+	int	i;
+
+	i = 0;
+	if (cmd)
+	{
+		while (cmd[i])
+		{
+			cmd[i] = ft_free_null(cmd[i]);
+			i++;
+		}
+		ft_xfree(cmd);
+	}
+}
+
 /// @brief free
 /// @param current struct to free 
 /// @param cmd triple pointer to free
 void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 {
-	int	i;
-
 	if (current)
 	{
 		while (current->next)
@@ -53,16 +67,7 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 		}
 		free(current);
 	}
-	i = 0;
-	if (cmd)
-	{
-		while (cmd[i])
-		{
-			cmd[i] = ft_free_null(cmd[i]);
-			i++;
-		}
-		free(cmd);
-	}
+	ft_free_triple_pointer(cmd);
 	ft_xfree(e_struc()->pid);
 	ft_xfree(e_struc()->skip);
 }
