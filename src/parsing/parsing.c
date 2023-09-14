@@ -92,23 +92,24 @@ char	***string_handler(char *input, char **env)
 	quote_handler(&input_handler);
 	print_node(input_handler);
 	res = convert_list_to_string(&input_handler);
-	// int	i;
-	// int	j;
+	int	i;
+	int	j;
 
-	// i = 0;
-	// while (res[i])
-	// {
-	// 	j = 0;
-	// 	while (res[i][j])
-	// 	{
-	// 		printf ("I: %d	J: %d\n", i, j);
-	// 		Ct_mprintf(res[i][j], ft_strlen(res[i][j]) + 1, 1, 'A');
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	// Ct_mprintf(res[i][1], 2, 0, 'B');
-	// printf("%p\n", res[i][1]);
+	i = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			ft_printf("-----------------------------------\n");
+			ft_printf("| i = %d                            \n", i);
+			ft_printf("| j = %d                            \n", j);
+			ft_printf("| cmd : %s            \n", res[i][j]);
+			ft_printf("-----------------------------------\n");
+			j++;
+		}
+		i++;
+	}
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
 	printf ("CONVERSION TERMINER\n\n");

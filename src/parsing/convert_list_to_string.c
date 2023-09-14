@@ -32,18 +32,15 @@ static void	sizeof_each_command(t_input **ih, t_conv *data, int count)
 	size = 1;
 	while (temp->next)
 	{
-		if (temp->next && temp->next->token == 3 && temp->token != 3)
+		//printf ("SIZE: %d	STR: %s	TOKEN: %d\n", size, temp->input, temp->token);
+		if ((temp->next && temp->next->token == 3) || temp->token == 4)
 		{
+			//printf ("FIN DE LA FUCKING COMMANDE\n");
 			data->sizeofcom[i] = size;
 			i++;
 			size = 0;
 		}
-		else if (temp->token == 3)
-		{
-			data->sizeofcom[i] = size;
-			i++;
-			size = 0;
-		}
+		//printf("PROCHAIN TRUC\n");
 		temp = temp->next;
 		size++;
 	}
@@ -108,13 +105,14 @@ char	***convert_list_to_string(t_input **ih)
 		}
 		if (temp->input[0] == RED_IN || temp->input[0] == RED_OUT)
 		{
+			//printf("REDIRECTION TRANFER:\n");
 			data.res[data.i] = redirection_tranfer(data.res[data.i],
 					temp->input, temp->next->input);
-			temp = temp->next;
 		}
 		else
 			data.res[data.i][data.j] = ft_strdup(temp->input);
-		// printf ("STRING QUI A ÉTÉ COPIER:%s:FIN:\n", data.res[data.i][data.j]);
+		//ft_putstr_fd("STRING QUI A ÉTÉ COPIER:", 0);
+		//ft_print_double(data.res[data.i]);
 		data.j++;
 		k++;
 		temp = temp->next;
