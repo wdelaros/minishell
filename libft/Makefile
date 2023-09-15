@@ -88,6 +88,7 @@ SRCS_LST		=	ft_atoi.c\
 					ft_toupper.c\
 					get_next_line.c\
 \
+					ft_print_double.c\
 					ft_printf.c\
 					ft_printf_utils.c\
 					ft_printhex.c\

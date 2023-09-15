@@ -14,3 +14,7 @@
 
 exit: exit [n]
 	n % 256
+
+
+
+< note.txt cat | < note.txt cat

@@ -51,6 +51,7 @@ SRCS		=	error.c\
 				unset.c\
 				env.c\
 				pwd.c\
+				echo.c\
 				cd.c\
 				export.c\
 				export_utils.c\

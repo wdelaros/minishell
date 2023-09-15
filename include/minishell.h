@@ -78,5 +78,6 @@ int		ft_env(char **envp);
 int		pwd(void);
 int		export(char **content, t_data *data);
 void	ft_exit(char **cmd, t_cmd *lcmd, char ***to_free, int fd_out);
+int		echo(char **input);
 
 #endif
