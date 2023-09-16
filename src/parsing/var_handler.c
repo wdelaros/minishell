@@ -40,7 +40,7 @@ static char	*put_var_in_input(char *str, int start, char *var)
 {
 	char	*res;
 
-	res = ft_calloc(start, sizeof(char));
+	res = ft_calloc(start + 1, sizeof(char));
 	ft_strlcpy(res, str, start + 1);
 	res = ft_fstrjoin(res, var);
 	if (str[start] == '$')

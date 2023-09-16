@@ -11,6 +11,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		return ;
 	if (!e_struc()->pid[e_struc()->tmp_i])
 	{
+		//sig_handler_c();
 		redir_input(lcmd, &pfd, cmd, fd_out);
 		redir_output(*lcmd, &pfd, e_struc()->tmp_i);
 		if (struc()->pipenum > 0)
