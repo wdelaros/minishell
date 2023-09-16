@@ -44,7 +44,7 @@ static void	ft_prompt(char	***cmd, int err)
 			ft_error(err);
 		else if (err == RUN)
 		{
-			cmd = string_handler(struc()->input, struc()->envp);
+			cmd = string_handler(struc()->input, struc()->envp, struc()->exit_code);
 			run_pipe(cmd);
 		}
 		ft_printf("exit code: %d\n", struc()->exit_code);

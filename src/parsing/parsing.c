@@ -74,7 +74,7 @@ static char	*put_separator(char *input)
 	return (input);
 }
 
-char	***string_handler(char *input, char **env)
+char	***string_handler(char *input, char **env, int err_code)
 {
 	t_input	*input_handler;
 	char	***res;
@@ -87,7 +87,7 @@ char	***string_handler(char *input, char **env)
 	input_handler = create_node();
 	cpy_input = put_separator(cpy_input);
 	create_list(&input_handler, ft_split(cpy_input, 29));
-	var_handler(&input_handler, env);
+	var_handler(&input_handler, env, err_code);
 	quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler, 0);
 	free_list(&input_handler);

@@ -1,19 +1,20 @@
 #include "../../include/parsing.h"
 
-static int	double_quote_condition(char **input, char **env, int i)
+static int	double_quote_condition(char **input, char **env, int i, int err)
 {
-	int		max_len;
 	int		start;
+	t_var	t_var;
 
-	max_len = skip_quote(*input, i, 2);
+	t_var.err_code = err;
+	t_var.maxlen = skip_quote(*input, i, 2);
 	start = i;
-	while (i < max_len)
+	while (i < t_var.maxlen)
 	{
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
-			*input = change_input_with_var(*input, env, i, max_len);
+			*input = change_input_with_var(*input, env, i, t_var);
 			i = start;
-			max_len = skip_quote(*input, start, 2);
+			t_var.maxlen = skip_quote(*input, start, 2);
 		}
 		i++;
 	}
@@ -54,7 +55,7 @@ static char	*put_var_in_input(char *str, int start, char *var)
 	return (res);
 }
 
-static int	normal_condition(char **input, char **env, int i)
+static int	normal_condition(char **input, char **env, int i, int err)
 {
 	char	*temp;
 	char	*var;
@@ -65,13 +66,19 @@ static int	normal_condition(char **input, char **env, int i)
 	temp = ft_strdup(*input);
 	start = i;
 	j = 0;
+	var_temp = NULL;
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (temp[i] == '$')
 		i++;
-	while (temp[i] && ft_isalpha(temp[i]) == YES)
+	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'))
 		var[j++] = temp[i++];
-	var_temp = ft_fstrjoin(var, "=");
-	var = ft_strdup(get_var_parsing(var_temp, env));
+	if (ft_strncmp(var, "?", 1) == 0)
+		var = ft_fstrjoin(ft_itoa(err), var + 1);
+	else
+	{
+		var_temp = ft_fstrjoin(var, "=");
+		var = ft_strdup(get_var_parsing(var_temp, env));
+	}
 	if (var == NULL)
 		*input = clean_var(*input, i);
 	else
@@ -81,7 +88,7 @@ static int	normal_condition(char **input, char **env, int i)
 	return (0);
 }
 
-void	var_handler(t_input **list, char **env)
+void	var_handler(t_input **list, char **env, int err_code)
 {
 	t_input	*temp;
 	int		i;
@@ -93,9 +100,9 @@ void	var_handler(t_input **list, char **env)
 		while (temp->input[i])
 		{
 			if (temp->input[i] == '$')
-				i = normal_condition(&temp->input, env, i);
+				i = normal_condition(&temp->input, env, i, err_code);
 			else if (temp->input[i] == DOUBLE_QUOTE)
-				i = double_quote_condition(&temp->input, env, i);
+				i = double_quote_condition(&temp->input, env, i, err_code);
 			else if (temp->input[i] == SINGLE_QUOTE)
 				i = skip_quote(temp->input, i, 1);
 			if (temp->input[i] && temp->input[i] != '$')

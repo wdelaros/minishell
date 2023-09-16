@@ -64,7 +64,7 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 	ft_xfree(res);
 }
 
-char	*change_input_with_var(char *str, char **env, int i, int max_len)
+char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 {
 	int		j;
 	char	*var;
@@ -72,11 +72,17 @@ char	*change_input_with_var(char *str, char **env, int i, int max_len)
 	char	*temp;
 
 	j = 0;
-	var = ft_calloc (max_len + 1, sizeof(char));
-	while (str[i] && ft_isalpha(str[i]) == YES)
+	temp = NULL;
+	var = ft_calloc (t_var.maxlen + 1, sizeof(char));
+	while (str[i] && (ft_isalnum(str[i]) == YES || str[i] == '?'))
 		var[j++] = str[i++];
-	temp = ft_fstrjoin(var, "=");
-	var = ft_strdup(get_var_parsing(temp, env));
+	if (ft_strncmp(var, "?", 1) == 0)
+		var = ft_fstrjoin(ft_itoa(t_var.err_code), var + 1);
+	else
+	{
+		temp = ft_fstrjoin(var, "=");
+		var = ft_strdup(get_var_parsing(temp, env));
+	}
 	ft_str_search_replace(&str, i, var);
 	new = ft_strdup(str);
 	ft_xfree(temp);

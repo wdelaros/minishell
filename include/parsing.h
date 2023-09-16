@@ -45,6 +45,12 @@ typedef struct s_conv
 	int		*sizeofcom;
 }				t_conv;
 
+typedef struct s_var
+{
+	int	maxlen;
+	int	err_code;
+}				t_var;
+
 typedef struct s_quote
 {
 	char	*raw_input;
@@ -68,7 +74,7 @@ int		ft_strlen_until(char *str, char *c);
 void	parsing_xfree_double(char **str);
 
 //parsing.c
-char	***string_handler(char *input, char **env);
+char	***string_handler(char *input, char **env, int err_code);
 
 //quote_handler.c
 void	quote_handler(t_input **input);
@@ -80,11 +86,11 @@ int		is_separator(char **input, int i);
 int		is_after_red(char **input, int i);
 
 //var_handler.c
-void	var_handler(t_input **list, char **env);
+void	var_handler(t_input **list, char **env, int err_code);
 
 //var_utils.c
 void	ft_str_search_replace(char **str, int start, char *replace);
 char	*get_var_parsing(char *var, char **envp);
-char	*change_input_with_var(char *str, char **env, int i, int max_len);
+char	*change_input_with_var(char *str, char **env, int i, t_var t_var);
 
 #endif
