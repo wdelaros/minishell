@@ -52,6 +52,7 @@ static char	*quote_interpreter(char *input, size_t i)
 			res[j++] = input[i];
 		i++;
 	}
+	ft_xfree(input);
 	return (res);
 }
 

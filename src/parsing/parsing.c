@@ -81,6 +81,8 @@ char	***string_handler(char *input, char **env)
 	char	*cpy_input;
 
 	res = NULL;
+	if (input[0] == '\0')
+		return (res);
 	cpy_input = ft_strdup(input);
 	input_handler = create_node();
 	cpy_input = put_separator(cpy_input);

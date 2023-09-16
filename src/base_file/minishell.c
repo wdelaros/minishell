@@ -63,7 +63,7 @@ static void	initialize(char **envp, t_data *data)
 	while (i > 0)
 	{
 		i--;
-		cmd[i] = ft_calloc(7, sizeof(char *));	//pourquoi malloc de 7 ??????
+		cmd[i] = ft_calloc(7, sizeof(char *));
 	}
 	cmd[0][0] = ft_strdup("export");
 	cmd[0][1] = ft_strdup("OLDPWD");

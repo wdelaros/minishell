@@ -24,7 +24,7 @@ int	ft_strlen_until(char *str, char *c)
 
 void	parsing_xfree_double(char **str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])

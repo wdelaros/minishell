@@ -49,6 +49,7 @@ static char	*put_var_in_input(char *str, int start, char *var)
 			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE))
 		start++;
 	res = ft_fstrjoin(res, &str[start]);
+	ft_xfree(var);
 	ft_xfree(str);
 	return (res);
 }
