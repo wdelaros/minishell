@@ -26,10 +26,12 @@ static void	ft_prompt(char	***cmd, int err)
 
 	while (1)
 	{
+		signal_handler(NO, YES);
 		struc()->is_child = 0;
 		line = ft_prompt_line();
 		struc()->input = readline(line);
 		free(line);
+		signal_handler(NO, NO);
 		if (!struc()->input)
 		{
 			ft_printf("minishell> exit\n");
@@ -61,7 +63,7 @@ static void	initialize(char **envp, t_data *data)
 	while (i > 0)
 	{
 		i--;
-		cmd[i] = ft_calloc(7, sizeof(char *));
+		cmd[i] = ft_calloc(7, sizeof(char *));	//pourquoi malloc de 7 ??????
 	}
 	cmd[0][0] = ft_strdup("export");
 	cmd[0][1] = ft_strdup("OLDPWD");
@@ -78,8 +80,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	if (signal_handler())
-		exit(1);
 	initialize(envp, struc());
 	ft_prompt(NULL, 0);
 	free(struc()->current_pwd);

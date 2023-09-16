@@ -2,32 +2,37 @@
 
 static void	to_be_clearing(int sig)
 {
-	struct termios	term;
-
-	tcgetattr(0, &term);
-	if (struc()->is_child == 0)
-		term.c_lflag &= ~ECHOCTL;
-	else if (struc()->is_child == 1)
-		term.c_lflag = DEFAULT_ECHO_TERM;
-	tcsetattr(0, TCSANOW, &term);
-	if (sig == SIGINT)
-	{
-		if (struc()->is_child == 0)
-		{
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			struc()->exit_code = 130;
-		}
-		struc()->is_child = 0;
-	}
+	(void)sig;
+	ft_printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-int	signal_handler(void)
+static void	normal_behavior(int sig)
 {
-	if (signal(SIGINT, to_be_clearing) == SIG_ERR)
-		return (1);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		return (1);
+	if (sig == SIGINT)
+		ft_putstr_fd("\n", 0);
+	else if (sig == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", 2);
+}
+
+int	signal_handler(int sleep, int interactive)
+{
+	if (interactive == YES)
+	{
+		signal(SIGINT, to_be_clearing);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (sleep == YES)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, normal_behavior);
+		signal(SIGQUIT, normal_behavior);
+	}
 	return (0);
 }
