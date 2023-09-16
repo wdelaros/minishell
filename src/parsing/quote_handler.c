@@ -27,13 +27,11 @@ static int	quote_size(char *input)
 	return (count);
 }
 
-static char	*quote_interpreter(char *input)
+static char	*quote_interpreter(char *input, size_t i)
 {
-	size_t	i;
 	size_t	j;
 	char	*res;
 
-	i = 0;
 	j = 0;
 	res = ft_calloc(quote_size(input) + 1, sizeof(char));
 	while (input[i])
@@ -79,7 +77,7 @@ void	quote_handler(t_input **input)
 	while (temp->next)
 	{
 		if (is_quote(temp->input) == YES)
-			temp->input = quote_interpreter(temp->input);
+			temp->input = quote_interpreter(temp->input, 0);
 		temp = temp->next;
 	}
 }

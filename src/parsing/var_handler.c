@@ -1,17 +1,5 @@
 #include "../../include/parsing.h"
 
-static int	skip_quote(char *input, int i, int quote)
-{
-	i++;
-	if (quote == 1)
-		while (input[i] && input[i] != SINGLE_QUOTE)
-			i++;
-	else if (quote == 2)
-		while (input[i] && input[i] != DOUBLE_QUOTE)
-			i++;
-	return (i);
-}
-
 static int	double_quote_condition(char **input, char **env, int i)
 {
 	int		max_len;
@@ -23,7 +11,7 @@ static int	double_quote_condition(char **input, char **env, int i)
 	{
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
-			*input = wagadoo_machine_2(*input, env, i, max_len);
+			*input = change_input_with_var(*input, env, i, max_len);
 			i = start;
 			max_len = skip_quote(*input, start, 2);
 		}
@@ -48,7 +36,7 @@ static char	*clean_var(char *str, int k)
 	return (res);
 }
 
-static char	*wagadoo_machine_3(char *str, int start, char *var)
+static char	*put_var_in_input(char *str, int start, char *var)
 {
 	char	*res;
 
@@ -86,7 +74,7 @@ static int	normal_condition(char **input, char **env, int i)
 	if (var == NULL)
 		*input = clean_var(*input, i);
 	else
-		*input = wagadoo_machine_3(*input, start, var);
+		*input = put_var_in_input(*input, start, var);
 	ft_xfree(var_temp);
 	ft_xfree(temp);
 	return (0);

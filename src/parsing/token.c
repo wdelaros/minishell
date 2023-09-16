@@ -2,7 +2,6 @@
 
 int	is_command(char **input, int i)
 {
-	printf ("ASGIDF: %c\n", *input[i]);
 	if (is_separator(input, i) == YES)
 		return (NO);
 	if (i == 0)
@@ -11,7 +10,6 @@ int	is_command(char **input, int i)
 		return (YES);
 	if (i > 0 && is_after_red(input, i - 1) == YES)
 		return (YES);
-	printf ("NON JE NE SUIS PAS UNE COMMAND\n");
 	return (NO);
 }
 

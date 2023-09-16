@@ -18,14 +18,12 @@ static char	*ft_parsing_cat(char *dest, char *src)
 	return (dest);
 }
 
-static char	*wagadoo_machine(char *input, int i)
+static char	*place_group_sep(char *input, int i, int j)
 {
 	char	*temp;
 	int		k;
-	int		j;
 
 	k = 0;
-	j = 0;
 	temp = ft_calloc(ft_strlen(input) + 2, sizeof(char));
 	while (input[j])
 	{
@@ -63,12 +61,12 @@ static char	*put_separator(char *input)
 					|| input[i + 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
 			&& input[i] != RED_IN)
-			input = wagadoo_machine(input, i);
+			input = place_group_sep(input, i, 0);
 		if (i > 0 && input[i - 1] && ((input[i - 1] == RED_IN
 					|| input[i - 1] == RED_OUT || input[i - 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
 			&& input[i] != RED_IN)
-			input = wagadoo_machine(input, i - 1);
+			input = place_group_sep(input, i - 1, 0);
 		if (input[i] == SPACE)
 			input[i] = 29;
 		i++;
@@ -88,30 +86,9 @@ char	***string_handler(char *input, char **env)
 	cpy_input = put_separator(cpy_input);
 	create_list(&input_handler, ft_split(cpy_input, 29));
 	var_handler(&input_handler, env);
-	print_node(input_handler);
 	quote_handler(&input_handler);
-	print_node(input_handler);
-	res = convert_list_to_string(&input_handler);
-	int	i;
-	int	j;
-
-	i = 0;
-	while (res[i])
-	{
-		j = 0;
-		while (res[i][j])
-		{
-			ft_printf("-----------------------------------\n");
-			ft_printf("| i = %d                            \n", i);
-			ft_printf("| j = %d                            \n", j);
-			ft_printf("| cmd : %s            \n", res[i][j]);
-			ft_printf("-----------------------------------\n");
-			j++;
-		}
-		i++;
-	}
+	res = convert_list_to_string(&input_handler, 0);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
-	printf ("CONVERSION TERMINER\n\n");
 	return (res);
 }

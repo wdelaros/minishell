@@ -1,16 +1,5 @@
 #include "../../include/parsing.h"
 
-void	print_node(t_input *list)
-{
-	while (list)
-	{
-		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'C');
-		printf ("ID: %d\n", list->token);
-		list = list->next;
-	}
-	printf ("\n");
-}
-
 t_input	*create_node(void)
 {
 	t_input	*temp;

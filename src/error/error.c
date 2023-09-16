@@ -20,7 +20,6 @@ static void	pipe_error(t_err *error_data)
 				error_data->error_code = 1;
 		}
 	}
-	printf("EST CE QUE J'AI UNE ERREUR DE PIPE?\n");
 }
 
 static void	red_error(t_err *error_data)
@@ -36,16 +35,10 @@ static void	red_error(t_err *error_data)
 		if (error_data->input[i] == RED_IN || error_data->input[i] == RED_OUT)
 			error_data->error_code = 2;
 	}
-	printf("EST CE QUE J'AI UNE ERREUR DE REDIRECTION?\n");
 }
 
-static void	quote_error(t_err *error_data)
+static void	quote_error(t_err *error_data, int i, int flag)
 {
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
 	while (error_data->input[i])
 	{
 		if (error_data->input[i] == DOUBLE_QUOTE)
@@ -70,7 +63,6 @@ static void	quote_error(t_err *error_data)
 	}
 	if (flag == 1)
 		error_data->error_code = 3;
-	printf("EST CE QUE J'AI UNE ERREUR DE QUOTE?\n");
 }
 
 static int	mul_pipe_error(t_err *error_data)
@@ -95,7 +87,6 @@ static int	mul_pipe_error(t_err *error_data)
 		}
 		i++;
 	}
-	printf ("EST CE QUE J'AI UNE ERREUR DE MULTIPLE PIPE?\n");
 	return (error_data->error_code);
 }
 
@@ -113,11 +104,7 @@ int	error_handler(char *input)
 	if (error_data.error_code == 0)
 		red_error(&error_data);
 	if (error_data.error_code == 0)
-		quote_error(&error_data);
+		quote_error(&error_data, 0, 0);
 	ft_xfree(error_data.input);
-	if (error_data.error_code != 0)
-		printf ("OUI!\n");
-	else
-		printf ("PAS D'ERREUR!\n");
 	return (error_data.error_code);
 }

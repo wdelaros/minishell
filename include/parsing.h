@@ -54,20 +54,18 @@ typedef struct s_quote
 }				t_quote;
 
 //parsing_list.c
-void	print_node(t_input *list);
 t_input	*create_node(void);
 void	add_node(t_input **input, int id);
 void	free_list(t_input **input_handler);
 void	create_list(t_input **list, char **input);
 
 //convert_list_to_string.c
-char	***convert_list_to_string(t_input **ih);
+char	***convert_list_to_string(t_input **ih, int k);
 
 //parsing_utils.c
+int		skip_quote(char *input, int i, int quote);
 int		ft_strlen_until(char *str, char *c);
-char	*ft_sstrjoin(char const *s1, char const *s2);
 void	parsing_xfree_double(char **str);
-size_t	ft_sstrlcpy(char *dst, const char *src, size_t dstsize);
 
 //parsing.c
 char	***string_handler(char *input, char **env);
@@ -87,6 +85,6 @@ void	var_handler(t_input **list, char **env);
 //var_utils.c
 void	ft_str_search_replace(char **str, int start, char *replace);
 char	*get_var_parsing(char *var, char **envp);
-char	*wagadoo_machine_2(char *str, char **env, int i, int max_len);
+char	*change_input_with_var(char *str, char **env, int i, int max_len);
 
 #endif
