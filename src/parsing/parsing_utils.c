@@ -46,3 +46,23 @@ int	skip_quote(char *input, int i, int quote)
 			i++;
 	return (i);
 }
+
+char	*return_var(char *var, int err, char **env)
+{
+	char	*var_temp;
+
+	var_temp = NULL;
+	if (ft_strncmp(var, "?", 1) == 0)
+	{
+		var_temp = ft_strdup(var + 1);
+		ft_xfree(var);
+		var = ft_fstrjoin(ft_itoa(err), var_temp);
+	}
+	else
+	{
+		var_temp = ft_fstrjoin(var, "=");
+		var = ft_strdup(get_var_parsing(var_temp, env));
+	}
+	ft_xfree(var_temp);
+	return (var);
+}

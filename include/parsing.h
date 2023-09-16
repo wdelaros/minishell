@@ -72,6 +72,7 @@ char	***convert_list_to_string(t_input **ih, int k);
 int		skip_quote(char *input, int i, int quote);
 int		ft_strlen_until(char *str, char *c);
 void	parsing_xfree_double(char **str);
+char	*return_var(char *var, int err, char **env);
 
 //parsing.c
 char	***string_handler(char *input, char **env, int err_code);

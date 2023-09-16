@@ -64,6 +64,13 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 	ft_xfree(res);
 }
 
+static void	free_guedille(char *temp, char *str, char *var)
+{
+	ft_xfree(temp);
+	ft_xfree(str);
+	ft_xfree(var);
+}
+
 char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 {
 	int		j;
@@ -77,7 +84,11 @@ char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 	while (str[i] && (ft_isalnum(str[i]) == YES || str[i] == '?'))
 		var[j++] = str[i++];
 	if (ft_strncmp(var, "?", 1) == 0)
-		var = ft_fstrjoin(ft_itoa(t_var.err_code), var + 1);
+	{
+		temp = ft_strdup(var + 1);
+		ft_xfree(var);
+		var = ft_fstrjoin(ft_itoa(t_var.err_code), temp);
+	}
 	else
 	{
 		temp = ft_fstrjoin(var, "=");
@@ -85,8 +96,6 @@ char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 	}
 	ft_str_search_replace(&str, i, var);
 	new = ft_strdup(str);
-	ft_xfree(temp);
-	ft_xfree(str);
-	ft_xfree(var);
+	free_guedille(temp, str, var);
 	return (new);
 }

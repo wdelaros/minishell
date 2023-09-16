@@ -59,31 +59,22 @@ static int	normal_condition(char **input, char **env, int i, int err)
 {
 	char	*temp;
 	char	*var;
-	char	*var_temp;
 	int		j;
 	int		start;
 
 	temp = ft_strdup(*input);
 	start = i;
 	j = 0;
-	var_temp = NULL;
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (temp[i] == '$')
 		i++;
 	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'))
 		var[j++] = temp[i++];
-	if (ft_strncmp(var, "?", 1) == 0)
-		var = ft_fstrjoin(ft_itoa(err), var + 1);
-	else
-	{
-		var_temp = ft_fstrjoin(var, "=");
-		var = ft_strdup(get_var_parsing(var_temp, env));
-	}
+	var = return_var(var, err, env);
 	if (var == NULL)
 		*input = clean_var(*input, i);
 	else
 		*input = put_var_in_input(*input, start, var);
-	ft_xfree(var_temp);
 	ft_xfree(temp);
 	return (0);
 }
