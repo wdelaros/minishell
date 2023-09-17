@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_xfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:41:35 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 13:36:37 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/16 14:02:49 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_fstrjoin.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 07:06:56 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/23 10:26:43 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../libft.h"
 
 /// @brief A function that concatenates two strings and frees the first one.
@@ -69,4 +57,31 @@ char	*ft_frstrjoin(char *s1, char *s2)
 		j++;
 	}
 	return (free(s2), str);
+}
+
+char	*ft_ffstrjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (free(s1), free(s2), NULL);
+	str = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	if (!str)
+		return (free(s1), free(s2), NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	return (free(s1), free(s2), str);
 }

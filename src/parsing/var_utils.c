@@ -21,7 +21,6 @@ static int	size_of_guedille(char *temp, int *i)
 
 	size = 0;
 	j = (*i);
-	//printf ("DE KOSSÉ: %s	%d\n", temp, *i);
 	if (temp[j] == '$')
 	{
 		size++;
@@ -47,11 +46,9 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 	res = NULL;
 	temp = *str;
 	size = size_of_guedille(temp, &i);
-	//printf ("SIZE?: %d\n", size);
 	res = ft_calloc(ft_strlen(temp) + (ft_strlen(replace) - size),
 			sizeof(char));
 	ft_strlcpy(res, temp, i + 1);
-	//printf ("PREMIER CPY: %s\n", res);
 	if (!replace)
 	{
 		res = ft_fstrjoin(res, &temp[start]);
@@ -61,15 +58,20 @@ void	ft_str_search_replace(char **str, int start, char *replace)
 		return ;
 	}
 	res = ft_fstrjoin(res, replace);
-	//printf ("DEUXIEME CPY: %s\n", res);
 	res = ft_fstrjoin(res, &temp[start]);
-	//printf ("TROISIEME CPY: %s\n", res);
 	ft_xfree(*str);
 	*str = ft_strdup(res);
 	ft_xfree(res);
 }
 
-char	*wagadoo_machine_2(char *str, char **env, int i, int max_len)
+static void	free_guedille(char *temp, char *str, char *var)
+{
+	ft_xfree(temp);
+	ft_xfree(str);
+	ft_xfree(var);
+}
+
+char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 {
 	int		j;
 	char	*var;
@@ -77,15 +79,23 @@ char	*wagadoo_machine_2(char *str, char **env, int i, int max_len)
 	char	*temp;
 
 	j = 0;
-	var = ft_calloc (max_len + 1, sizeof(char));
-	while (str[i] && ft_isalpha(str[i]) == YES)
+	temp = NULL;
+	var = ft_calloc (t_var.maxlen + 1, sizeof(char));
+	while (str[i] && (ft_isalnum(str[i]) == YES || str[i] == '?'))
 		var[j++] = str[i++];
-	temp = ft_fstrjoin(var, "=");
-	var = ft_strdup(get_var_parsing(temp, env));
+	if (ft_strncmp(var, "?", 1) == 0)
+	{
+		temp = ft_strdup(var + 1);
+		ft_xfree(var);
+		var = ft_fstrjoin(ft_itoa(t_var.err_code), temp);
+	}
+	else
+	{
+		temp = ft_fstrjoin(var, "=");
+		var = ft_strdup(get_var_parsing(temp, env));
+	}
 	ft_str_search_replace(&str, i, var);
 	new = ft_strdup(str);
-	ft_xfree(temp);
-	ft_xfree(str);
-	ft_xfree(var);
+	free_guedille(temp, str, var);
 	return (new);
 }

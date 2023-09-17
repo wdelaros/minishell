@@ -54,7 +54,7 @@ typedef struct s_cmd
 }				t_cmd;
 
 t_data	*struc(void);
-int		signal_handler(void);
+int		signal_handler(int sleep, int interactive);
 
 void	print_cell(char	***cell);
 char	*ft_prompt_line(void);

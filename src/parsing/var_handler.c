@@ -1,31 +1,20 @@
 #include "../../include/parsing.h"
 
-static int	skip_quote(char *input, int i, int quote)
+static int	double_quote_condition(char **input, char **env, int i, int err)
 {
-	i++;
-	if (quote == 1)
-		while (input[i] && input[i] != SINGLE_QUOTE)
-			i++;
-	else if (quote == 2)
-		while (input[i] && input[i] != DOUBLE_QUOTE)
-			i++;
-	return (i);
-}
-
-static int	double_quote_condition(char **input, char **env, int i)
-{
-	int		max_len;
 	int		start;
+	t_var	t_var;
 
-	max_len = skip_quote(*input, i, 2);
+	t_var.err_code = err;
+	t_var.maxlen = skip_quote(*input, i, 2);
 	start = i;
-	while (i < max_len)
+	while (i < t_var.maxlen)
 	{
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
-			*input = wagadoo_machine_2(*input, env, i, max_len);
+			*input = change_input_with_var(*input, env, i, t_var);
 			i = start;
-			max_len = skip_quote(*input, start, 2);
+			t_var.maxlen = skip_quote(*input, start, 2);
 		}
 		i++;
 	}
@@ -48,11 +37,11 @@ static char	*clean_var(char *str, int k)
 	return (res);
 }
 
-static char	*wagadoo_machine_3(char *str, int start, char *var)
+static char	*put_var_in_input(char *str, int start, char *var)
 {
 	char	*res;
 
-	res = ft_calloc(start, sizeof(char));
+	res = ft_calloc(start + 1, sizeof(char));
 	ft_strlcpy(res, str, start + 1);
 	res = ft_fstrjoin(res, var);
 	if (str[start] == '$')
@@ -61,15 +50,15 @@ static char	*wagadoo_machine_3(char *str, int start, char *var)
 			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE))
 		start++;
 	res = ft_fstrjoin(res, &str[start]);
+	ft_xfree(var);
 	ft_xfree(str);
 	return (res);
 }
 
-static int	normal_condition(char **input, char **env, int i)
+static int	normal_condition(char **input, char **env, int i, int err)
 {
 	char	*temp;
 	char	*var;
-	char	*var_temp;
 	int		j;
 	int		start;
 
@@ -79,20 +68,18 @@ static int	normal_condition(char **input, char **env, int i)
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (temp[i] == '$')
 		i++;
-	while (temp[i] && ft_isalpha(temp[i]) == YES)
+	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'))
 		var[j++] = temp[i++];
-	var_temp = ft_fstrjoin(var, "=");
-	var = ft_strdup(get_var_parsing(var_temp, env));
+	var = return_var(var, err, env);
 	if (var == NULL)
 		*input = clean_var(*input, i);
 	else
-		*input = wagadoo_machine_3(*input, start, var);
-	ft_xfree(var_temp);
+		*input = put_var_in_input(*input, start, var);
 	ft_xfree(temp);
 	return (0);
 }
 
-void	var_handler(t_input **list, char **env)
+void	var_handler(t_input **list, char **env, int err_code)
 {
 	t_input	*temp;
 	int		i;
@@ -104,9 +91,9 @@ void	var_handler(t_input **list, char **env)
 		while (temp->input[i])
 		{
 			if (temp->input[i] == '$')
-				i = normal_condition(&temp->input, env, i);
+				i = normal_condition(&temp->input, env, i, err_code);
 			else if (temp->input[i] == DOUBLE_QUOTE)
-				i = double_quote_condition(&temp->input, env, i);
+				i = double_quote_condition(&temp->input, env, i, err_code);
 			else if (temp->input[i] == SINGLE_QUOTE)
 				i = skip_quote(temp->input, i, 1);
 			if (temp->input[i] && temp->input[i] != '$')

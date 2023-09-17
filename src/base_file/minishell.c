@@ -26,10 +26,12 @@ static void	ft_prompt(char	***cmd, int err)
 
 	while (1)
 	{
+		signal_handler(NO, YES);
 		struc()->is_child = 0;
 		line = ft_prompt_line();
 		struc()->input = readline(line);
 		free(line);
+		signal_handler(NO, NO);
 		if (!struc()->input)
 		{
 			ft_printf("minishell> exit\n");
@@ -42,7 +44,7 @@ static void	ft_prompt(char	***cmd, int err)
 			ft_error(err);
 		else if (err == RUN)
 		{
-			cmd = string_handler(struc()->input, struc()->envp);
+			cmd = string_handler(struc()->input, struc()->envp, struc()->exit_code);
 			run_pipe(cmd);
 		}
 		ft_printf("exit code: %d\n", struc()->exit_code);
@@ -78,8 +80,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	if (signal_handler())
-		exit(1);
 	initialize(envp, struc());
 	ft_prompt(NULL, 0);
 	free(struc()->current_pwd);
