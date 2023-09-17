@@ -66,12 +66,11 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	}
 }
 
-static char	**redirection_tranfer(char **dest, char *red, char *arg)
+static char	**redirection_tranfer(char **dest, char *red)
 {
 	free (dest);
 	dest = ft_calloc(3, sizeof(char *));
 	dest[0] = ft_strdup(red);
-	dest[1] = ft_strdup(arg);
 	return (dest);
 }
 
@@ -92,7 +91,7 @@ char	***convert_list_to_string(t_input **ih, int k)
 		}
 		if (temp->input[0] == RED_IN || temp->input[0] == RED_OUT)
 			data.res[data.i] = redirection_tranfer(data.res[data.i],
-					temp->input, temp->next->input);
+					temp->input);
 		else
 			data.res[data.i][data.j] = ft_strdup(temp->input);
 		data.j++;

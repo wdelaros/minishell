@@ -5,7 +5,6 @@ static int	flag_correct(char *flag)
 	int	i;
 
 	i = 0;
-	//Ct_mprintf(flag, ft_strlen(flag) + 1, 1, 'A');
 	if (!flag[0])
 		return (NO);
 	while (flag[i])
@@ -30,7 +29,6 @@ int	echo(char **input)
 	is_flag = NO;
 	while (input[i] && flag_correct(input[i]) == YES)
 	{
-		//printf ("STRING: %s is correct flag\n", input[i]);
 		is_flag = YES;
 		i++;
 	}
