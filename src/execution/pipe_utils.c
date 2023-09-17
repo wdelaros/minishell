@@ -33,6 +33,7 @@ void	free_env(void)
 {
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);
+	rl_clear_history();
 }
 
 void	ft_free_triple_pointer(char	***cmd)

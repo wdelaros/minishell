@@ -42,7 +42,8 @@ void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out)
 {
 	int	fd;
 
-	if ((*lcmd)->redir_in && (!ft_strcmp((*lcmd)->redir_in[0], "<") || !ft_strcmp((*lcmd)->redir_in[0], "<<")))
+	if ((*lcmd)->redir_in && (!ft_strcmp((*lcmd)->redir_in[0], "<")
+			|| !ft_strcmp((*lcmd)->redir_in[0], "<<")))
 	{
 		fd = open((*lcmd)->redir_in[1], O_RDONLY);
 		if (fd == -1)
@@ -57,7 +58,6 @@ void	redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out)
 			}
 			ft_free_all_pipe((*lcmd), cmd);
 			free_env();
-			rl_clear_history();
 			exit (struc()->exit_code);
 		}
 		dup2(fd, STDIN_FILENO);

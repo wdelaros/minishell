@@ -55,7 +55,6 @@ static int ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 			}
 			free((*current));
 		}
-		rl_clear_history();
 		exit(0);
 	}
 	list->input = str;
