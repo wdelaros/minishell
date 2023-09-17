@@ -5,13 +5,8 @@
 /// @param cmd the command
 /// @param redir_out the input redirection
 /// @return a node that contain the command and the input/output redirection
-static t_cmd	*picreate_node(char	**redir_in, char **cmd, char **redir_out)
+static t_cmd	*picreate_node(t_cmd *node, char	**redir_in, char **cmd, char **redir_out)
 {
-	t_cmd	*node;
-
-	node = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!node)
-		return (0);
 	node->cmd = cmd;
 	node->redir_in = redir_in;
 	node->redir_out = redir_out;
@@ -19,19 +14,18 @@ static t_cmd	*picreate_node(char	**redir_in, char **cmd, char **redir_out)
 		node->good = 0;
 	else
 		node->good = 1;
-	node->previous = NULL;
-	node->next = NULL;
 	return (node);
 }
 
-static int ft_here_doc(t_pilist *list, char **str, char *delimiter, char ***cmd)
+static int ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 {
 	int		fd;
+	char	*delimiter;
 	pid_t	pid;
 	int		status;
 	char	*line;
 
-	(void)cmd;
+	delimiter = ft_strdup(str[1]);
 	ft_xfree(str[1]);
 	str[1] = ft_strdup("allo.txt");
 	pid = fork();
@@ -52,6 +46,15 @@ static int ft_here_doc(t_pilist *list, char **str, char *delimiter, char ***cmd)
 		ft_free_triple_pointer(cmd);
 		free_env();
 		free(struc()->current_pwd);
+		if ((*current))
+		{
+			while ((*current)->previous != NULL)
+			{
+				(*current) = (*current)->previous;
+				free((*current)->next);
+			}
+			free((*current));
+		}
 		rl_clear_history();
 		exit(0);
 	}
@@ -106,7 +109,7 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 				if (parse_redir(&list, arg, &i))
 					break ;
 			if (!ft_strcmp(arg[i][0], "<<") && \
-			ft_here_doc(&list, arg[i], ft_strdup(arg[i][1]), arg))
+			ft_here_doc(&list, arg[i], cmd, arg))
 				return (-1);
 		}
 		else
@@ -117,7 +120,7 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 		else
 			break ;
 	}
-	(*cmd) = picreate_node(list.input, list.command, list.output);
+	(*cmd) = picreate_node((*cmd), list.input, list.command, list.output);
 	return (i);
 }
 
@@ -156,6 +159,11 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 
 	struc()->pipenum = 0;
 	e_struc()->number_of_cmd = 0;
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (0);
+	cmd->previous = NULL;
+	cmd->next = NULL;
 	i = ft_parse_node(arg, &cmd, 0);
 	if (i == -1)
 	{
@@ -165,18 +173,20 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	(*current) = cmd;
 	while (arg && arg[i] && arg[i + 1])
 	{
+		(*current)->next = (t_cmd *)malloc(sizeof(t_cmd));
+		if (!(*current))
+			return (0);
+		(*current)->next->next = NULL;
+		(*current)->next->previous = (*current);
+		(*current) = (*current)->next;
 		i++;
-		i = ft_parse_node(arg, &(*current)->next, i);
+		i = ft_parse_node(arg, current, i);
 		if (i == -1)
 		{
 			struc()->exit_code = 1;
 			return (cmd);
 		}
-		(*current)->next->previous = (*current);
-		(*current) = (*current)->next;
 	}
-	while ((*current) && (*current)->next)
-		(*current) = (*current)->next;
 	current = finalize_list(current);
 	e_struc()->number_of_cmd++;
 	cmd = (*current);
