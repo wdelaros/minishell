@@ -18,3 +18,9 @@ exit: exit [n]
 
 
 < note.txt cat | < note.txt cat
+
+
+
+<< "asddS"    id 6
+
+if id 6 pas interpreter quote et pas clean quote

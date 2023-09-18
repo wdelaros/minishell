@@ -77,7 +77,7 @@ void	quote_handler(t_input **input)
 	temp = *input;
 	while (temp->next)
 	{
-		if (is_quote(temp->input) == YES)
+		if (is_quote(temp->input) == YES && temp->token != 5)
 			temp->input = quote_interpreter(temp->input, 0);
 		temp = temp->next;
 	}

@@ -1,6 +1,6 @@
 #include "../../include/execution.h"
 
-char *heredoc_file(void)
+char	*heredoc_file(void)
 {
 	char	*file;
 	char	*temp;
@@ -13,7 +13,7 @@ char *heredoc_file(void)
 	temp = ft_strdup(file);
 	while (i < 100)
 	{
-		file = ft_fstrjoin(file, ft_itoa(i));
+		file = ft_ffstrjoin(file, ft_itoa(i));
 		if (access(file, F_OK))
 		{
 			ft_xfree(temp);

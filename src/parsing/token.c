@@ -38,3 +38,14 @@ int	is_after_red(char **input, int i)
 			return (YES);
 	return (NO);
 }
+
+int is_after_heredoc(char **input, int i)
+{
+	if (i < 0)
+		return (NO);
+	if (input[i] && input[i - 1])
+		if (input[i - 1][0] && input[i - 1][1])
+			if (input[i - 1][0] == RED_IN && input[i - 1][1] == RED_IN)
+				return (YES);
+	return (NO);
+}

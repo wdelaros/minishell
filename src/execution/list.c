@@ -15,7 +15,6 @@ char ***cmd)
 	delimiter = ft_strdup(str[1]);
 	ft_xfree(str[1]);
 	str[1] = heredoc_file();
-	// str[1] = ft_strdup(".HeReDoC00");
 	pid = fork();
 	struc()->is_child = 1;
 	if (!pid)

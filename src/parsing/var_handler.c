@@ -88,7 +88,7 @@ void	var_handler(t_input **list, char **env, int err_code)
 	while (temp->next)
 	{
 		i = 0;
-		while (temp->input[i])
+		while (temp->input[i] && temp->token != 5)
 		{
 			if (temp->input[i] == '$')
 				i = normal_condition(&temp->input, env, i, err_code);

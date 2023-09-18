@@ -64,6 +64,8 @@ void	create_list(t_input **list, char **input)
 			add_node(&temp, OPTION);
 		else if (is_separator(input, i) == YES)
 			add_node(&temp, SEPARATOR);
+		else if (is_after_heredoc(input, i) == YES)
+			add_node(&temp, 5);
 		else if (is_after_red(input, i) == YES)
 			add_node(&temp, 4);
 		else

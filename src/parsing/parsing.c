@@ -74,6 +74,17 @@ static char	*put_separator(char *input)
 	return (input);
 }
 
+static void	print_node(t_input *list)
+{
+	while (list)
+	{
+		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'C');
+		printf ("ID: %d\n", list->token);
+		list = list->next;
+	}
+	printf ("\n");
+}
+
 char	***string_handler(char *input, char **env, int err_code)
 {
 	t_input	*input_handler;
@@ -89,6 +100,7 @@ char	***string_handler(char *input, char **env, int err_code)
 	create_list(&input_handler, ft_split(cpy_input, 29));
 	var_handler(&input_handler, env, err_code);
 	quote_handler(&input_handler);
+	print_node(input_handler);
 	res = convert_list_to_string(&input_handler, 0);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
