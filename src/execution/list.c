@@ -9,13 +9,12 @@ char ***cmd)
 	pid_t	pid;
 	int		status;
 	char	*line;
-	struct stat sb;
-	struct stat sa;
+	struct stat sfile;
+	struct stat sfd;
 
 	delimiter = ft_strdup(str[1]);
 	ft_xfree(str[1]);
 	str[1] = heredoc_file();
-	// str[1] = ft_strdup(".HeReDoC00");
 	pid = fork();
 	struc()->is_child = 1;
 	if (!pid)
@@ -25,20 +24,20 @@ char ***cmd)
 		line = readline("> ");
 		while (strcmp(line, delimiter))
 		{
-			stat(str[1], &sa);
-			fstat(fd, &sb);
-			if (sa.st_atime == sb.st_atime)
-				printf("papelipoui\n");
-			printf("Dernier changement d'état :        %s", ctime(&sa.st_ctime));
-			printf("Dernier changement d'état :        %s", ctime(&sb.st_ctime));
-			printf("Dernier accès au fichier :         %s", ctime(&sa.st_atime));
-			printf("Dernier accès au fichier :         %s", ctime(&sb.st_atime));
-			printf("Dernière modification du fichier : %s", ctime(&sa.st_mtime));
-			printf("Dernière modification du fichier : %s", ctime(&sb.st_mtime));
-			ft_dprintf(fd, "%s\n", line);
+			fstat(fd, &sfd);
+			stat(str[1], &sfile);
+			if (sfd.st_mtime == sfile.st_mtime)
+				ft_dprintf(fd, "%s\n", line);
+			else
+			{
+				printf("wagadoo_machine\n");
+				struc()->exit_code = 1;
+				break ;//return (1);
+			}
 			ft_xfree(line);
 			line = readline("> ");
 		}
+		// unlink(str[1]);
 		ft_xfree(line);
 		close(fd);
 		free(delimiter);
