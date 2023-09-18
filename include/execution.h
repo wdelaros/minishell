@@ -58,4 +58,7 @@ int			is_builtin(char	**cmd);
 void		redir_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int *pfd);
 void		run_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int	*pfd);
 
+//random_heredoc_gen.c
+char		*heredoc_file(void);
+
 #endif

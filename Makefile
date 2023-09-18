@@ -60,6 +60,7 @@ SRCS		=	error.c\
 				ex_utils.c\
 				exec_builtin.c\
 				var_utils.c\
+				random_heredoc_gen.c\
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
