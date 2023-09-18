@@ -56,9 +56,11 @@ typedef struct s_cmd
 t_data	*struc(void);
 int		signal_handler(int sleep, int interactive);
 
+//minishell_utils.c
 void	print_cell(char	***cell);
 char	*ft_prompt_line(void);
 void	logo(void);
+void	ft_error(int code);
 
 int		error_handler(char *input);
 

@@ -130,10 +130,10 @@ static t_cmd	**finalize_list(t_cmd	**current)
 		if ((*current)->cmd && !strcmp((*current)->cmd[0], "|"))
 			struc()->pipenum++;
 		else if ((*current)->good == 1)
-			e_struc()->number_of_cmd++;
+			ex_struc()->number_of_cmd++;
 		else
 		{
-			if (e_struc()->number_of_cmd > 0)
+			if (ex_struc()->number_of_cmd > 0)
 			{
 				while ((*current)->previous)
 					(*current) = (*current)->previous;
@@ -157,7 +157,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	int		i;
 
 	struc()->pipenum = 0;
-	e_struc()->number_of_cmd = 0;
+	ex_struc()->number_of_cmd = 0;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (0);
@@ -187,7 +187,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 		}
 	}
 	current = finalize_list(current);
-	e_struc()->number_of_cmd++;
+	ex_struc()->number_of_cmd++;
 	cmd = (*current);
 	return (cmd);
 }

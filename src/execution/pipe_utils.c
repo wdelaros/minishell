@@ -9,15 +9,15 @@ void	wait_end_cmd(void)
 
 	i = 0;
 	j = 0;
-	while (j < e_struc()->number_of_cmd)
+	while (j < ex_struc()->number_of_cmd)
 	{
-		if (e_struc()->skip[i] == 0)
-			waitpid(e_struc()->pid[i], &status, 0);
-		if (e_struc()->skip[i] != 1)
+		if (ex_struc()->skip[i] == 0)
+			waitpid(ex_struc()->pid[i], &status, 0);
+		if (ex_struc()->skip[i] != 1)
 			j++;
 		i++;
 	}
-	if (!e_struc()->skip[i - 1])
+	if (!ex_struc()->skip[i - 1])
 		struc()->exit_code = exit_status(status);
 }
 
@@ -69,30 +69,6 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 		free(current);
 	}
 	ft_free_triple_pointer(cmd);
-	ft_xfree(e_struc()->pid);
-	ft_xfree(e_struc()->skip);
-}
-
-/// @brief create all output file, count the number of command
-/// and the number of pipe
-/// @param cmd 
-/// @param i 
-void	count(char ***cmd, int i)
-{
-	struc()->pipenum = 0;
-	e_struc()->number_of_cmd = 0;
-	while (cmd && cmd[i])
-	{
-		if (cmd[i][0] && !ft_strcmp(cmd[i][0], "|"))
-			struc()->pipenum++;
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], "<"))
-			;
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">"))
-			;
-		else if (cmd[i][0] && !ft_strcmp(cmd[i][0], ">>"))
-			;
-		else if (cmd[i][0])
-			e_struc()->number_of_cmd++;
-		i++;
-	}
+	ft_xfree(ex_struc()->pid);
+	ft_xfree(ex_struc()->skip);
 }

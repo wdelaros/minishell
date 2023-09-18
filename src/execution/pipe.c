@@ -7,13 +7,13 @@
 /// @param cmd the command line
 static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 {
-	if (e_struc()->pid[e_struc()->tmp_i] == -1)
+	if (ex_struc()->pid[ex_struc()->tmp_i] == -1)
 		return ;
-	if (!e_struc()->pid[e_struc()->tmp_i])
+	if (!ex_struc()->pid[ex_struc()->tmp_i])
 	{
 		//sig_handler_c();
 		redir_input(lcmd, &pfd, cmd, fd_out);
-		redir_output(*lcmd, &pfd, e_struc()->tmp_i);
+		redir_output(*lcmd, &pfd, ex_struc()->tmp_i);
 		if (struc()->pipenum > 0)
 		{
 			close(pfd[0]);
@@ -36,23 +36,23 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 
 void	run_pipe2(char	***cmd, int *i, t_cmd **lcmd, t_exec *ex)
 {
-	e_struc()->skip[*i] = 1;
+	ex_struc()->skip[*i] = 1;
 	if ((*lcmd)->next && (*lcmd)->cmd && !ft_strcmp((*lcmd)->cmd[0], "|"))
 		(*lcmd) = (*lcmd)->next;
 	if (*i < struc()->pipenum)
 		pipe((*ex).pfd);
 	if (is_builtin((*lcmd)->cmd) != 1 || struc()->pipenum > 0)
 	{
-		e_struc()->pid[*i] = fork();
+		ex_struc()->pid[*i] = fork();
 		struc()->is_child = 1;
-		e_struc()->tmp_i = *i;
+		ex_struc()->tmp_i = *i;
 		run_cmds(lcmd, (*ex).pfd, (*ex).fd_out, cmd);
-		e_struc()->skip[*i] = 0;
+		ex_struc()->skip[*i] = 0;
 	}
 	else
 	{
 		run_builtin((*lcmd), cmd, (*ex).fd_out, (*ex).pfd);
-		e_struc()->skip[*i] = 2;
+		ex_struc()->skip[*i] = 2;
 	}
 	if (struc()->pipenum > 0)
 		close((*ex).pfd[1]);
@@ -72,14 +72,13 @@ void	run_pipe(char	***cmd)
 	t_exec	ex;
 	int		i;
 
-
 	if (!cmd || !cmd[0] || !cmd[0][0])
 		return ;
 	current = NULL;
 	lcmd = ft_setnode(cmd, &current);
-	e_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
-	e_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
-	if (e_struc()->number_of_cmd > 0)
+	ex_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
+	ex_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
+	if (ex_struc()->number_of_cmd > 0)
 	{
 		i = 0;
 		lcmd->fd_in = 0;

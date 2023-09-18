@@ -26,7 +26,7 @@ void	redir_builtin(t_cmd	*lcmd, char	***cmd, int fd_out, int *pfd)
 	if (pfd)
 	{
 		redir_input(&lcmd, &pfd, cmd, fd_out);
-		redir_output(lcmd, &pfd, e_struc()->tmp_i);
+		redir_output(lcmd, &pfd, ex_struc()->tmp_i);
 		if (struc()->pipenum > 0)
 		{
 			close(pfd[0]);

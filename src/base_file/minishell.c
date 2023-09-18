@@ -7,20 +7,20 @@ t_data	*struc(void)
 	return (&data);
 }
 
-static void	ft_error(int code)
+static void	pre_exec(char ***cmd, int err)
 {
-	struc()->exit_code = 258;
-	if (code == 1)
-		ft_dprintf(2, "minishell: syntax error near unexpected token `|'\n");
-	else if (code == 2)
-		ft_dprintf(2, \
-		"minishell: syntax error near unexpected token `newline'\n");
-	else if (code == 3)
-		ft_dprintf(2, \
-		"minishell: syntax error near unexpected token `quote'\n");
+	err = error_handler(struc()->input);
+	if (err != RUN)
+		ft_error(err);
+	else if (err == RUN)
+	{
+		cmd = string_handler(struc()->input, struc()->envp, \
+		struc()->exit_code);
+		run_pipe(cmd);
+	}
 }
 
-static void	ft_prompt(char	***cmd, int err)
+static void	ft_prompt(char	***cmd)
 {
 	char	*line;
 
@@ -31,22 +31,15 @@ static void	ft_prompt(char	***cmd, int err)
 		line = ft_prompt_line();
 		struc()->input = readline(line);
 		free(line);
-		signal_handler(NO, NO);
 		if (!struc()->input)
 		{
 			ft_printf("minishell> exit\n");
 			break ;
 		}
+		signal_handler(NO, NO);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
-		err = error_handler(struc()->input);
-		if (err != RUN)
-			ft_error(err);
-		else if (err == RUN)
-		{
-			cmd = string_handler(struc()->input, struc()->envp, struc()->exit_code);
-			run_pipe(cmd);
-		}
+		pre_exec(cmd, 0);
 		ft_printf("exit code: %d\n", struc()->exit_code);
 	}
 }
@@ -81,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	initialize(envp, struc());
-	ft_prompt(NULL, 0);
+	ft_prompt(NULL);
 	free(struc()->current_pwd);
 	ft_free_null(struc()->envp);
 	ft_free_null(struc()->export);

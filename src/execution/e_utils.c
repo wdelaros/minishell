@@ -1,10 +1,10 @@
 #include "../../include/execution.h"
 
-t_e_data	*e_struc(void)
+t_ex_data	*ex_struc(void)
 {
-	static t_e_data	e_data;
+	static t_ex_data	ex_data;
 
-	return (&e_data);
+	return (&ex_data);
 }
 
 void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)

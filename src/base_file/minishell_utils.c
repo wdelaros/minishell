@@ -50,3 +50,16 @@ char	*ft_prompt_line(void)
 		ft_strrchr(struc()->current_pwd, '/')), WHT" minishell> ");
 	return (line);
 }
+
+void	ft_error(int code)
+{
+	struc()->exit_code = 258;
+	if (code == 1)
+		ft_dprintf(2, "minishell: syntax error near unexpected token `|'\n");
+	else if (code == 2)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `newline'\n");
+	else if (code == 3)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `quote'\n");
+}
