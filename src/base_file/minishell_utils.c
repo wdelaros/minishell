@@ -36,7 +36,7 @@ void	logo(void)
 		" \\▓▓      \\▓▓\\▓▓\\▓▓   \\▓▓\\▓▓\\▓▓▓▓▓▓▓ \\▓▓   \\▓▓ \\▓▓▓▓▓▓▓\\▓▓\\▓▓",
 		"\x1b[32m""    Rip wagadoo_machine, wagadoo_machine_2, wagadoo_machine_3"\
 		"\x1b[0m",
-		"\x1b[31m""				     by wdelaros and rapelcha""\x1b[0m");
+		"\x1b[31m""				 	 by wdelaros and rapelcha""\x1b[0m");
 }
 
 char	*ft_prompt_line(void)
