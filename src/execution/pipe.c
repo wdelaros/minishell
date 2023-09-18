@@ -11,7 +11,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		return ;
 	if (!ex_struc()->pid[ex_struc()->tmp_i])
 	{
-		//sig_handler_c();
+		//sig_handler_c(0);
 		redir_input(lcmd, &pfd, cmd, fd_out);
 		redir_output(*lcmd, &pfd, ex_struc()->tmp_i);
 		if (struc()->pipenum > 0)
@@ -34,7 +34,7 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 	}
 }
 
-void	run_pipe2(char	***cmd, int *i, t_cmd **lcmd, t_exec *ex)
+static void	run_pipe2(char	***cmd, int *i, t_cmd **lcmd, t_exec *ex)
 {
 	ex_struc()->skip[*i] = 1;
 	if ((*lcmd)->next && (*lcmd)->cmd && !ft_strcmp((*lcmd)->cmd[0], "|"))

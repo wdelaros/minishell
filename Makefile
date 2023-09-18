@@ -38,6 +38,7 @@ SRCS		=	error.c\
 				path.c\
 				io_redirection.c\
 				list.c\
+				list_utils.c\
 				pipe.c\
 				pipe_utils.c\
 				signal_handler.c\
@@ -56,7 +57,7 @@ SRCS		=	error.c\
 				export.c\
 				export_utils.c\
 				exit.c\
-				e_utils.c\
+				ex_utils.c\
 				exec_builtin.c\
 				var_utils.c\
 

@@ -1,41 +1,39 @@
 #include "../../include/execution.h"
 
-/// @brief create a node for a command
-/// @param redir_in the input redirection
-/// @param cmd the command
-/// @param redir_out the input redirection
-/// @return a node that contain the command and the input/output redirection
-static t_cmd	*picreate_node(t_cmd *node, char	**redir_in, char **cmd, char **redir_out)
-{
-	node->cmd = cmd;
-	node->redir_in = redir_in;
-	node->redir_out = redir_out;
-	if (cmd == NULL)
-		node->good = 0;
-	else
-		node->good = 1;
-	return (node);
-}
-
-static int ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
+//"/tmp/.HeReDoC00"
+static int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, \
+char ***cmd)
 {
 	int		fd;
 	char	*delimiter;
 	pid_t	pid;
 	int		status;
 	char	*line;
+	struct stat sb;
+	struct stat sa;
 
 	delimiter = ft_strdup(str[1]);
 	ft_xfree(str[1]);
-	str[1] = ft_strdup("allo.txt");
+	str[1] = ft_strdup(".HeReDoC00");
 	pid = fork();
 	struc()->is_child = 1;
 	if (!pid)
 	{
+		//sig_handler_c(1);
 		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 		line = readline("> ");
 		while (strcmp(line, delimiter))
 		{
+			stat(str[1], &sa);
+			fstat(fd, &sb);
+			if (sa.st_atime == sb.st_atime)
+				printf("papelipoui\n");
+			printf("Dernier changement d'état :        %s", ctime(&sa.st_ctime));
+			printf("Dernier changement d'état :        %s", ctime(&sb.st_ctime));
+			printf("Dernier accès au fichier :         %s", ctime(&sa.st_atime));
+			printf("Dernier accès au fichier :         %s", ctime(&sb.st_atime));
+			printf("Dernière modification du fichier : %s", ctime(&sa.st_mtime));
+			printf("Dernière modification du fichier : %s", ctime(&sb.st_mtime));
 			ft_dprintf(fd, "%s\n", line);
 			ft_xfree(line);
 			line = readline("> ");
@@ -57,8 +55,10 @@ static int ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 		}
 		exit(0);
 	}
-	list->input = str;
+	signal_handler(1, 0);
 	waitpid(pid, &status, 0);
+	signal_handler(0, 0);
+	list->input = str;
 	if (exit_status(status) == 130)
 		return (free(delimiter), 130);
 	return (free(delimiter), 0);
@@ -96,9 +96,7 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 {
 	t_pilist	list;
 
-	list.input = NULL;
-	list.output = NULL;
-	list.command = NULL;
+	list = list_null();
 	while (arg && arg[i])
 	{
 		if (!ft_strcmp(arg[i][0], "<") || !ft_strcmp(arg[i][0], ">") \
@@ -119,7 +117,7 @@ static int	ft_parse_node(char ***arg, t_cmd **cmd, int i)
 		else
 			break ;
 	}
-	(*cmd) = picreate_node((*cmd), list.input, list.command, list.output);
+	(*cmd) = finish_node((*cmd), list.input, list.command, list.output);
 	return (i);
 }
 
@@ -158,11 +156,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 
 	struc()->pipenum = 0;
 	ex_struc()->number_of_cmd = 0;
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (0);
-	cmd->previous = NULL;
-	cmd->next = NULL;
+	cmd = picreate_node();
 	i = ft_parse_node(arg, &cmd, 0);
 	if (i == -1)
 	{
@@ -172,10 +166,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	(*current) = cmd;
 	while (arg && arg[i] && arg[i + 1])
 	{
-		(*current)->next = (t_cmd *)malloc(sizeof(t_cmd));
-		if (!(*current))
-			return (0);
-		(*current)->next->next = NULL;
+		(*current)->next = picreate_node();
 		(*current)->next->previous = (*current);
 		(*current) = (*current)->next;
 		i++;

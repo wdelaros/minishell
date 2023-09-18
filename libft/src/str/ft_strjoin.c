@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:29:50 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/23 11:16:07 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../libft.h"
-#include <stdio.h>
 
 /// @brief Concatenates two strings together.
 /// @param s1 The first string to be concatenated.

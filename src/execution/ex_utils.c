@@ -14,7 +14,7 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 	else if (code == 126)
 		ft_dprintf(2, "minishell: %s: Permission denied\n", fcmd[0]);
 	else
-		ft_dprintf(2, "minishell: %s: is a directory\n", fcmd[0]);
+		ft_dprintf(2, "minishell: %s: operations not permitted\n", fcmd[0]);
 	ft_free_all_pipe(lcmd, cmd);
 	free(struc()->current_pwd);
 	ft_free_null(struc()->path);
@@ -41,20 +41,6 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 		else
 			ft_exit_message(fcmd, lcmd, cmd_to_free, 1);
 	}
-}
-
-int	ft_perror(char ***arg, int i, t_pilist	*list)
-{
-	perror(arg[i][1]);
-	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
-	ft_strcmp(arg[i + 1][0], "|")))
-		i++;
-	if (ft_strcmp(arg[i][0], "|") && !arg[i + 1])
-		struc()->exit_code = 1;
-	list->input = NULL;
-	list->command = NULL;
-	list->output = NULL;
-	return (i);
 }
 
 int	exit_status(int status)

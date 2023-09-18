@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/19 18:07:41 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/06/27 14:16:48 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../libft.h"
 
 /// @brief This function checks if a given character is a valid ASCII character 

@@ -1,17 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strsearch.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 13:30:54 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/05/18 14:20:13 by rapelcha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../libft.h"
-#include <stdio.h>
 
 /// @brief Checks if the character is inside the string.
 /// @param string The string that is being checked.

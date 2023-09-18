@@ -25,9 +25,9 @@ typedef struct s_pilist
 	int		fd;
 }				t_pilist;
 
+//ex_utils.c
 t_ex_data	*ex_struc(void);
 void		exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free);
-int			ft_perror(char ***arg, int i, t_pilist	*list);
 void		ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code);
 int			exit_status(int status);
 
@@ -35,7 +35,15 @@ int			exit_status(int status);
 void		redir_input(t_cmd	**lcmd, int	**pfd, char	***cmd, int fd_out);
 void		redir_output(t_cmd	*lcmd, int	**pfd, int i);
 
+//list.c
 t_cmd		*ft_setnode(char	***arg, t_cmd	**current);
+
+//list_utils.c
+t_cmd		*picreate_node(void);
+t_pilist	list_null(void);
+int			ft_perror(char ***arg, int i, t_pilist	*list);
+t_cmd		*finish_node(t_cmd *node, char	**redir_in, char **cmd, \
+char **redir_out);
 
 //pipe_utils.c
 void		reset_fd(int *fd);
