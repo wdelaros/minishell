@@ -24,7 +24,7 @@ void	print_cell(char	***cell)
 
 void	logo(void)
 {
-	ft_printf("\x1b[35m""%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n", \
+	ft_printf("\x1b[35m""%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n\n", \
 		" __       __ __          __          __                __ __ ",
 		"|  \\     /  \\  \\        |  \\        |  \\              |  \\  \\",
 		"| ▓▓\\   /  ▓▓\\▓▓_______  \\▓▓ _______| ▓▓____   ______ | ▓▓ ▓▓",
@@ -34,6 +34,8 @@ void	logo(void)
 		"| ▓▓ \\▓▓▓| ▓▓ ▓▓ ▓▓  | ▓▓ ▓▓_\\▓▓▓▓▓▓\\ ▓▓  | ▓▓ ▓▓▓▓▓▓▓▓ ▓▓ ▓▓",
 		"| ▓▓  \\▓ | ▓▓ ▓▓ ▓▓  | ▓▓ ▓▓       ▓▓ ▓▓  | ▓▓\\▓▓     \\ ▓▓ ▓▓",
 		" \\▓▓      \\▓▓\\▓▓\\▓▓   \\▓▓\\▓▓\\▓▓▓▓▓▓▓ \\▓▓   \\▓▓ \\▓▓▓▓▓▓▓\\▓▓\\▓▓",
+		"\x1b[32m""    Rip wagadoo_machine, wagadoo_machine_2, wagadoo_machine_3"\
+		"\x1b[0m",
 		"\x1b[31m""				     by wdelaros and rapelcha""\x1b[0m");
 }
 
