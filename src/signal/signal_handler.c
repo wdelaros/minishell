@@ -7,6 +7,7 @@ static void	to_be_clearing(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	struc()->exit_code = 1;
 }
 
 static void	normal_behavior(int sig)
@@ -15,6 +16,30 @@ static void	normal_behavior(int sig)
 		ft_putstr_fd("\n", 0);
 	else if (sig == SIGQUIT)
 		ft_putstr_fd("Quit: 3\n", 2);
+}
+
+
+static void	sig_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_dprintf(STDERR_FILENO, "\n");
+		close(STDIN_FILENO);
+	}
+}
+
+void	signal_handler_child(int heredoc)
+{
+	if (heredoc == YES)
+	{
+		signal(SIGINT, sig_heredoc);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 }
 
 int	signal_handler(int sleep, int interactive)

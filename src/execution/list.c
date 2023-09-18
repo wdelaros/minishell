@@ -19,7 +19,7 @@ char ***cmd)
 	struc()->is_child = 1;
 	if (!pid)
 	{
-		//sig_handler_c(1);
+		signal_handler_child(YES);
 		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 		line = readline("> ");
 		while (strcmp(line, delimiter))
@@ -55,7 +55,7 @@ char ***cmd)
 		}
 		exit(0);
 	}
-	signal_handler(1, 0);
+	signal_handler(YES, NO);
 	waitpid(pid, &status, 0);
 	signal_handler(0, 0);
 	list->input = str;
