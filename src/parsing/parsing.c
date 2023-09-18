@@ -100,7 +100,6 @@ char	***string_handler(char *input, char **env, int err_code)
 	create_list(&input_handler, ft_split(cpy_input, 29));
 	var_handler(&input_handler, env, err_code);
 	quote_handler(&input_handler);
-	// print_node(input_handler);
 	res = convert_list_to_string(&input_handler, 0);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);

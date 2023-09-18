@@ -6,16 +6,21 @@ char	*mini_parsing(char *str, char **env, int err)
 	int	i;
 
 	i = 0;
-	Ct_mprintf(str, ft_strlen(str) + 1, 1, 'A');
 	while (str[i])
 	{
 		if (str[i] == '$')
 		{
-			printf ("AMBOUT\n");
-			normal_condition(&str, env, i , err);
-			i = -1;
+			if (str[i + 1] && (str[i + 1] == DOUBLE_QUOTE || str[i + 1] == SINGLE_QUOTE))
+				i = skip_quote(str, i + 1, str[i + 1]);
+			else
+			{
+				normal_condition(&str, env, i , err);
+				i = -1;
+			}
 		}
-		i++;
+		if (str[i])
+			i++;
 	}
+	Ct_mprintf(str, ft_strlen(str) + 1, 1, 'A');
 	return (str);
 }

@@ -75,7 +75,6 @@ void	run_pipe(char	***cmd)
 	if (!cmd || !cmd[0] || !cmd[0][0])
 		return ;
 	current = NULL;
-	print_cell(cmd);
 	lcmd = ft_setnode(cmd, &current);
 	ex_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	ex_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));
