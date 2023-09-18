@@ -54,6 +54,7 @@ typedef struct s_cmd
 }				t_cmd;
 
 t_data	*struc(void);
+void	signal_handler_child(int heredoc);
 int		signal_handler(int sleep, int interactive);
 
 //minishell_utils.c
