@@ -34,7 +34,7 @@ static void	sizeof_each_command(t_input **ih, t_conv *data, int count)
 	while (temp->next)
 	{
 		if ((temp->next && temp->next->token == 3)
-			|| temp->token == 4 || temp->input[0] == PIPE)
+			|| temp->token == 4 || temp->input[0] == PIPE || temp->token == 5)
 		{
 			data->sizeofcom[i] = size;
 			i++;

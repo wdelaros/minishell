@@ -11,8 +11,15 @@ char ***cmd)
 	char	*line;
 	struct stat sfile;
 	struct stat sfd;
+	int			flag;
 
+	flag = YES;
 	delimiter = ft_strdup(str[1]);
+	if (is_quote(delimiter) == YES)
+	{
+		delimiter = quote_interpreter(delimiter, 0);
+		flag = NO;
+	}
 	ft_xfree(str[1]);
 	str[1] = heredoc_file();
 	pid = fork();
@@ -23,8 +30,10 @@ char ***cmd)
 		signal_handler_child(YES);
 		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 		line = readline("> ");
-		while (strcmp(line, delimiter))
+		while (ft_strcmp(line, delimiter))
 		{
+			if (flag == YES)
+				line = mini_parsing(line, struc()->envp, struc()->exit_code);
 			fstat(fd, &sfd);
 			stat(str[1], &sfile);
 			if (sfd.st_mtime == sfile.st_mtime)
@@ -58,9 +67,9 @@ char ***cmd)
 	signal_handler(YES, NO);
 	waitpid(pid, &status, 0);
 	signal_handler(0, 0);
-	unlink(str[1]);
+	// unlink(str[1]);
 	list->input = str;
-	if (exit_status(status) == 130)
+	if (exit_status(status) == 139)
 		return (free(delimiter), 130);
 	return (free(delimiter), 0);
 }

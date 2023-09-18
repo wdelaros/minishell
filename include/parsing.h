@@ -78,6 +78,8 @@ char	*return_var(char *var, int err, char **env);
 char	***string_handler(char *input, char **env, int err_code);
 
 //quote_handler.c
+int		is_quote(char *input);
+char	*quote_interpreter(char *input, size_t i);
 void	quote_handler(t_input **input);
 
 //token.c
@@ -89,6 +91,7 @@ int		is_after_heredoc(char **input, int i);
 
 //var_handler.c
 void	var_handler(t_input **list, char **env, int err_code);
+int		normal_condition(char **input, char **env, int i, int err);
 
 //var_utils.c
 void	ft_str_search_replace(char **str, int start, char *replace);

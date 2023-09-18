@@ -46,7 +46,6 @@ typedef struct s_cmd
 	char			**cmd;
 	char			**redir_in;
 	char			**redir_out;
-	char			*tmp_file[16];
 	int				fd_in;
 	int				good;
 	struct s_cmd	*previous;

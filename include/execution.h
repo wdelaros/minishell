@@ -37,6 +37,7 @@ void		redir_output(t_cmd	*lcmd, int	**pfd, int i);
 
 //list.c
 t_cmd		*ft_setnode(char	***arg, t_cmd	**current);
+char		*mini_parsing(char *str, char **env, int err);
 
 //list_utils.c
 t_cmd		*picreate_node(void);

@@ -55,7 +55,7 @@ static char	*put_var_in_input(char *str, int start, char *var)
 	return (res);
 }
 
-static int	normal_condition(char **input, char **env, int i, int err)
+int	normal_condition(char **input, char **env, int i, int err)
 {
 	char	*temp;
 	char	*var;

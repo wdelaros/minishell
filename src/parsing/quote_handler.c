@@ -27,7 +27,7 @@ static int	quote_size(char *input)
 	return (count);
 }
 
-static char	*quote_interpreter(char *input, size_t i)
+char	*quote_interpreter(char *input, size_t i)
 {
 	size_t	j;
 	char	*res;
@@ -56,7 +56,7 @@ static char	*quote_interpreter(char *input, size_t i)
 	return (res);
 }
 
-static int	is_quote(char *input)
+int	is_quote(char *input)
 {
 	int	i;
 
