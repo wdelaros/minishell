@@ -19,6 +19,7 @@ char ***cmd)
 	struc()->is_child = 1;
 	if (!pid)
 	{
+		rl_clear_history();
 		signal_handler_child(YES);
 		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 		line = readline("> ");
@@ -37,7 +38,6 @@ char ***cmd)
 			ft_xfree(line);
 			line = readline("> ");
 		}
-		// unlink(str[1]);
 		ft_xfree(line);
 		close(fd);
 		free(delimiter);
@@ -58,6 +58,7 @@ char ***cmd)
 	signal_handler(YES, NO);
 	waitpid(pid, &status, 0);
 	signal_handler(0, 0);
+	unlink(str[1]);
 	list->input = str;
 	if (exit_status(status) == 130)
 		return (free(delimiter), 130);
