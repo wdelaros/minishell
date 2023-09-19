@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 13:28:30 by wdelaros          #+#    #+#             */
+/*   Updated: 2023/09/19 13:28:31 by wdelaros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../libft.h"
 
 /// @brief Deletes and frees all the nodes of a linked list and sets the first 

@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 13:27:30 by wdelaros          #+#    #+#             */
+/*   Updated: 2023/09/19 13:27:31 by wdelaros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ERROR_H
 # define ERROR_H
 
 # include "../libft/libft.h"
-# include "../uwu/inc/C_tool.h"
-# include <stdio.h>
 
 # define DOUBLE_QUOTE 34
 # define SINGLE_QUOTE 39

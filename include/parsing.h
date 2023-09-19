@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
+/*   Updated: 2023/09/19 13:27:40 by wdelaros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -19,8 +31,6 @@
 # define YES 1
 
 # include "../libft/libft.h"
-# include "../uwu/inc/C_tool.h"
-# include <stdio.h>
 
 /// @brief List of inputs
 /// @param prev Previous element

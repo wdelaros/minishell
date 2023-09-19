@@ -1,22 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 13:27:36 by wdelaros          #+#    #+#             */
+/*   Updated: 2023/09/19 13:27:37 by wdelaros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "../libft/libft.h"
 # include "parsing.h"
-# include <dirent.h>
-# include <fcntl.h>
 # include "../readline/history.h"
 # include "../readline/readline.h"
+# include <fcntl.h>
 # include <signal.h>
-# include <stdio.h>
-# include <string.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
-# include <term.h>
-# include <termios.h>
 
-# define DEFAULT_ECHO_TERM 207
 # define RUN 0
 # define GROSSE_ERROR 1
 
