@@ -1,79 +1,5 @@
 #include "../../include/execution.h"
 
-//"/tmp/.HeReDoC00"
-static int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, \
-char ***cmd)
-{
-	t_heredoc	hd;
-	int			fd;
-	char		*delimiter;
-	char		*line;
-	int			flag;
-
-	flag = YES;
-	delimiter = ft_strdup(str[1]);
-	if (is_quote(delimiter) == YES)
-	{
-		delimiter = quote_interpreter(delimiter, 0);
-		flag = NO;
-	}
-	ft_xfree(str[1]);
-	str[1] = heredoc_file();
-	hd.pid = fork();
-	if (!hd.pid)
-	{
-		rl_clear_history();
-		signal_handler_child(YES);
-		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
-		line = readline("> ");
-		if (!line)
-			exit(struc()->exit_code);
-		while (ft_strcmp(line, delimiter))
-		{
-			if (flag == YES)
-				line = mini_parsing(line, struc()->envp, struc()->exit_code);
-			fstat(fd, &hd.sfd);
-			stat(str[1], &hd.sfile);
-			if (hd.sfd.st_mtime == hd.sfile.st_mtime)
-				ft_dprintf(fd, "%s\n", line);
-			else
-			{
-				printf("wagadoo_machine\n");
-				struc()->exit_code = 1;
-				break ;
-			}
-			ft_xfree(line);
-			line = readline("> ");
-			if (!line)
-				exit(struc()->exit_code);
-		}
-		ft_xfree(line);
-		close(fd);
-		free(delimiter);
-		ft_free_triple_pointer(cmd);
-		free_env();
-		free(struc()->current_pwd);
-		if ((*current))
-		{
-			while ((*current)->previous != NULL)
-			{
-				(*current) = (*current)->previous;
-				free((*current)->next);
-			}
-			free((*current));
-		}
-		exit(struc()->exit_code);
-	}
-	signal_handler(YES, NO);
-	waitpid(hd.pid, &hd.status, 0);
-	signal_handler(0, 0);
-	list->input = str;
-	struc()->exit_code = exit_status(hd.status);
-	if (struc()->exit_code == 1 && !access(str[1], F_OK))
-		unlink(str[1]);
-	return (free(delimiter), struc()->exit_code);
-}
-
 static int	parse_redir(t_pilist *list, char ***arg, int *i)
 {
 	if (!ft_strcmp(arg[*i][0], "<"))
@@ -168,9 +94,9 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	ex_struc()->number_of_cmd = 0;
 	cmd = picreate_node();
 	i = ft_parse_node(arg, &cmd, 0);
+	(*current) = cmd;
 	if (i == -1)
 		return (cmd);
-	(*current) = cmd;
 	while (arg && arg[i] && arg[i + 1])
 	{
 		(*current)->next = picreate_node();

@@ -18,7 +18,7 @@ char	*mini_parsing(char *str, char **env, int err)
 				i = -1;
 			}
 		}
-		if (str[i])
+		if (i == -1 || str[i])
 			i++;
 	}
 	Ct_mprintf(str, ft_strlen(str) + 1, 1, 'A');

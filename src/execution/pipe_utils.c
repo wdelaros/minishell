@@ -65,11 +65,13 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 		{
 			current = current->previous;
 			if (current->next->redir_in
-				&& !ft_strcmp(current->next->redir_in[0], "<<"))
+				&& !ft_strcmp(current->next->redir_in[0], "<<") 
+				&& !access(current->next->redir_in[0], F_OK))
 				unlink(current->next->redir_in[1]);
 			free(current->next);
 		}
-		if (current->redir_in && !ft_strcmp(current->redir_in[0], "<<"))
+		if (current->redir_in && !ft_strcmp(current->redir_in[0], "<<") 
+			&& !access(current->redir_in[0], F_OK))
 			unlink(current->redir_in[1]);
 		free(current);
 	}

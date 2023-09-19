@@ -92,37 +92,3 @@ void	run_pipe(char	***cmd)
 	}
 	ft_free_all_pipe(current, cmd);
 }
-
-	// int j = 0;
-	// while (lcmd)
-	// {
-	// 	ft_printf("\n-----------------------\n");
-	// 	ft_printf("cmd number %d:\ninput: ", j);
-	// 	i = 0;
-	// 	while (lcmd->redir_in && lcmd->redir_in[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->redir_in[i]);
-	// 		i++;
-	// 	}
-	// 	ft_printf("\ncmd: ");
-	// 	i = 0;
-	// 	while (lcmd->cmd && lcmd->cmd[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->cmd[i]);
-	// 		i++;
-	// 	}
-	// 	ft_printf("\noutput: ");
-	// 	i = 0;
-	// 	while (lcmd->redir_out && lcmd->redir_out[i])
-	// 	{
-	// 		ft_printf("%s ", lcmd->redir_out[i]);
-	// 		i++;
-	// 	}
-	// 	j++;
-	// 	if (!lcmd->next)
-	// 		break ;
-	// 	lcmd = lcmd->next;
-	// }
-	// 	ft_printf("\n-----------------------\n");
-	// while (lcmd->previous)
-	// 	lcmd = lcmd->previous;

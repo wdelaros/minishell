@@ -32,36 +32,48 @@ CFLAGS		=	-Wall -Werror -Wextra
 RM			=	rm -rf
 
 # Sources are all .c files
-SRCS		=	error.c\
-				minishell.c\
-				minishell_utils.c\
-				path.c\
-				io_redirection.c\
-				list.c\
-				list_utils.c\
-				pipe.c\
-				pipe_utils.c\
-				signal_handler.c\
-				parsing_utils.c\
-				parsing.c\
-				quote_handler.c\
-				token.c\
-				convert_list_to_string.c\
-				var_handler.c\
-				parsing_list.c\
-				unset.c\
-				env.c\
-				pwd.c\
-				echo.c\
-				cd.c\
-				export.c\
-				export_utils.c\
-				exit.c\
-				ex_utils.c\
-				exec_builtin.c\
-				var_utils.c\
-				random_heredoc_gen.c\
-				mini_parsing_heredoc.c\
+# base_file
+# built_in
+# error
+# execution
+# parsing
+# signal
+SRCS		=	minishell.c \
+				minishell_utils.c \
+\
+				cd.c \
+				echo.c \
+				env.c \
+				exit.c \
+				export.c \
+				export_utils.c \
+				pwd.c \
+				unset.c \
+\
+				error.c \
+\
+				ex_utils.c \
+				exec_builtin.c \
+				here_doc.c \
+				io_redirection.c \
+				list.c \
+				list_utils.c \
+				mini_parsing_heredoc.c \
+				path.c \
+				pipe.c \
+				pipe_utils.c \
+				random_heredoc_gen.c \
+\
+				convert_list_to_string.c \
+				parsing.c \
+				parsing_list.c \
+				parsing_utils.c \
+				quote_handler.c \
+				token.c \
+				var_handler.c \
+				var_utils.c \
+\
+				signal_handler.c \
 
 OBJS_DIR	=	obj/
 OBJS_LST	=	$(patsubst %.c, %.o, $(SRCS))
