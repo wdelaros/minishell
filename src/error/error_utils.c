@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:44 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:40:12 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:25:46 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ int	mul_red_error(t_err *error_data, int i)
 			}
 			else
 			{
-				i++;
+				while (error_data->input[i] == '>'
+					|| error_data->input[i] == '<')
+					i++;
 				while (ft_isspace(error_data->input[i]) == YES)
 					i++;
 			}
 			if_red(error_data, i);
 		}
-		i++;
+		if (error_data->input[i])
+			i++;
 	}
 	return (error_data->error_code);
 }

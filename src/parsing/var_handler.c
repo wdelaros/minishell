@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:38 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:09:00 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static char	*put_var_in_input(char *str, int start, char *var)
 	if (str[start] == '$')
 		start++;
 	while (str[start] && (str[start] != '$'
-			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE))
+			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE
+			&& (ft_isalnum(str[start]) || str[start] == '_')))
 		start++;
 	res = ft_fstrjoin(res, &str[start]);
 	ft_xfree(var);
@@ -80,7 +81,8 @@ int	normal_condition(char **input, char **env, int i, int err)
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (temp[i] == '$')
 		i++;
-	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'))
+	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'
+			|| temp[i] == '_'))
 		var[j++] = temp[i++];
 	var = return_var(var, err, env);
 	if (var == NULL)

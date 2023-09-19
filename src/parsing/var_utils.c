@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:40 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:41 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:07:15 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ char	*change_input_with_var(char *str, char **env, int i, t_var t_var)
 	char	*temp;
 
 	j = 0;
-	temp = NULL;
 	var = ft_calloc (t_var.maxlen + 1, sizeof(char));
-	while (str[i] && (ft_isalnum(str[i]) == YES || str[i] == '?'))
+	while (str[i] && (ft_isalnum(str[i]) == YES || str[i] == '?'
+			|| str[i] == '_'))
 		var[j++] = str[i++];
 	if (ft_strncmp(var, "?", 1) == 0)
 	{
