@@ -101,7 +101,7 @@ int	error_handler(char *input)
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);
 	if (error_data.error_code == 0)
-		mul_red_error(&error_data);
+		mul_red_error(&error_data, 0);
 	if (error_data.error_code == 0)
 		mul_pipe_error(&error_data);
 	if (error_data.error_code == 0)

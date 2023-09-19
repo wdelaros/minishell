@@ -20,6 +20,6 @@ typedef struct s_err
 	int		error_code;
 }				t_err;
 
-int	mul_red_error(t_err *error_data);
+int	mul_red_error(t_err *error_data, int i);
 
 #endif

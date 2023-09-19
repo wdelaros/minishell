@@ -1,27 +1,39 @@
 #include "../../include/error.h"
 
-int	mul_red_error(t_err *error_data)
+static void	if_red(t_err *error_data, int i)
 {
-	int	i;
+	if (error_data->input[i] == RD_I && (error_data->input[i + 1]
+			&& error_data->input[i + 1] == RD_I))
+		error_data->error_code = 6;
+	else if (error_data->input[i] == RD_O && (error_data->input[i + 1]
+			&& error_data->input[i + 1] == RD_O))
+		error_data->error_code = 7;
+	else if (error_data->input[i] == RD_I)
+		error_data->error_code = 4;
+	else if (error_data->input[i] == RD_O)
+		error_data->error_code = 5;
+}
 
-	i = 0;
+int	mul_red_error(t_err *error_data, int i)
+{
 	while (error_data->input[i] && error_data->error_code == 0)
 	{
-		if (error_data->input[i] == '<' || error_data->input[i] == '>')
+		if (error_data->input[i] == RD_I || error_data->input[i] == RD_O)
 		{
-			i++;
-			while (ft_isspace(error_data->input[i]) == YES)
+			if ((error_data->input[i] == RD_I || error_data->input[i] == RD_O)
+				&& error_data->input[i + 2] && (error_data->input[i + 2] == RD_I
+					|| error_data->input[i + 2] == RD_O))
+			{
+				if_red(error_data, i + 2);
+				return (error_data->error_code);
+			}
+			else
+			{
 				i++;
-			if (error_data->input[i] == RD_I && (error_data->input[i + 1]
-					&& error_data->input[i + 1] == RD_I))
-				error_data->error_code = 6;
-			else if (error_data->input[i] == RD_O && (error_data->input[i + 1]
-					&& error_data->input[i + 1] == RD_O))
-				error_data->error_code = 7;
-			else if (error_data->input[i] == RD_I)
-				error_data->error_code = 4;
-			else if (error_data->input[i] == RD_O)
-				error_data->error_code = 5;
+				while (ft_isspace(error_data->input[i]) == YES)
+					i++;
+			}
+			if_red(error_data, i);
 		}
 		i++;
 	}
