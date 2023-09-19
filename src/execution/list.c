@@ -4,13 +4,10 @@
 static int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, \
 char ***cmd)
 {
-	int		fd;
-	char	*delimiter;
-	pid_t	pid;
-	int		status;
-	char	*line;
-	struct stat sfile;
-	struct stat sfd;
+	t_heredoc	hd;
+	int			fd;
+	char		*delimiter;
+	char		*line;
 	int			flag;
 
 	flag = YES;
@@ -22,30 +19,33 @@ char ***cmd)
 	}
 	ft_xfree(str[1]);
 	str[1] = heredoc_file();
-	pid = fork();
-	struc()->is_child = 1;
-	if (!pid)
+	hd.pid = fork();
+	if (!hd.pid)
 	{
 		rl_clear_history();
 		signal_handler_child(YES);
 		fd = open(str[1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 		line = readline("> ");
+		if (!line)
+			exit(struc()->exit_code);
 		while (ft_strcmp(line, delimiter))
 		{
 			if (flag == YES)
 				line = mini_parsing(line, struc()->envp, struc()->exit_code);
-			fstat(fd, &sfd);
-			stat(str[1], &sfile);
-			if (sfd.st_mtime == sfile.st_mtime)
+			fstat(fd, &hd.sfd);
+			stat(str[1], &hd.sfile);
+			if (hd.sfd.st_mtime == hd.sfile.st_mtime)
 				ft_dprintf(fd, "%s\n", line);
 			else
 			{
 				printf("wagadoo_machine\n");
 				struc()->exit_code = 1;
-				break ;//return (1);
+				break ;
 			}
 			ft_xfree(line);
 			line = readline("> ");
+			if (!line)
+				exit(struc()->exit_code);
 		}
 		ft_xfree(line);
 		close(fd);
@@ -62,16 +62,16 @@ char ***cmd)
 			}
 			free((*current));
 		}
-		exit(0);
+		exit(struc()->exit_code);
 	}
 	signal_handler(YES, NO);
-	waitpid(pid, &status, 0);
+	waitpid(hd.pid, &hd.status, 0);
 	signal_handler(0, 0);
-	// unlink(str[1]);
 	list->input = str;
-	if (exit_status(status) == 139)
-		return (free(delimiter), 130);
-	return (free(delimiter), 0);
+	struc()->exit_code = exit_status(hd.status);
+	if (struc()->exit_code == 1 && !access(str[1], F_OK))
+		unlink(str[1]);
+	return (free(delimiter), struc()->exit_code);
 }
 
 static int	parse_redir(t_pilist *list, char ***arg, int *i)
@@ -169,10 +169,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 	cmd = picreate_node();
 	i = ft_parse_node(arg, &cmd, 0);
 	if (i == -1)
-	{
-		struc()->exit_code = 1;
 		return (cmd);
-	}
 	(*current) = cmd;
 	while (arg && arg[i] && arg[i + 1])
 	{
@@ -182,10 +179,7 @@ t_cmd	*ft_setnode(char	***arg, t_cmd	**current)
 		i++;
 		i = ft_parse_node(arg, current, i);
 		if (i == -1)
-		{
-			struc()->exit_code = 1;
 			return (cmd);
-		}
 	}
 	current = finalize_list(current);
 	ex_struc()->number_of_cmd++;

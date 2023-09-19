@@ -27,7 +27,6 @@ static void	ft_prompt(char	***cmd)
 	while (1)
 	{
 		signal_handler(NO, YES);
-		struc()->is_child = 0;
 		line = ft_prompt_line();
 		struc()->input = readline(line);
 		free(line);
@@ -61,7 +60,6 @@ static void	initialize(char **envp, t_data *data)
 	cmd[0][0] = ft_strdup("export");
 	cmd[0][1] = ft_strdup("OLDPWD");
 	data->exit_code = 0;
-	data->is_child = 0;
 	export(cmd[0], data);
 	ft_free_null(cmd[0]);
 	data->current_pwd = getcwd(NULL, 0);

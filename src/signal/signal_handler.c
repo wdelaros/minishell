@@ -18,11 +18,11 @@ static void	normal_behavior(int sig)
 		ft_putstr_fd("Quit: 3\n", 2);
 }
 
-
 static void	sig_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
+		struc()->exit_code = 1;
 		ft_dprintf(STDERR_FILENO, "\n");
 		close(STDIN_FILENO);
 	}

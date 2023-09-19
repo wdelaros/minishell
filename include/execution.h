@@ -7,9 +7,18 @@ typedef struct s_ex_data
 {
 	pid_t		*pid;
 	pid_t		*skip;
+	char		**heredoc;
 	int			number_of_cmd;
 	int			tmp_i;
 }				t_ex_data;
+
+typedef struct s_heredoc
+{
+	pid_t		pid;
+	int			status;
+	struct stat	sfile;
+	struct stat	sfd;
+}				t_heredoc;
 
 typedef struct s_exec
 {

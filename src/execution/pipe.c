@@ -44,7 +44,6 @@ static void	run_pipe2(char	***cmd, int *i, t_cmd **lcmd, t_exec *ex)
 	if (is_builtin((*lcmd)->cmd) != 1 || struc()->pipenum > 0)
 	{
 		ex_struc()->pid[*i] = fork();
-		struc()->is_child = 1;
 		ex_struc()->tmp_i = *i;
 		run_cmds(lcmd, (*ex).pfd, (*ex).fd_out, cmd);
 		ex_struc()->skip[*i] = 0;
@@ -75,6 +74,7 @@ void	run_pipe(char	***cmd)
 	if (!cmd || !cmd[0] || !cmd[0][0])
 		return ;
 	current = NULL;
+	struc()->exit_code = 0;
 	lcmd = ft_setnode(cmd, &current);
 	ex_struc()->pid = malloc((struc()->pipenum + 1) * sizeof(pid_t *));
 	ex_struc()->skip = malloc((struc()->pipenum + 1) * sizeof(int *));

@@ -9,6 +9,9 @@ t_cmd	*picreate_node(void)
 	node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!node)
 		return (0);
+	node->cmd = NULL;
+	node->redir_in = NULL;
+	node->redir_out = NULL;
 	node->previous = NULL;
 	node->next = NULL;
 	return (node);

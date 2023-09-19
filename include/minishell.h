@@ -37,7 +37,6 @@ typedef struct s_data
 	char		*cmdpath;
 	int			exit_code;
 	char		*current_pwd;
-	int			is_child;
 	int			pipenum;
 }				t_data;
 

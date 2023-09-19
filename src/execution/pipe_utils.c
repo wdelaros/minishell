@@ -64,8 +64,13 @@ void	ft_free_all_pipe(t_cmd *current, char ***cmd)
 		while (current->previous != NULL)
 		{
 			current = current->previous;
+			if (current->next->redir_in
+				&& !ft_strcmp(current->next->redir_in[0], "<<"))
+				unlink(current->next->redir_in[1]);
 			free(current->next);
 		}
+		if (current->redir_in && !ft_strcmp(current->redir_in[0], "<<"))
+			unlink(current->redir_in[1]);
 		free(current);
 	}
 	ft_free_triple_pointer(cmd);
