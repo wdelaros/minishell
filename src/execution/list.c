@@ -61,7 +61,7 @@ static t_cmd	**finalize_list(t_cmd	**current)
 {
 	while ((*current) && (*current)->previous)
 	{
-		if ((*current)->cmd && !strcmp((*current)->cmd[0], "|"))
+		if ((*current)->cmd && !ft_strcmp((*current)->cmd[0], "|"))
 			struc()->pipenum++;
 		else if ((*current)->good == 1)
 			ex_struc()->number_of_cmd++;

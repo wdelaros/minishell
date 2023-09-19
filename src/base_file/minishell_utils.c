@@ -34,7 +34,8 @@ void	logo(void)
 		" | ▓▓ \\▓▓▓| ▓▓ ▓▓ ▓▓  | ▓▓ ▓▓_\\▓▓▓▓▓▓\\ ▓▓  | ▓▓ ▓▓▓▓▓▓▓▓ ▓▓ ▓▓",
 		" | ▓▓  \\▓ | ▓▓ ▓▓ ▓▓  | ▓▓ ▓▓       ▓▓ ▓▓  | ▓▓\\▓▓     \\ ▓▓ ▓▓",
 		"  \\▓▓      \\▓▓\\▓▓\\▓▓   \\▓▓\\▓▓\\▓▓▓▓▓▓▓ \\▓▓   \\▓▓ \\▓▓▓▓▓▓▓\\▓▓\\▓▓",
-		"\x1b[32m""     Rip wagadoo_machine, wagadoo_machine_2, wagadoo_machine_3"\
+		"\x1b[32m"\
+		"     Rip wagadoo_machine, wagadoo_machine_2, wagadoo_machine_3"\
 		"\x1b[0m",
 		"\x1b[31m""					by wdelaros & rapelcha""\x1b[0m");
 }
@@ -64,4 +65,16 @@ void	ft_error(int code)
 	else if (code == 3)
 		ft_dprintf(2, \
 		"minishell: syntax error near unexpected token `quote'\n");
+	else if (code == 4)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `<'\n");
+	else if (code == 5)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `>'\n");
+	else if (code == 6)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `<<'\n");
+	else if (code == 7)
+		ft_dprintf(2, \
+		"minishell: syntax error near unexpected token `>>'\n");
 }

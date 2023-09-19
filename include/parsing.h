@@ -7,8 +7,8 @@
 # define SINGLE_QUOTE 39
 # define MINUS 45
 # define PIPE 124
-# define RED_IN 60
-# define RED_OUT 62
+# define RD_I 60
+# define RD_O 62
 
 # define COMMAND 0
 # define OPTION 1

@@ -32,7 +32,7 @@ static void	red_error(t_err *error_data)
 	{
 		while (i > 0 && ft_isspace(error_data->input[i]) == YES)
 			i--;
-		if (error_data->input[i] == RED_IN || error_data->input[i] == RED_OUT)
+		if (error_data->input[i] == RD_I || error_data->input[i] == RD_O)
 			error_data->error_code = 2;
 	}
 }
@@ -59,7 +59,8 @@ static void	quote_error(t_err *error_data, int i, int flag)
 			if (error_data->input[i] == SINGLE_QUOTE)
 				flag = 0;
 		}
-		i++;
+		if (error_data->input[i])
+			i++;
 	}
 	if (flag == 1)
 		error_data->error_code = 3;
@@ -99,6 +100,8 @@ int	error_handler(char *input)
 	error_data.error_code = 0;
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);
+	if (error_data.error_code == 0)
+		mul_red_error(&error_data);
 	if (error_data.error_code == 0)
 		mul_pipe_error(&error_data);
 	if (error_data.error_code == 0)

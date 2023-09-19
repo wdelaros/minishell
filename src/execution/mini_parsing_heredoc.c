@@ -10,11 +10,12 @@ char	*mini_parsing(char *str, char **env, int err)
 	{
 		if (str[i] == '$')
 		{
-			if (str[i + 1] && (str[i + 1] == DOUBLE_QUOTE || str[i + 1] == SINGLE_QUOTE))
+			if (str[i + 1] && (str[i + 1] == DOUBLE_QUOTE
+					|| str[i + 1] == SINGLE_QUOTE))
 				i = skip_quote(str, i + 1, str[i + 1]);
 			else
 			{
-				normal_condition(&str, env, i , err);
+				normal_condition(&str, env, i, err);
 				i = -1;
 			}
 		}

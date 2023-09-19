@@ -50,6 +50,7 @@ SRCS		=	minishell.c \
 				pwd.c \
 				unset.c \
 \
+				error_utils.c\
 				error.c \
 \
 				ex_utils.c \

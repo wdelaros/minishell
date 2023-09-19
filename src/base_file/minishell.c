@@ -39,7 +39,6 @@ static void	ft_prompt(char	***cmd)
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
 		pre_exec(cmd, 0);
-		ft_printf("exit code: %d\n", struc()->exit_code);
 	}
 }
 

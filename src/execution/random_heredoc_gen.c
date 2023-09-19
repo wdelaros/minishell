@@ -11,7 +11,7 @@ char	*heredoc_file(void)
 	if (access(file, F_OK))
 		return (file);
 	temp = ft_strdup(file);
-	while (i < 100)
+	while (i < 1000)
 	{
 		file = ft_ffstrjoin(file, ft_itoa(i));
 		if (access(file, F_OK))

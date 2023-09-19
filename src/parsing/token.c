@@ -24,7 +24,7 @@ int	is_separator(char **input, int i)
 {
 	if (i < 0 || !input[i] || !input[i][0])
 		return (NO);
-	if (input[i][0] == RED_IN || input[i][0] == RED_OUT || input[i][0] == PIPE)
+	if (input[i][0] == RD_I || input[i][0] == RD_O || input[i][0] == PIPE)
 		return (YES);
 	return (NO);
 }
@@ -34,18 +34,18 @@ int	is_after_red(char **input, int i)
 	if (i <= 0)
 		return (NO);
 	if (input[i] && input[i - 1])
-		if (input[i - 1][0] == RED_IN || input[i - 1][0] == RED_OUT)
+		if (input[i - 1][0] == RD_I || input[i - 1][0] == RD_O)
 			return (YES);
 	return (NO);
 }
 
-int is_after_heredoc(char **input, int i)
+int	is_after_heredoc(char **input, int i)
 {
 	if (i < 0)
 		return (NO);
 	if (input[i] && input[i - 1])
 		if (input[i - 1][0] && input[i - 1][1])
-			if (input[i - 1][0] == RED_IN && input[i - 1][1] == RED_IN)
+			if (input[i - 1][0] == RD_I && input[i - 1][1] == RD_I)
 				return (YES);
 	return (NO);
 }

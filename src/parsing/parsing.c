@@ -57,15 +57,15 @@ static char	*put_separator(char *input)
 			i += ft_strlen_until(&input[i], "\"");
 		if (input[i] == SINGLE_QUOTE)
 			i += ft_strlen_until(&input[i], "\'");
-		if (input[i + 1] && ((input[i + 1] == RED_IN || input[i + 1] == RED_OUT
+		if (input[i + 1] && ((input[i + 1] == RD_I || input[i + 1] == RD_O
 					|| input[i + 1] == PIPE))
-			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
-			&& input[i] != RED_IN)
+			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
+			&& input[i] != RD_I)
 			input = place_group_sep(input, i, 0);
-		if (i > 0 && input[i - 1] && ((input[i - 1] == RED_IN
-					|| input[i - 1] == RED_OUT || input[i - 1] == PIPE))
-			&& input[i] != SPACE && input[i] != 29 && input[i] != RED_OUT
-			&& input[i] != RED_IN)
+		if (i > 0 && input[i - 1] && ((input[i - 1] == RD_I
+					|| input[i - 1] == RD_O || input[i - 1] == PIPE))
+			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
+			&& input[i] != RD_I)
 			input = place_group_sep(input, i - 1, 0);
 		if (input[i] == SPACE)
 			input[i] = 29;
@@ -74,16 +74,16 @@ static char	*put_separator(char *input)
 	return (input);
 }
 
-// static void	print_node(t_input *list)
-// {
-// 	while (list)
-// 	{
-// 		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'C');
-// 		printf ("ID: %d\n", list->token);
-// 		list = list->next;
-// 	}
-// 	printf ("\n");
-// }
+static void	print_node(t_input *list)
+{
+	while (list)
+	{
+		Ct_mprintf(list->input, ft_strlen(list->input) + 1, 1, 'C');
+		printf ("ID: %d\n", list->token);
+		list = list->next;
+	}
+	printf ("\n");
+}
 
 char	***string_handler(char *input, char **env, int err_code)
 {
@@ -98,6 +98,7 @@ char	***string_handler(char *input, char **env, int err_code)
 	input_handler = create_node();
 	cpy_input = put_separator(cpy_input);
 	create_list(&input_handler, ft_split(cpy_input, 29));
+	print_node(input_handler);
 	var_handler(&input_handler, env, err_code);
 	quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler, 0);

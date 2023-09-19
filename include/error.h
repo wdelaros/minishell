@@ -9,8 +9,8 @@
 # define SINGLE_QUOTE 39
 # define MINUS 45
 # define PIPE 124
-# define RED_IN 60
-# define RED_OUT 62
+# define RD_I 60
+# define RD_O 62
 # define NO 0
 # define YES 1
 
@@ -19,5 +19,7 @@ typedef struct s_err
 	char	*input;
 	int		error_code;
 }				t_err;
+
+int	mul_red_error(t_err *error_data);
 
 #endif

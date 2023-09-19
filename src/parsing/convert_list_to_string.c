@@ -11,8 +11,8 @@ static int	nb_of_complete_command(t_input **ih)
 	{
 		if (temp->token == 0 || temp->token == 3)
 			if ((temp->token == 3 && (temp->input[0] == PIPE
-						|| temp->input[0] == RED_IN
-						|| temp->input[0] == RED_OUT))
+						|| temp->input[0] == RD_I
+						|| temp->input[0] == RD_O))
 				|| temp->token == 0)
 				count++;
 		temp = temp->next;
@@ -89,7 +89,7 @@ char	***convert_list_to_string(t_input **ih, int k)
 			data.j = 0;
 			k = 0;
 		}
-		if (temp->input[0] == RED_IN || temp->input[0] == RED_OUT)
+		if (temp->input[0] == RD_I || temp->input[0] == RD_O)
 			data.res[data.i] = redirection_tranfer(data.res[data.i],
 					temp->input);
 		else
