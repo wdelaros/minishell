@@ -71,6 +71,7 @@ SRCS		=	minishell.c \
 				parsing_utils.c \
 				quote_handler.c \
 				token.c \
+				valid_var.c\
 				var_handler.c \
 				var_utils.c \
 \

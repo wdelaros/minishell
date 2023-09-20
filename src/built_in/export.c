@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:38 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:47:26 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,17 @@ static void	parse_export(char	*content)
 	parse_export2(content, export, check_ex);
 }
 
-int	parse_content(char *content, t_data *data, const char *built)
+int	parse_content(char *trim, char *content, t_data *data, const char *built)
 {
 	int	i;
 
 	i = 0;
 	if ((!ft_isalpha(content[0]) && content[0] != '_') || \
-	ft_strsearch(content, 32))
+	ft_strsearch(trim, 32))
 	{
 		ft_dprintf(2, "%s %s: `%s': %s\n", MINI, built, content, ERR);
 		data->exit_code = 1;
-		return (1);
+		return (ft_xfree(trim), 1);
 	}
 	while (content[i])
 	{
@@ -116,11 +116,11 @@ int	parse_content(char *content, t_data *data, const char *built)
 		{
 			ft_dprintf(2, "%s %s: `%s': %s\n", MINI, built, content, ERR);
 			data->exit_code = 1;
-			return (1);
+			return (ft_xfree(trim), 1);
 		}
 		i++;
 	}
-	return (0);
+	return (ft_xfree(trim), 0);
 }
 
 int	export(char **content, t_data *data)
@@ -135,7 +135,8 @@ int	export(char **content, t_data *data)
 	{
 		while (content[i])
 		{
-			if (parse_content(content[i], data, "export") && i++)
+			if (parse_content(ft_strtrim2(content[i], '='), \
+			content[i], data, "export") && i++)
 				continue ;
 			else
 				parse_export(content[i]);

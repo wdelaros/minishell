@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:33 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:08:10 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ static int	ft_isnumber(char *str)
 	i = 0;
 	if (!str)
 		return (0);
+	if (str[i] == 43 || str[i] == 45)
+		i++;
 	while (str[i])
 	{
-		if (str[i] == 43 || str[i] == 45)
-		{
-			i++;
-			if (str[i] < 48 || str[i] > 57)
-				return (0);
-		}
-		else if (str[i] < 48 || str[i] > 57)
+		if (str[i] < 48 || str[i] > 57)
 			return (0);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:42 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:43 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:47:52 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ int	ft_unset(char **unset, t_data *data)
 	int		j;
 	char	**env_cpy;
 
-	data->exit_code = 0;
 	if (!unset)
 		return (data->exit_code);
 	j = 1;
 	while (unset[j])
 	{
 		i = 0;
-		if (parse_content(unset[j], data, "unset") && j++)
+		if (parse_content(ft_strtrim2(unset[j], '='), unset[j], data, "unset") \
+		&& j++)
 			continue ;
 		checkexport(ft_strdup(unset[j]), -1, data);
 		unset[j] = ft_fstrjoin(unset[j], "=");

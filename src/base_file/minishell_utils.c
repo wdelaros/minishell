@@ -6,33 +6,11 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:19 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:20 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:31:21 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	print_cell(char	***cell)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cell[i])
-	{
-		j = 0;
-		while (cell[i][j])
-		{
-			ft_printf("-----------------------------------\n");
-			ft_printf("| i = %d                            \n", i);
-			ft_printf("| j = %d                            \n", j);
-			ft_printf("| cmd : %s            \n", cell[i][j]);
-			ft_printf("-----------------------------------\n");
-			j++;
-		}
-		i++;
-	}
-}
 
 void	logo(void)
 {

@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:31 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 13:32:01 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static char	*put_separator(char *input)
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE)
-			i += ft_strlen_until(&input[i], "\"");
+			i += ft_strlen_until(&input[i], "\"") + 1;
 		if (input[i] == SINGLE_QUOTE)
-			i += ft_strlen_until(&input[i], "\'");
+			i += ft_strlen_until(&input[i], "\'") + 1;
 		if (input[i + 1] && ((input[i + 1] == RD_I || input[i + 1] == RD_O
 					|| input[i + 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O

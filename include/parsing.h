@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:27:40 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 12:39:54 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ int		is_option(char **input, int i);
 int		is_separator(char **input, int i);
 int		is_after_red(char **input, int i);
 int		is_after_heredoc(char **input, int i);
+
+//valid_var.c
+int		valid_var(char *str);
 
 //var_handler.c
 void	var_handler(t_input **list, char **env, int err_code);

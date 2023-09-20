@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:28 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:36:30 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	skip_quote(char *input, int i, int quote)
 	else if (quote == 2)
 		while (input[i] && input[i] != DOUBLE_QUOTE)
 			i++;
-	return (i);
+	return (i + 1);
 }
 
 char	*return_var(char *var, int err, char **env)

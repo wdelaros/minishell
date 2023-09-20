@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:36 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:27:37 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:31:59 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	signal_handler_child(int heredoc);
 int		signal_handler(int sleep, int interactive);
 
 //minishell_utils.c
-void	print_cell(char	***cell);
 char	*ft_prompt_line(void);
 void	logo(void);
 void	ft_error(int code);

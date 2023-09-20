@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:11 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:12 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:40:56 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void	find_executable(char	**fcmd, int i, t_data *data)
 	if (!access(fcmd[0], F_OK) || (data->cmdpath && \
 	!access(data->cmdpath, F_OK)))
 	{
-		if (!strncmp("./", fcmd[0], 2))
+		if (!ft_strncmp("./", fcmd[0], 2))
 			data->cmdpath = ft_strdup(fcmd[0]);
-		else if (!strncmp("/", fcmd[0], 1))
+		else if (!ft_strncmp("/", fcmd[0], 1))
 			data->cmdpath = ft_strdup(fcmd[0]);
 		if (data->cmdpath && !access(data->cmdpath, F_OK))
 			return ;

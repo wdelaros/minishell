@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 15:09:00 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:37:33 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 	start = i;
 	while (i < t_var.maxlen)
 	{
+		if ((*input)[i] == '$' && ((*input)[i + 1] == SPACE
+			|| (*input)[i + 1] == '$' || (*input)[i + 1] == DOUBLE_QUOTE))
+			return (i + 1);
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
 			*input = change_input_with_var(*input, env, i, t_var);
@@ -60,7 +63,8 @@ static char	*put_var_in_input(char *str, int start, char *var)
 		start++;
 	while (str[start] && (str[start] != '$'
 			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE
-			&& (ft_isalnum(str[start]) || str[start] == '_')))
+			&& (ft_isalnum(str[start]) || str[start] == '_'
+				|| str[start] == '?')))
 		start++;
 	res = ft_fstrjoin(res, &str[start]);
 	ft_xfree(var);
@@ -79,8 +83,12 @@ int	normal_condition(char **input, char **env, int i, int err)
 	start = i;
 	j = 0;
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
+	if (valid_var(&temp[i]) == NO)
+		return (i + 2);
 	if (temp[i] == '$')
 		i++;
+	if (!temp[i])
+		return (i);
 	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'
 			|| temp[i] == '_'))
 		var[j++] = temp[i++];
@@ -110,7 +118,9 @@ void	var_handler(t_input **list, char **env, int err_code)
 				i = double_quote_condition(&temp->input, env, i, err_code);
 			else if (temp->input[i] == SINGLE_QUOTE)
 				i = skip_quote(temp->input, i, 1);
-			if (temp->input[i] && temp->input[i] != '$')
+			if (temp->input[i] && temp->input[i] != '$'
+				&& temp->input[i] != SINGLE_QUOTE
+				&& temp->input[i] != DOUBLE_QUOTE)
 				i++;
 		}
 		temp = temp->next;
