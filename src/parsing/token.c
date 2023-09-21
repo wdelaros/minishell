@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:35 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:36 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:12:37 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	is_command(char **input, int i)
 		return (YES);
 	if (i > 0 && input[i - 1][0] == PIPE)
 		return (YES);
-	if (i > 0 && is_after_red(input, i - 1) == YES)
-		return (YES);
+	if (is_option(input, i) == YES)
+		return (NO);
 	return (NO);
 }
 

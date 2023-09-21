@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_list_to_string.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:21 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:22 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:11:50 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,7 @@ static int	nb_of_complete_command(t_input **ih)
 	while (temp)
 	{
 		if (temp->token == 0 || temp->token == 3)
-			if ((temp->token == 3 && (temp->input[0] == PIPE
-						|| temp->input[0] == RD_I
-						|| temp->input[0] == RD_O))
-				|| temp->token == 0)
-				count++;
+			count++;
 		temp = temp->next;
 	}
 	if ((*ih)->input != NULL && count == 0)
@@ -68,6 +64,7 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	data->i = 0;
 	data->j = 0;
 	count = nb_of_complete_command(ih);
+	ft_printf ("Nombre de commande complete: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
 	data->sizeofcom = ft_calloc(count, sizeof(int));
 	sizeof_each_command(ih, data, count);
@@ -86,11 +83,23 @@ static char	**redirection_tranfer(char **dest, char *red)
 	return (dest);
 }
 
+static void	print_node(t_input *list)
+{
+	while (list)
+	{
+		ft_printf("%s	%d\n", list->input, list->token);
+		list = list->next;
+	}
+	ft_printf("\n");
+}
+
 char	***convert_list_to_string(t_input **ih, int k)
 {
 	t_input	*temp;
 	t_conv	data;
 
+	put_in_order(ih);
+	print_node(*ih);
 	temp = (*ih);
 	malloc_everything(ih, &data);
 	while (temp->next)

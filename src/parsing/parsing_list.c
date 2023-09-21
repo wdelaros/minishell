@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:24 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:25 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:45:56 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_input	*create_node(void)
 	return (temp);
 }
 
-void	add_node(t_input **input, int id)
+void	add_node(t_input **input, int id, char *str)
 {
 	t_input	*current;
 
@@ -42,6 +42,7 @@ void	add_node(t_input **input, int id)
 		return ;
 	current->next->prev = current;
 	current->token = id;
+	current->input = ft_strdup(str);
 }
 
 void	free_list(t_input **input_handler)
@@ -71,18 +72,17 @@ void	create_list(t_input **list, char **input)
 	while (input[i])
 	{
 		if (is_command(input, i) == YES)
-			add_node(&temp, COMMAND);
+			add_node(&temp, COMMAND, input[i]);
 		else if (is_option(input, i) == YES)
-			add_node(&temp, OPTION);
+			add_node(&temp, OPTION, input[i]);
 		else if (is_separator(input, i) == YES)
-			add_node(&temp, SEPARATOR);
+			add_node(&temp, SEPARATOR, input[i]);
 		else if (is_after_heredoc(input, i) == YES)
-			add_node(&temp, 5);
+			add_node(&temp, 5, input[i]);
 		else if (is_after_red(input, i) == YES)
-			add_node(&temp, 4);
+			add_node(&temp, 4, input[i]);
 		else
-			add_node(&temp, ARGUMENT);
-		temp->input = ft_strdup(input[i]);
+			add_node(&temp, ARGUMENT, input[i]);
 		i++;
 		temp = temp->next;
 	}

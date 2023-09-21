@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/20 12:39:54 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:49:01 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,12 @@ typedef struct s_quote
 
 //parsing_list.c
 t_input	*create_node(void);
-void	add_node(t_input **input, int id);
+void	add_node(t_input **input, int id, char *str);
 void	free_list(t_input **input_handler);
 void	create_list(t_input **list, char **input);
+
+//convert_list_utils.c
+void	put_in_order(t_input **ih);
 
 //convert_list_to_string.c
 char	***convert_list_to_string(t_input **ih, int k);

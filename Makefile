@@ -65,6 +65,7 @@ SRCS		=	minishell.c \
 				pipe_utils.c \
 				random_heredoc_gen.c \
 \
+				convert_list_utils.c\
 				convert_list_to_string.c \
 				parsing.c \
 				parsing_list.c \
