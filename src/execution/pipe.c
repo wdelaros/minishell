@@ -33,7 +33,6 @@ static void	run_cmds(t_cmd	**lcmd, int	*pfd, int fd_out, char ***cmd)
 		}
 		close(fd_out);
 		rl_clear_history();
-		struc()->exit_code = 0;
 		if (is_builtin((*lcmd)->cmd))
 			run_builtin((*lcmd), cmd, fd_out, NULL);
 		else if ((*lcmd)->cmd)

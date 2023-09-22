@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:27:31 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:19:11 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ typedef struct s_err
 	int		error_code;
 }				t_err;
 
-int	mul_red_error(t_err *error_data, int i);
+void	mul_red_error(t_err *err, int i);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:47 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:48 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:17:46 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,32 @@ static void	pipe_error(t_err *error_data)
 	}
 }
 
-static void	red_error(t_err *error_data)
+static void	red_error(t_err *err)
 {
 	size_t	i;
+	size_t	red;
 
 	i = 0;
-	i = ft_strlen(error_data->input) - 1;
-	if (error_data->input[i])
+	red = 0;
+	while (err->input[i])
 	{
-		while (i > 0 && ft_isspace(error_data->input[i]) == YES)
-			i--;
-		if (error_data->input[i] == RD_I || error_data->input[i] == RD_O)
-			error_data->error_code = 2;
+		if (err->input[i] == RD_I || err->input[i] == RD_O)
+		{
+			red = i;
+			i++;
+			while (err->input[i]
+				&& ft_isspace(err->input[i]) == YES)
+				i++;
+			if (i - red > 1 || !err->input[i])
+			{
+				if (!err->input[i])
+					err->error_code = 2;
+				else if (err->input[i] == PIPE || err->input[i] == RD_I
+					|| err->input[i] == RD_O)
+					err->error_code = 1;
+			}
+		}
+		i++;
 	}
 }
 

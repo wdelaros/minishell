@@ -6,21 +6,21 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 11:24:05 by rapelcha          #+#    #+#             */
-/*   Updated: 2023/09/21 16:05:14 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:43:14 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
 
-static void	print_node(t_input *list)
-{
-	while (list)
-	{
-		ft_printf("%s	%d\n", list->input, list->token);
-		list = list->next;
-	}
-	ft_printf("\n");
-}
+// static void	print_node(t_input *list)
+// {
+// 	while (list)
+// 	{
+// 		ft_printf("%s	%d\n", list->input, list->token);
+// 		list = list->next;
+// 	}
+// 	ft_printf("\n");
+// }
 
 static int	do_need(t_input **ih)
 {
@@ -64,8 +64,8 @@ static int	reorganization(t_input **ih, int where, int command)
 	t_input	*res;
 	int		count;
 
-	ft_printf("COMMAND: %d	WHERE: %d\n", command, where);
-	print_node(*ih);
+	// ft_printf("COMMAND: %d	WHERE: %d\n", command, where);
+	// print_node(*ih);
 	if (where - command == 1)
 		return (NO);
 	if (do_need(ih) == NO)
@@ -75,8 +75,10 @@ static int	reorganization(t_input **ih, int where, int command)
 	res = create_node();
 	while (temp)
 	{
-		if (count == command)
+		// ft_printf("COMMAND: %d	WHERE: %d	STR A TRAITER: %s	COUNT: %d\n", command, where, temp->input, count);
+		if (count == command && temp->token == 0)
 		{
+			// ft_printf("COMMAND: %d	WHERE: %d	STR A TRAITER: %s	COUNT: %d\n", command, where, temp->input, count);
 			while (temp && (temp->token == 0 || temp->token == 1 || temp->token == 2))
 			{
 				add_node(&res, temp->token, temp->input);
@@ -90,8 +92,9 @@ static int	reorganization(t_input **ih, int where, int command)
 			add_node(&res, temp->token, temp->input);
 			// ft_printf("DEUXIEME: \n");
 			// print_node(res);
-			temp = (*ih);
-			count = 0;
+			while (temp && temp->prev && temp->prev->token != 0)
+				temp = temp->prev;
+			count = command + 1;
 			while (temp && (temp->token == 0 || temp->token == 1 || temp->token == 2))
 			{
 				temp = temp->next;
@@ -112,6 +115,10 @@ static int	reorganization(t_input **ih, int where, int command)
 	return (YES);
 }
 
+// cat < Makefile -e | cat < Makefile -e | cat -e
+// cat -e < Makefile | cat -e < Makefile | cat -e
+// echo allo uwu < note.txt coucou | cat
+
 void	put_in_order(t_input **ih)
 {
 	t_input	*temp;
@@ -120,13 +127,13 @@ void	put_in_order(t_input **ih)
 
 	if (do_need(ih) == NO)
 		return ;
-	ft_printf("J'ai besoin d'etre reorganiser\n");
+	// ft_printf("J'ai besoin d'etre reorganiser\n");
 	temp = (*ih);
 	i = 0;
 	command = 0;
 	while (temp)
 	{
-		ft_printf("String a traiter: %s	Token: %d\n", temp->input, temp->token);
+		// ft_printf("String a traiter: %s	Token: %d\n", temp->input, temp->token);
 		if (temp && temp->next && temp->token == 0)
 		{
 			while (temp && temp->token != 3)
@@ -134,6 +141,7 @@ void	put_in_order(t_input **ih)
 				i++;
 				temp = temp->next;
 			}
+			// ft_printf("APRES PREMIER WHILE COMMAND: %d	WHERE: %d\n", command, i);
 			while (temp && temp->next && temp->token != 0 && temp->token != 1
 				&& (temp->token != 3 || temp->input[0] != '|')
 				&& temp->token != 2)
@@ -141,21 +149,20 @@ void	put_in_order(t_input **ih)
 				i++;
 				temp = temp->next;
 			}
+			// ft_printf("APRES DEUXIEME WHILE COMMAND: %d	WHERE: %d\n", command, i);
 			if (temp && temp->input && (temp->token == 1 || temp->token == 2))
 			{
-				ft_printf("Pret a la reorganisation: %s	WHERE: %d	COMMAND: %d\n", temp->input, i, command);
+				// ft_printf("Pret a la reorganisation: %s	COMMAND: %d	WHERE: %d\n", temp->input, command, i);
 				if (reorganization(ih, i, command) == YES)
 				{
-					temp = (*ih);
-					command = -1;
-					i = -1;
+					temp = (*ih)->next;
+					command = 0;
+					i = 0;
 				}
 				else
 					temp = temp->next;
 			}
-			else
-				command = ++i;
-			ft_printf("Command: %d	Need_to_move: %d\n", command, i);
+			// ft_printf("Command: %d	Need_to_move: %d\n", command, i);
 		}
 		else
 			temp = temp->next;

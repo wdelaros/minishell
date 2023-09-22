@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:44 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 14:25:46 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/22 13:23:16 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,36 @@ static void	if_red(t_err *error_data, int i)
 		error_data->error_code = 4;
 	else if (error_data->input[i] == RD_O)
 		error_data->error_code = 5;
+	else if (!error_data->input[i])
+		error_data->error_code = 2;
+	else if (error_data->input[i] == PIPE)
+		error_data->error_code = 1;
 }
 
-int	mul_red_error(t_err *error_data, int i)
+void	mul_red_error(t_err *err, int i)
 {
-	while (error_data->input[i] && error_data->error_code == 0)
+	while (err->input[i] && err->error_code == 0)
 	{
-		if (error_data->input[i] == RD_I || error_data->input[i] == RD_O)
+		if (err->input[i] == RD_I || err->input[i] == RD_O)
 		{
-			if ((error_data->input[i] == RD_I || error_data->input[i] == RD_O)
-				&& error_data->input[i + 2] && (error_data->input[i + 2] == RD_I
-					|| error_data->input[i + 2] == RD_O))
+			if ((err->input[i] == RD_I || err->input[i] == RD_O)
+				&& err->input[i + 2] && (err->input[i + 2] == RD_I
+					|| err->input[i + 2] == RD_O))
 			{
-				if_red(error_data, i + 2);
-				return (error_data->error_code);
+				if_red(err, i + 2);
+				return ;
 			}
 			else
 			{
-				while (error_data->input[i] == '>'
-					|| error_data->input[i] == '<')
+				while (err->input[i] == '>'
+					|| err->input[i] == '<')
 					i++;
-				while (ft_isspace(error_data->input[i]) == YES)
+				while (ft_isspace(err->input[i]) == YES)
 					i++;
 			}
-			if_red(error_data, i);
+			if_red(err, i);
 		}
-		if (error_data->input[i])
+		if (err->input[i])
 			i++;
 	}
-	return (error_data->error_code);
 }
