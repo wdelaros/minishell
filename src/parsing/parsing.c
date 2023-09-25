@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/21 14:23:40 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 09:51:41 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,23 @@ static char	*put_separator(char *input)
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (i <= (int)ft_strlen(input) && input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE)
 			i += ft_strlen_until(&input[i], "\"") + 1;
-		if (input[i] == SINGLE_QUOTE)
+		else if (input[i] == SINGLE_QUOTE)
 			i += ft_strlen_until(&input[i], "\'") + 1;
-		if (input[i + 1] && ((input[i + 1] == RD_I || input[i + 1] == RD_O
+		else if (input[i + 1] && ((input[i + 1] == RD_I || input[i + 1] == RD_O
 					|| input[i + 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
 			&& input[i] != RD_I)
 			input = place_group_sep(input, i, 0);
-		if (i > 0 && input[i - 1] && ((input[i - 1] == RD_I
+		else if (i > 0 && input[i - 1] && ((input[i - 1] == RD_I
 					|| input[i - 1] == RD_O || input[i - 1] == PIPE))
 			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
 			&& input[i] != RD_I)
 			input = place_group_sep(input, i - 1, 0);
-		if (input[i] == SPACE)
+		else if (input[i] == SPACE)
 			input[i] = 29;
 		i++;
 	}

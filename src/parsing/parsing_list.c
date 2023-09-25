@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:24 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/21 14:45:56 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 07:46:22 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	create_list(t_input **list, char **input)
 	i = 0;
 	while (input[i])
 	{
-		if (is_command(input, i) == YES)
+		if (is_command(input, i, temp) == YES)
 			add_node(&temp, COMMAND, input[i]);
 		else if (is_option(input, i) == YES)
 			add_node(&temp, OPTION, input[i]);

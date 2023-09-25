@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/21 14:49:01 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 07:46:58 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*quote_interpreter(char *input, size_t i);
 void	quote_handler(t_input **input);
 
 //token.c
-int		is_command(char **input, int i);
+int		is_command(char **input, int i, t_input	*temp);
 int		is_option(char **input, int i);
 int		is_separator(char **input, int i);
 int		is_after_red(char **input, int i);
