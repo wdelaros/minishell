@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:33 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:54:57 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

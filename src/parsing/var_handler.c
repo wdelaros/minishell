@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/20 14:37:33 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:19:58 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 	t_var.err_code = err;
 	t_var.maxlen = skip_quote(*input, i, 2);
 	start = i;
-	while (i < t_var.maxlen)
+	while (i <= t_var.maxlen)
 	{
-		if ((*input)[i] == '$' && ((*input)[i + 1] == SPACE
-			|| (*input)[i + 1] == '$' || (*input)[i + 1] == DOUBLE_QUOTE))
-			return (i + 1);
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
 			*input = change_input_with_var(*input, env, i, t_var);
@@ -84,11 +81,9 @@ int	normal_condition(char **input, char **env, int i, int err)
 	j = 0;
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (valid_var(&temp[i]) == NO)
-		return (i + 2);
+		return (free(var), free(temp), i + 2);
 	if (temp[i] == '$')
 		i++;
-	if (!temp[i])
-		return (i);
 	while (temp[i] && (ft_isalnum(temp[i]) == YES || temp[i] == '?'
 			|| temp[i] == '_'))
 		var[j++] = temp[i++];

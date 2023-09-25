@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_var.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 12:35:14 by rapelcha          #+#    #+#             */
-/*   Updated: 2023/09/20 14:13:03 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:14:09 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 10:27:29 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:13:40 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ typedef struct s_quote
 	int		i_res;
 	char	*res;
 }				t_quote;
+
+typedef struct s_reorg
+{
+	int	count;
+	int	where;
+	int	command;
+}				t_reorg;
 
 //parsing_list.c
 t_input	*create_node(void);

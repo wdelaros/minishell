@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:24 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 10:15:08 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:58:28 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ void	create_list(t_input **list, char **input)
 	{
 		if (is_command(input, i, temp) == YES)
 			add_node(&temp, COMMAND, input[i]);
-		else if (is_after_red(input, i) == YES)
-			add_node(&temp, 4, input[i]);
-		else if (is_option(input, i) == YES)
-			add_node(&temp, OPTION, input[i]);
 		else if (is_separator(input, i) == YES)
 			add_node(&temp, SEPARATOR, input[i]);
 		else if (is_after_heredoc(input, i) == YES)
 			add_node(&temp, 5, input[i]);
+		else if (is_after_red(input, i) == YES)
+			add_node(&temp, 4, input[i]);
+		else if (is_option(input, i) == YES)
+			add_node(&temp, OPTION, input[i]);
 		else
 			add_node(&temp, ARGUMENT, input[i]);
 		i++;

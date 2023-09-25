@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:22 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/22 10:41:32 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:39:32 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	ft_prompt(char	***cmd)
 
 	while (1)
 	{
-		// signal_handler(NO, YES);
+		signal_handler(NO, YES);
 		line = ft_prompt_line();
 		struc()->input = readline(line);
 		free(line);
@@ -47,7 +47,7 @@ static void	ft_prompt(char	***cmd)
 			ft_printf("minishell> exit\n");
 			break ;
 		}
-		// signal_handler(NO, NO);
+		signal_handler(NO, NO);
 		if (ft_strcmp("", struc()->input))
 			add_history(struc()->input);
 		pre_exec(cmd, 0);

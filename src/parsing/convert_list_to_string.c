@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:21 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 10:29:36 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:39:09 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,12 @@ static char	**redirection_tranfer(char **dest, char *red)
 	return (dest);
 }
 
-static void	print_node(t_input *list)
-{
-	while (list)
-	{
-		ft_printf("%s	%d\n", list->input, list->token);
-		list = list->next;
-	}
-	ft_printf("\n");
-}
-
 char	***convert_list_to_string(t_input **ih, int k)
 {
 	t_input	*temp;
 	t_conv	data;
 
 	put_in_order(ih);
-	print_node(*ih);
 	temp = (*ih);
 	malloc_everything(ih, &data);
 	while (temp->next)
