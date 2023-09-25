@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 09:51:41 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:29:06 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,8 @@ static char	*put_separator(char *input)
 // 	ft_printf("\n");
 // }
 
-char	***string_handler(char *input, char **env, int err_code)
+static void	print_guedille(char ***res)
 {
-	t_input	*input_handler;
-	char	***res;
-	char	*cpy_input;
-
-	res = NULL;
-	if (input[0] == '\0')
-		return (res);
-	cpy_input = ft_strdup(input);
-	input_handler = create_node();
-	cpy_input = put_separator(cpy_input);
-	create_list(&input_handler, ft_split(cpy_input, 29));
-	var_handler(&input_handler, env, err_code);
-	quote_handler(&input_handler);
-	res = convert_list_to_string(&input_handler, 0);
 	int	i;
 	int	j;
 
@@ -130,6 +116,25 @@ char	***string_handler(char *input, char **env, int err_code)
 		}
 		i++;
 	}
+}
+
+char	***string_handler(char *input, char **env, int err_code)
+{
+	t_input	*input_handler;
+	char	***res;
+	char	*cpy_input;
+
+	res = NULL;
+	if (input[0] == '\0')
+		return (res);
+	cpy_input = ft_strdup(input);
+	input_handler = create_node();
+	cpy_input = put_separator(cpy_input);
+	create_list(&input_handler, ft_split(cpy_input, 29));
+	var_handler(&input_handler, env, err_code);
+	quote_handler(&input_handler);
+	res = convert_list_to_string(&input_handler, 0);
+	print_guedille(res);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
 	return (res);

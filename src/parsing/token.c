@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:35 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 10:12:02 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:27:34 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
 
-static int	is_option2(char **input, int i, t_input	*temp)
+static int	is_option2(t_input	*temp)
 {
 	while (temp->next)
 	{
@@ -20,7 +20,7 @@ static int	is_option2(char **input, int i, t_input	*temp)
 			break ;
 		temp = temp->next;
 	}
-	if (temp->token == 0 && input[i][0] == '-')
+	if (temp->token == 0)
 		return (YES);
 	return (NO);
 }
@@ -33,10 +33,10 @@ int	is_command(char **input, int i, t_input	*temp)
 		return (NO);
 	if (i == 0)
 		return (YES);
+	if (is_option2(temp) == YES)
+		return (NO);
 	if (i > 0 && input[i - 1][0] == PIPE)
 		return (YES);
-	if (is_option2(input, i, temp) == YES)
-		return (NO);
 	if (i > 0 && is_after_red(input, i - 1) == YES)
 		return (YES);
 	return (NO);
@@ -45,15 +45,6 @@ int	is_command(char **input, int i, t_input	*temp)
 int	is_option(char **input, int i)
 {
 	if (input[i][0] == '-')
-		return (YES);
-	return (NO);
-}
-
-int	is_separator(char **input, int i)
-{
-	if (i < 0 || !input[i] || !input[i][0])
-		return (NO);
-	if (input[i][0] == RD_I || input[i][0] == RD_O || input[i][0] == PIPE)
 		return (YES);
 	return (NO);
 }

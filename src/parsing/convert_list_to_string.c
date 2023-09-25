@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:21 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/21 16:11:50 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:29:36 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void	malloc_everything(t_input **ih, t_conv *data)
 	data->i = 0;
 	data->j = 0;
 	count = nb_of_complete_command(ih);
-	ft_printf ("Nombre de commande complete: %d\n", count);
 	data->res = ft_calloc(count + 1, sizeof(char **));
 	data->sizeofcom = ft_calloc(count, sizeof(int));
 	sizeof_each_command(ih, data, count);
