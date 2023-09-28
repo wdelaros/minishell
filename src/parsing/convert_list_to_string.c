@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:21 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 11:39:09 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:35:36 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static void	sizeof_each_command(t_input **ih, t_conv *data, int count)
 	while (temp->next)
 	{
 		if ((temp->next && temp->next->token == 3)
-			|| temp->token == 4 || temp->input[0] == PIPE || temp->token == 5)
+			|| temp->token == 4 || (temp->token == 3 && temp->input[0] == PIPE)
+			|| temp->token == 5)
 		{
 			data->sizeofcom[i] = size;
 			i++;
