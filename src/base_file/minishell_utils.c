@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:19 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 16:31:21 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:38:25 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	*ft_prompt_line(void)
 
 	line = NULL;
 	if (struc()->current_pwd && ft_strlen(struc()->current_pwd) > 1)
-		line = ft_fstrjoin(ft_strjoin(GRN"", \
-		ft_strrchr(struc()->current_pwd, '/') + 1), WHT" minishell> ");
+		line = ft_strjoin(ft_strrchr(struc()->current_pwd, '/') + 1, \
+		" minishell> ");
 	else if (struc()->current_pwd && ft_strlen(struc()->current_pwd) == 1)
-		line = ft_fstrjoin(ft_strjoin(GRN"", \
-		ft_strrchr(struc()->current_pwd, '/')), WHT" minishell> ");
+		line = ft_strjoin(ft_strrchr(struc()->current_pwd, '/'), \
+		" minishell> ");
 	return (line);
 }
 
