@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 10:54:57 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:33:45 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	quote_size(char *input)
 	count = 0;
 	while (input[i])
 	{
-		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+		if (input[i] == DQ || input[i] == SQ)
 		{
 			quote = input[i];
 			i++;
@@ -48,16 +48,16 @@ char	*quote_interpreter(char *input, size_t i)
 	res = ft_calloc(quote_size(input) + 1, sizeof(char));
 	while (input[i])
 	{
-		if (input[i] == SINGLE_QUOTE)
+		if (input[i] == SQ)
 		{
 			i++;
-			while (input[i] && input[i] != SINGLE_QUOTE)
+			while (input[i] && input[i] != SQ)
 				res[j++] = input[i++];
 		}
-		else if (input[i] == DOUBLE_QUOTE)
+		else if (input[i] == DQ)
 		{
 			i++;
-			while (input[i] && input[i] != DOUBLE_QUOTE)
+			while (input[i] && input[i] != DQ)
 				res[j++] = input[i++];
 		}
 		else
@@ -75,7 +75,7 @@ int	is_quote(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+		if (input[i] == DQ || input[i] == SQ)
 			return (YES);
 		i++;
 	}

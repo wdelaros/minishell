@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/22 13:19:11 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:40:23 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../libft/libft.h"
 
-# define DOUBLE_QUOTE 34
-# define SINGLE_QUOTE 39
+# define DQ 34
+# define SQ 39
 # define MINUS 45
 # define PIPE 124
 # define RD_I 60

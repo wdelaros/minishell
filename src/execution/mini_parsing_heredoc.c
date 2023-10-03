@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_parsing_heredoc.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:08 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:09 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:33:45 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*mini_parsing(char *str, char **env, int err)
 	{
 		if (str[i] == '$')
 		{
-			if (str[i + 1] && (str[i + 1] == DOUBLE_QUOTE
-					|| str[i + 1] == SINGLE_QUOTE))
+			if (str[i + 1] && (str[i + 1] == DQ
+					|| str[i + 1] == SQ))
 				i = skip_quote(str, i + 1, str[i + 1]);
 			else
 			{

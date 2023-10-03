@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 13:19:58 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:50:40 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 	t_var.err_code = err;
 	t_var.maxlen = skip_quote(*input, i, 2);
 	start = i;
-	while (i <= t_var.maxlen)
+	while (i < t_var.maxlen)
 	{
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
@@ -59,7 +59,7 @@ static char	*put_var_in_input(char *str, int start, char *var)
 	if (str[start] == '$')
 		start++;
 	while (str[start] && (str[start] != '$'
-			&& str[start] != DOUBLE_QUOTE && str[start] != SINGLE_QUOTE
+			&& str[start] != DQ && str[start] != SQ
 			&& (ft_isalnum(str[start]) || str[start] == '_'
 				|| str[start] == '?')))
 		start++;
@@ -109,13 +109,13 @@ void	var_handler(t_input **list, char **env, int err_code)
 		{
 			if (temp->input[i] == '$')
 				i = normal_condition(&temp->input, env, i, err_code);
-			else if (temp->input[i] == DOUBLE_QUOTE)
+			else if (temp->input[i] == DQ)
 				i = double_quote_condition(&temp->input, env, i, err_code);
-			else if (temp->input[i] == SINGLE_QUOTE)
+			else if (temp->input[i] == SQ)
 				i = skip_quote(temp->input, i, 1);
 			if (temp->input[i] && temp->input[i] != '$'
-				&& temp->input[i] != SINGLE_QUOTE
-				&& temp->input[i] != DOUBLE_QUOTE)
+				&& temp->input[i] != SQ
+				&& temp->input[i] != DQ)
 				i++;
 		}
 		temp = temp->next;

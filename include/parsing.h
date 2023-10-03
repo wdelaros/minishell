@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 11:13:40 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:58:42 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define MAXI 214748364
 # define SPACE 32
-# define DOUBLE_QUOTE 34
-# define SINGLE_QUOTE 39
+# define DQ 34
+# define SQ 39
 # define MINUS 45
 # define PIPE 124
 # define RD_I 60
@@ -93,8 +93,10 @@ int		skip_quote(char *input, int i, int quote);
 int		ft_strlen_until(char *str, char *c);
 void	parsing_xfree_double(char **str);
 char	*return_var(char *var, int err, char **env);
+void	parsing_is_valid_2(int i, char **str);
 
 //parsing.c
+char	*place_group_sep(char *input, int i, int j);
 char	***string_handler(char *input, char **env, int err_code);
 
 //quote_handler.c

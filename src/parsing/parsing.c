@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 10:12:57 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:05:29 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*ft_parsing_cat(char *dest, char *src)
 	return (dest);
 }
 
-static char	*place_group_sep(char *input, int i, int j)
+char	*place_group_sep(char *input, int i, int j)
 {
 	char	*temp;
 	int		k;
@@ -58,6 +58,27 @@ static char	*place_group_sep(char *input, int i, int j)
 	return (temp);
 }
 
+static void	parsing_is_valid(int i, char **str)
+{
+	if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == DQ
+		&& ((*str)[i] != DQ && ((*str)[i] == PIPE || (*str)[i] == RD_I
+			|| (*str)[i] == RD_O)))
+		*str = place_group_sep(*str, i, 0);
+	else if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == SQ
+		&& ((*str)[i] != SQ && ((*str)[i] == PIPE || (*str)[i] == RD_I
+			|| (*str)[i] == RD_O)))
+		*str = place_group_sep((*str), i, 0);
+	else if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == RD_I
+		&& ((*str)[i] != RD_I && (*str)[i] != 29 && (*str)[i] != SPACE))
+		*str = place_group_sep((*str), i, 0);
+	else if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == RD_O
+		&& ((*str)[i] != RD_O && (*str)[i] != 29 && (*str)[i] != SPACE))
+		*str = place_group_sep((*str), i, 0);
+	else if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == PIPE
+		&& ((*str)[i] != PIPE && (*str)[i] != 29 && (*str)[i] != SPACE))
+		*str = place_group_sep((*str), i, 0);
+}
+
 static char	*put_separator(char *input)
 {
 	int	i;
@@ -65,25 +86,49 @@ static char	*put_separator(char *input)
 	i = 0;
 	while (i <= (int)ft_strlen(input) && input[i])
 	{
-		if (i <= (int)ft_strlen(input) && input[i] == DOUBLE_QUOTE)
-			i += ft_strlen_until(&input[i], "\"") + 1;
-		if (i <= (int)ft_strlen(input) && input[i] == SINGLE_QUOTE)
-			i += ft_strlen_until(&input[i], "\'") + 1;
-		if (i < (int)ft_strlen(input) && input[i + 1] && ((input[i + 1] == RD_I
-					|| input[i + 1] == RD_O || input[i + 1] == PIPE))
-			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
-			&& input[i] != RD_I)
-			input = place_group_sep(input, i, 0);
-		if (i > 0 && input[i - 1] && ((input[i - 1] == RD_I
-					|| input[i - 1] == RD_O || input[i - 1] == PIPE))
-			&& input[i] != SPACE && input[i] != 29 && input[i] != RD_O
-			&& input[i] != RD_I)
-			input = place_group_sep(input, i - 1, 0);
+		parsing_is_valid(i, &input);
+		parsing_is_valid_2(i, &input);
+		if (i <= (int)ft_strlen(input) && input[i] == DQ)
+			i += ft_strlen_until(&input[i], "\"");
+		if (i <= (int)ft_strlen(input) && input[i] == SQ)
+			i += ft_strlen_until(&input[i], "\'");
 		if (input[i] == SPACE)
 			input[i] = 29;
 		i++;
 	}
 	return (input);
+}
+
+static void	print_node(t_input *list)
+{
+	while (list)
+	{
+		ft_printf("%s	%d\n", list->input, list->token);
+		list = list->next;
+	}
+	ft_printf("\n");
+}
+
+static void	print_guedille(char ***res)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			ft_printf("-----------------------------------\n");
+			ft_printf("| i = %d                            \n", i);
+			ft_printf("| j = %d                            \n", j);
+			ft_printf("| cmd : %s            \n", res[i][j]);
+			ft_printf("-----------------------------------\n");
+			j++;
+		}
+		i++;
+	}
 }
 
 char	***string_handler(char *input, char **env, int err_code)

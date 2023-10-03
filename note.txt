@@ -1,27 +1,10 @@
-char	***convert_list_to_string(t_input **ih, int k)
-{
-	t_input	*tp;
-	t_conv	data;
-
-	put_in_order(ih);
-	tp = (*ih);
-	malloc_everything(ih, &data);
-	while (tp->next)
-	{
-		if (k == data.sizeofcom[data.i])
-		{
-			data.i++;
-			data.j = 0;
-			k = 0;
-		}
-		if ((tp->input[0] == RD_I || tp->input[0] == RD_O) && tp->token == 3)
-			data.res[data.i] = redirection_tranfer(data.res[data.i], tp->input);
-		else
-			data.res[data.i][data.j] = ft_strdup(tp->input);
-		data.j++;
-		k++;
-		tp = tp->next;
-	}
-	ft_xfree(data.sizeofcom);
-	return (data.res);
-}
+	// else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == DQ && (*str)[i] != DQ)
+	// 	place_group_sep((*str), i, 0);
+	// else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == SQ && (*str)[i] != SQ)
+	// 	place_group_sep((*str), i, 0);
+	// else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_I && (*str)[i] != RD_O)
+	// 	place_group_sep((*str), i, 0);
+	// else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_I && (*str)[i] != RD_O)
+	// 	place_group_sep((*str), i, 0);
+	// else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == PIPE && (*str)[i] != PIPE)
+		// place_group_sep((*str), i, 0);
