@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:50 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/01 13:16:42 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/03 08:33:15 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	ft_exit_message(char **fcmd, t_cmd *lcmd, char ***cmd, int code)
 */
 void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 {
-	struct stat path;
-	
+	struct stat	path;
+
 	struc()->path = findpath(struc());
 	find_executable(fcmd, 0, struc());
 	if (execve(struc()->cmdpath, fcmd, struc()->envp) == -1)
