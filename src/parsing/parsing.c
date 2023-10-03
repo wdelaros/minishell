@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/25 11:01:22 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:12:57 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,38 +86,6 @@ static char	*put_separator(char *input)
 	return (input);
 }
 
-// static void	print_node(t_input *list)
-// {
-// 	while (list)
-// 	{
-// 		ft_printf("%s	%d\n", list->input, list->token);
-// 		list = list->next;
-// 	}
-// 	ft_printf("\n");
-// }
-
-static void	print_guedille(char ***res)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (res[i])
-	{
-		j = 0;
-		while (res[i][j])
-		{
-			ft_printf("-----------------------------------\n");
-			ft_printf("| i = %d                            \n", i);
-			ft_printf("| j = %d                            \n", j);
-			ft_printf("| cmd : %s            \n", res[i][j]);
-			ft_printf("-----------------------------------\n");
-			j++;
-		}
-		i++;
-	}
-}
-
 char	***string_handler(char *input, char **env, int err_code)
 {
 	t_input	*input_handler;
@@ -134,7 +102,6 @@ char	***string_handler(char *input, char **env, int err_code)
 	var_handler(&input_handler, env, err_code);
 	quote_handler(&input_handler);
 	res = convert_list_to_string(&input_handler, 0);
-	print_guedille(res);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
 	return (res);

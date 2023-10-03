@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:21 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/28 14:35:36 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/03 10:13:36 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ static char	**redirection_tranfer(char **dest, char *red)
 
 char	***convert_list_to_string(t_input **ih, int k)
 {
-	t_input	*temp;
+	t_input	*tp;
 	t_conv	data;
 
 	put_in_order(ih);
-	temp = (*ih);
+	tp = (*ih);
 	malloc_everything(ih, &data);
-	while (temp->next)
+	while (tp->next)
 	{
 		if (k == data.sizeofcom[data.i])
 		{
@@ -99,14 +99,13 @@ char	***convert_list_to_string(t_input **ih, int k)
 			data.j = 0;
 			k = 0;
 		}
-		if (temp->input[0] == RD_I || temp->input[0] == RD_O)
-			data.res[data.i] = redirection_tranfer(data.res[data.i],
-					temp->input);
+		if ((tp->input[0] == RD_I || tp->input[0] == RD_O) && tp->token == 3)
+			data.res[data.i] = redirection_tranfer(data.res[data.i], tp->input);
 		else
-			data.res[data.i][data.j] = ft_strdup(temp->input);
+			data.res[data.i][data.j] = ft_strdup(tp->input);
 		data.j++;
 		k++;
-		temp = temp->next;
+		tp = tp->next;
 	}
 	ft_xfree(data.sizeofcom);
 	return (data.res);
