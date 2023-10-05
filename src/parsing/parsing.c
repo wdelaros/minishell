@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 16:53:32 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:44:16 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ char	***string_handler(char *input, char **env, int err_code)
 	input_handler = create_node();
 	var_handler(&input, env, err_code);
 	cpy_input = ft_strdup(input);
+	free(input);
 	cpy_input = put_separator(cpy_input);
 	Ct_mprintf(cpy_input, ft_strlen(cpy_input) + 1, 1, 'A');
 	create_list(&input_handler, ft_split(cpy_input, 29));
