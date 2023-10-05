@@ -6,11 +6,12 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 16:05:29 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:53:32 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
+#include "../../uwu/inc/C_tool.h"
 
 static char	*ft_parsing_cat(char *dest, char *src)
 {
@@ -75,7 +76,7 @@ static void	parsing_is_valid(int i, char **str)
 		&& ((*str)[i] != RD_O && (*str)[i] != 29 && (*str)[i] != SPACE))
 		*str = place_group_sep((*str), i, 0);
 	else if ((*str)[i] && (*str)[i + 1] && (*str)[i + 1] == PIPE
-		&& ((*str)[i] != PIPE && (*str)[i] != 29 && (*str)[i] != SPACE))
+		&& ((*str)[i] != 29 && (*str)[i] != SPACE))
 		*str = place_group_sep((*str), i, 0);
 }
 
@@ -86,14 +87,23 @@ static char	*put_separator(char *input)
 	i = 0;
 	while (i <= (int)ft_strlen(input) && input[i])
 	{
-		parsing_is_valid(i, &input);
-		parsing_is_valid_2(i, &input);
 		if (i <= (int)ft_strlen(input) && input[i] == DQ)
 			i += ft_strlen_until(&input[i], "\"");
-		if (i <= (int)ft_strlen(input) && input[i] == SQ)
+		else if (i <= (int)ft_strlen(input) && input[i] == SQ)
 			i += ft_strlen_until(&input[i], "\'");
 		if (input[i] == SPACE)
 			input[i] = 29;
+		i++;
+	}
+	i = 0;
+	while (i <= (int)ft_strlen(input) && input[i])
+	{
+		parsing_is_valid(i, &input);
+		parsing_is_valid_2(i, &input);
+		if (i <= (int)ft_strlen(input) && input[i] == DQ)
+			i += ft_strlen_until(&input[i], "\"") - 1;
+		else if (i <= (int)ft_strlen(input) && input[i] == SQ)
+			i += ft_strlen_until(&input[i], "\'") - 1;
 		i++;
 	}
 	return (input);
@@ -140,13 +150,18 @@ char	***string_handler(char *input, char **env, int err_code)
 	res = NULL;
 	if (input[0] == '\0')
 		return (res);
-	cpy_input = ft_strdup(input);
 	input_handler = create_node();
+	var_handler(&input, env, err_code);
+	cpy_input = ft_strdup(input);
 	cpy_input = put_separator(cpy_input);
+	Ct_mprintf(cpy_input, ft_strlen(cpy_input) + 1, 1, 'A');
 	create_list(&input_handler, ft_split(cpy_input, 29));
-	var_handler(&input_handler, env, err_code);
+	print_node(input_handler);
+	print_node(input_handler);
 	quote_handler(&input_handler);
+	print_node(input_handler);
 	res = convert_list_to_string(&input_handler, 0);
+	print_guedille(res);
 	free_list(&input_handler);
 	ft_xfree(cpy_input);
 	return (res);

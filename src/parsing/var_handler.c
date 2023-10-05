@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 14:50:40 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:17:15 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,28 +96,31 @@ int	normal_condition(char **input, char **env, int i, int err)
 	return (0);
 }
 
-void	var_handler(t_input **list, char **env, int err_code)
+void	var_handler(char **input, char **env, int err_code)
 {
-	t_input	*temp;
 	int		i;
 
-	temp = *list;
-	while (temp->next)
+	i = 0;
+	while ((*input)[i])
 	{
-		i = 0;
-		while (temp->input[i] && temp->token != 5)
+		if ((*input)[i] == '<' && (*input)[i + 1] && (*input)[i + 1] == '<')
 		{
-			if (temp->input[i] == '$')
-				i = normal_condition(&temp->input, env, i, err_code);
-			else if (temp->input[i] == DQ)
-				i = double_quote_condition(&temp->input, env, i, err_code);
-			else if (temp->input[i] == SQ)
-				i = skip_quote(temp->input, i, 1);
-			if (temp->input[i] && temp->input[i] != '$'
-				&& temp->input[i] != SQ
-				&& temp->input[i] != DQ)
+			while ((*input)[i] && (*input)[i] != DQ && (*input)[i] != SQ)
 				i++;
+			if ((*input)[i] == DQ)
+				i = skip_quote(*input, i, 2);
+			else if ((*input)[i] == SQ)
+				i = skip_quote(*input, i, 1);
 		}
-		temp = temp->next;
+		else if ((*input)[i] == '$')
+			i = normal_condition(input, env, i, err_code);
+		else if ((*input)[i] == DQ)
+			i = double_quote_condition(input, env, i, err_code);
+		else if ((*input)[i] == SQ)
+			i = skip_quote(*input, i, 1);
+		if ((*input)[i] && (*input)[i] != '$'
+			&& (*input)[i] != SQ
+			&& (*input)[i] != DQ)
+			i++;
 	}
 }

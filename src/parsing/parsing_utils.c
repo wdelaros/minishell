@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 15:58:04 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:11:23 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*return_var(char *var, int err, char **env)
 
 void	parsing_is_valid_2(int i, char **str)
 {
+	if (i < 1)
+		return ;
 	if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_I
 		&& ((*str)[i] != RD_I && (*str)[i] != 29 && (*str)[i] != SPACE))
 		*str = place_group_sep((*str), i - 1, 0);

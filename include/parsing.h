@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 15:58:42 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:50:58 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		is_after_heredoc(char **input, int i);
 int		valid_var(char *str);
 
 //var_handler.c
-void	var_handler(t_input **list, char **env, int err_code);
+void	var_handler(char **input, char **env, int err_code);
 int		normal_condition(char **input, char **env, int i, int err);
 
 //var_utils.c
