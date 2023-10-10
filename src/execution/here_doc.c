@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:55 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:34:56 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:40:53 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,35 @@ char ***cmd)
 	exit_heredoc(current, hd, cmd, hd.fd);
 }
 
+static char	*quote_interpreter_hd(char *input, size_t i)
+{
+	size_t	j;
+	char	*res;
+
+	j = 0;
+	res = ft_calloc(quote_size(input) + 1, sizeof(char));
+	while (input[i])
+	{
+		if (input[i] == SQ)
+		{
+			i++;
+			while (input[i] && input[i] != SQ)
+				res[j++] = input[i++];
+		}
+		else if (input[i] == DQ)
+		{
+			i++;
+			while (input[i] && input[i] != DQ)
+				res[j++] = input[i++];
+		}
+		else
+			res[j++] = input[i];
+		i++;
+	}
+	ft_xfree(input);
+	return (res);
+}
+
 int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 {
 	t_heredoc	hd;
@@ -71,7 +100,7 @@ int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 	hd.delimiter = ft_strdup(str[1]);
 	if (is_quote(hd.delimiter) == YES)
 	{
-		hd.delimiter = quote_interpreter(hd.delimiter, 0);
+		hd.delimiter = quote_interpreter_hd(hd.delimiter, 0);
 		hd.flag = NO;
 	}
 	ft_xfree(str[1]);

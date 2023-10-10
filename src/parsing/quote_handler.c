@@ -6,13 +6,13 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 14:33:45 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:03:49 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
 
-static int	quote_size(char *input)
+int	quote_size(char *input)
 {
 	int		i;
 	int		count;
@@ -39,32 +39,47 @@ static int	quote_size(char *input)
 	return (count);
 }
 
-char	*quote_interpreter(char *input, size_t i)
+int	is_there_after_here(char *input, int i)
 {
-	size_t	j;
-	char	*res;
-
-	j = 0;
-	res = ft_calloc(quote_size(input) + 1, sizeof(char));
-	while (input[i])
+	while (i > 0)
 	{
-		if (input[i] == SQ)
+		if (input[i] == RD_I && input[i - 1] && input[i - 1] == RD_I)
+			return (YES);
+		if (i > 0)
+			i--;
+	}
+	return (NO);
+}
+
+char	*quote_interpreter(char *input, size_t i, size_t j, char c)
+{
+	char	*res;
+	int		max_len;
+
+	// res = ft_calloc(quote_size(input) + 1, sizeof(char));
+	res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
+	while (i < ft_strlen(input))
+	{
+		c = input[i];
+		if ((c == DQ || c == SQ) && is_there_after_here(input, i) == YES)
 		{
-			i++;
-			while (input[i] && input[i] != SQ)
+			if (c == DQ)
+				max_len = skip_quote(input, i, 2);
+			else if (c == SQ)
+				max_len = skip_quote(input, i, 1);
+			while (max_len > 0 && max_len--)
 				res[j++] = input[i++];
+			ft_printf("res dedans : %s\n", res);
 		}
-		else if (input[i] == DQ)
-		{
-			i++;
-			while (input[i] && input[i] != DQ)
+		if ((c == DQ || c == SQ) && i++)
+			while (input[i] && input[i] != c)
 				res[j++] = input[i++];
-		}
 		else
 			res[j++] = input[i];
+		ft_printf("res: %s\n", res);
 		i++;
 	}
-	ft_xfree(input);
+	free(input);
 	return (res);
 }
 
@@ -82,15 +97,12 @@ int	is_quote(char *input)
 	return (NO);
 }
 
-void	quote_handler(t_input **input)
+char	*quote_handler(char *input)
 {
-	t_input	*temp;
+	char	*res;
 
-	temp = *input;
-	while (temp->next)
-	{
-		if (is_quote(temp->input) == YES && temp->token != 5)
-			temp->input = quote_interpreter(temp->input, 0);
-		temp = temp->next;
-	}
+	res = NULL;
+	if (is_quote(input) == YES)
+		res = quote_interpreter(input, 0, 0, 'a');
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 17:11:23 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:41:56 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,19 @@ int	skip_quote(char *input, int i, int quote)
 {
 	i++;
 	if (quote == 1)
+	{
+		if (input[i] == SQ)
+			return (i + 1);
 		while (input[i] && input[i] != SQ)
 			i++;
+	}
 	else if (quote == 2)
+	{
+		if (input[i] == DQ)
+			return (i + 1);
 		while (input[i] && input[i] != DQ)
 			i++;
+	}
 	return (i + 1);
 }
 
@@ -84,12 +92,12 @@ void	parsing_is_valid_2(int i, char **str)
 	if (i < 1)
 		return ;
 	if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_I
-		&& ((*str)[i] != RD_I && (*str)[i] != 29 && (*str)[i] != SPACE))
+		&& ((*str)[i] != RD_I && (*str)[i] != 29))
 		*str = place_group_sep((*str), i - 1, 0);
 	else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_O
-		&& ((*str)[i] != RD_O && (*str)[i] != 29 && (*str)[i] != SPACE))
+		&& ((*str)[i] != RD_O && (*str)[i] != 29))
 		*str = place_group_sep((*str), i - 1, 0);
 	else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == PIPE
-		&& ((*str)[i] != PIPE && (*str)[i] != 29 && (*str)[i] != SPACE))
+		&& ((*str)[i] != PIPE && (*str)[i] != 29))
 		*str = place_group_sep((*str), i - 1, 0);
 }

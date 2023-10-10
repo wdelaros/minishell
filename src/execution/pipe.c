@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:16 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:17 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:48:40 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	run_pipe(char	***cmd)
 	int		i;
 
 	if (!cmd || !cmd[0] || !cmd[0][0])
-		return ;
+		return (ft_free_triple_pointer(cmd));
 	current = NULL;
 	struc()->exit_code = 0;
 	lcmd = ft_setnode(cmd, &current);

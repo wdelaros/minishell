@@ -6,12 +6,11 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:08 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 14:33:45 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:54:25 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/execution.h"
-#include "../../include/parsing.h"
 
 char	*mini_parsing(char *str, char **env, int err)
 {

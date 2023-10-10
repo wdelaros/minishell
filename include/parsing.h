@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 16:50:58 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:06:08 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ char	*place_group_sep(char *input, int i, int j);
 char	***string_handler(char *input, char **env, int err_code);
 
 //quote_handler.c
+int		quote_size(char *input);
 int		is_quote(char *input);
-char	*quote_interpreter(char *input, size_t i);
-void	quote_handler(t_input **input);
+char	*quote_interpreter(char *input, size_t i, size_t j, char c);
+char	*quote_handler(char *input);
 
 //token_utils.c
 int		is_separator(char **input, int i);

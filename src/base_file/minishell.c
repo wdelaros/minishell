@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:22 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 17:40:03 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:36:32 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ t_data	*struc(void)
 
 static void	pre_exec(char ***cmd, int err)
 {
+	int	flag;
+
+	flag = NO;
 	err = error_handler(struc()->input);
 	if (err != RUN)
 		ft_error(err);

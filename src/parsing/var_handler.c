@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/09 13:09:56 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:57:16 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 		}
 		i++;
 	}
-	return (skip_quote(*input, start, 2));
+	return (i);
 }
 
 static char	*clean_var(char *str, int k)
@@ -87,9 +87,9 @@ int	normal_condition(char **input, char **env, int i, int err)
 	temp = ft_strdup(*input);
 	start = i;
 	j = 0;
-	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (!temp[i] || (temp[i + 1] && temp[i + 1] == '$'))
-		return (i + 1);
+		return (free(temp), i + 1);
+	var = ft_calloc(ft_strlen(temp), sizeof(char));
 	if (valid_var(&temp[i]) == NO)
 		return (free(var), free(temp), i + 2);
 	if (temp[i] == '$')
@@ -111,7 +111,7 @@ void	var_handler(char **input, char **env, int err_code)
 	int		i;
 
 	i = 0;
-	while ((*input)[i])
+	while (i < (int)ft_strlen(*input))
 	{
 		if ((*input)[i] == '<' && (*input)[i + 1] && (*input)[i + 1] == '<')
 		{
@@ -128,7 +128,7 @@ void	var_handler(char **input, char **env, int err_code)
 			i = double_quote_condition(input, env, i, err_code);
 		else if ((*input)[i] == SQ)
 			i = skip_quote(*input, i, 1);
-		if ((*input)[i] && (*input)[i] != '$'
+		if (i < (int)ft_strlen(*input) && (*input)[i] && (*input)[i] != '$'
 			&& (*input)[i] != SQ
 			&& (*input)[i] != DQ)
 			i++;
