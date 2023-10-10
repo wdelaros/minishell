@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 17:44:16 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:24:37 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ static char	*put_separator(char *input)
 	i = 0;
 	while (i <= (int)ft_strlen(input) && input[i])
 	{
+		if (i <= (int)ft_strlen(input) && input[i] == DQ)
+			i += ft_strlen_until(&input[i], "\"") + 1;
+		else if (i <= (int)ft_strlen(input) && input[i] == SQ)
+			i += ft_strlen_until(&input[i], "\'") + 1;
 		parsing_is_valid(i, &input);
 		parsing_is_valid_2(i, &input);
-		if (i <= (int)ft_strlen(input) && input[i] == DQ)
-			i += ft_strlen_until(&input[i], "\"") - 1;
-		else if (i <= (int)ft_strlen(input) && input[i] == SQ)
-			i += ft_strlen_until(&input[i], "\'") - 1;
 		i++;
 	}
 	return (input);

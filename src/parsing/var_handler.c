@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/05 17:17:15 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:09:56 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,19 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 	start = i;
 	while (i < t_var.maxlen)
 	{
+		start = i;
 		if ((*input)[i] && (*input)[i] == '$' && i++)
 		{
-			*input = change_input_with_var(*input, env, i, t_var);
-			i = start;
-			t_var.maxlen = skip_quote(*input, start, 2);
+			if ((*input)[i] == DQ || (ft_isalnum((*input)[i]) == NO
+				&& (*input)[i] != '?' && (*input)[i] != '_')
+				|| (*input)[i] == '$')
+				continue ;
+			else
+			{
+				*input = change_input_with_var(*input, env, i, t_var);
+				i = start;
+				t_var.maxlen = skip_quote(*input, start, 2);
+			}
 		}
 		i++;
 	}
@@ -80,6 +88,8 @@ int	normal_condition(char **input, char **env, int i, int err)
 	start = i;
 	j = 0;
 	var = ft_calloc(ft_strlen(temp), sizeof(char));
+	if (!temp[i] || (temp[i + 1] && temp[i + 1] == '$'))
+		return (i + 1);
 	if (valid_var(&temp[i]) == NO)
 		return (free(var), free(temp), i + 2);
 	if (temp[i] == '$')
@@ -93,7 +103,7 @@ int	normal_condition(char **input, char **env, int i, int err)
 	else
 		*input = put_var_in_input(*input, start, var);
 	ft_xfree(temp);
-	return (0);
+	return (start);
 }
 
 void	var_handler(char **input, char **env, int err_code)
