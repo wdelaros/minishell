@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 18:03:49 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 09:43:39 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ char	*quote_interpreter(char *input, size_t i, size_t j, char c)
 				max_len = skip_quote(input, i, 2);
 			else if (c == SQ)
 				max_len = skip_quote(input, i, 1);
-			while (max_len > 0 && max_len--)
+			while (i < ft_strlen(input) && max_len > 0 && max_len--)
 				res[j++] = input[i++];
 			ft_printf("res dedans : %s\n", res);
 		}
-		if ((c == DQ || c == SQ) && i++)
-			while (input[i] && input[i] != c)
+		if ((c == DQ || c == SQ) && ++i)
+			while (i < ft_strlen(input) && input[i] && input[i] != c)
 				res[j++] = input[i++];
 		else
 			res[j++] = input[i];
@@ -104,5 +104,7 @@ char	*quote_handler(char *input)
 	res = NULL;
 	if (is_quote(input) == YES)
 		res = quote_interpreter(input, 0, 0, 'a');
+	else
+		return (input);
 	return (res);
 }
