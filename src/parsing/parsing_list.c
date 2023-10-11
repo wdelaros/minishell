@@ -6,12 +6,11 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:24 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 15:44:02 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:55:10 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
-#include "../../uwu/inc/C_tool.h"
 
 t_input	*create_node(void)
 {
