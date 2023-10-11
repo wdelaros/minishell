@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 09:43:39 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:20:36 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
+#include "../../uwu/inc/C_tool.h"
 
 int	quote_size(char *input)
 {
@@ -56,7 +57,6 @@ char	*quote_interpreter(char *input, size_t i, size_t j, char c)
 	char	*res;
 	int		max_len;
 
-	// res = ft_calloc(quote_size(input) + 1, sizeof(char));
 	res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
 	while (i < ft_strlen(input))
 	{
@@ -64,20 +64,17 @@ char	*quote_interpreter(char *input, size_t i, size_t j, char c)
 		if ((c == DQ || c == SQ) && is_there_after_here(input, i) == YES)
 		{
 			if (c == DQ)
-				max_len = skip_quote(input, i, 2);
+				max_len = ft_strlen_until(input, "\"");
 			else if (c == SQ)
-				max_len = skip_quote(input, i, 1);
-			while (i < ft_strlen(input) && max_len > 0 && max_len--)
+				max_len = ft_strlen_until(input, "\'");
+			while (i < ft_strlen(input) && max_len >= 0 && max_len--)
 				res[j++] = input[i++];
-			ft_printf("res dedans : %s\n", res);
 		}
-		if ((c == DQ || c == SQ) && ++i)
+		else if ((c == DQ || c == SQ) && ++i)
 			while (i < ft_strlen(input) && input[i] && input[i] != c)
 				res[j++] = input[i++];
 		else
-			res[j++] = input[i];
-		ft_printf("res: %s\n", res);
-		i++;
+			res[j++] = input[i++];
 	}
 	free(input);
 	return (res);
