@@ -68,8 +68,10 @@ SRCS		=	minishell.c \
 				convert_list_utils.c\
 				convert_list_to_string.c \
 				parsing.c \
+				parsing_list_utils.c \
 				parsing_list.c \
 				parsing_utils.c \
+				quote_handler_utils.c\
 				quote_handler.c \
 				token_utils.c\
 				token.c \

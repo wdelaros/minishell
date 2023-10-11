@@ -6,92 +6,86 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 12:20:36 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:53:13 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
 #include "../../uwu/inc/C_tool.h"
 
-int	quote_size(char *input)
+int	is_there_after_here(char *input, int i, char c)
 {
-	int		i;
-	int		count;
-	char	quote;
-
-	i = 0;
-	count = 0;
-	while (input[i])
-	{
-		if (input[i] == DQ || input[i] == SQ)
-		{
-			quote = input[i];
-			i++;
-			while (input[i] && input[i] != quote)
-			{
-				i++;
-				count++;
-			}
-		}
-		else
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-int	is_there_after_here(char *input, int i)
-{
+	(void)c;
 	while (i > 0)
 	{
-		if (input[i] == RD_I && input[i - 1] && input[i - 1] == RD_I)
-			return (YES);
 		if (i > 0)
 			i--;
+		if (i > 0 && input[i] == RD_I && input[i - 1] && input[i - 1] == RD_I)
+			return (YES);
+		if (ft_isspace(input[i]) == NO)
+			return (NO);
 	}
 	return (NO);
+}
+
+static void	print_inside_quote(char **input, size_t *i, char **res, size_t *j)
+{
+	char	c;
+
+	c = (*input)[*i - 1];
+	while (*i < ft_strlen((*input)) && (*input)[*i] && (*input)[*i] != c)
+	{
+		(*res)[*j] = (*input)[*i];
+		if ((*res)[*j] == SPACE)
+			(*res)[*j] = 31;
+		(*j)++;
+		(*i)++;
+	}
+	if ((*input)[*i] == c)
+		(*i)++;
+}
+
+static void	print_inside_heredoc(char **input, size_t *i, char **res, size_t *j)
+{
+	char	c;
+	int		max_len;
+
+	c = (*input)[*i];
+	if (c == DQ)
+		max_len = ft_strlen_until(*input, *i, "\"");
+	else if (c == SQ)
+		max_len = ft_strlen_until(*input, *i, "\'");
+	while (*i < ft_strlen(*input) && *i <= (size_t)max_len)
+	{
+		(*res)[*j] = (*input)[*i];
+		if ((*res)[*j] == SPACE)
+			(*res)[*j] = 31;
+		(*j)++;
+		(*i)++;
+	}
 }
 
 char	*quote_interpreter(char *input, size_t i, size_t j, char c)
 {
 	char	*res;
-	int		max_len;
 
 	res = ft_calloc(ft_strlen(input) + 1, sizeof(char));
 	while (i < ft_strlen(input))
 	{
 		c = input[i];
-		if ((c == DQ || c == SQ) && is_there_after_here(input, i) == YES)
-		{
-			if (c == DQ)
-				max_len = ft_strlen_until(input, "\"");
-			else if (c == SQ)
-				max_len = ft_strlen_until(input, "\'");
-			while (i < ft_strlen(input) && max_len >= 0 && max_len--)
-				res[j++] = input[i++];
-		}
+		if ((c == DQ || c == SQ) && is_there_after_here(input, i, c) == YES)
+			print_inside_heredoc(&input, &i, &res, &j);
 		else if ((c == DQ || c == SQ) && ++i)
-			while (i < ft_strlen(input) && input[i] && input[i] != c)
-				res[j++] = input[i++];
-		else
+		{
+			print_inside_quote(&input, &i, &res, &j);
+			if (input[i - 1] == c && input[i - 2] == c)
+				res[j++] = 30;
+		}
+		else if (input[i] && input[i] != DQ && input[i] != SQ)
 			res[j++] = input[i++];
 	}
 	free(input);
 	return (res);
-}
-
-int	is_quote(char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == DQ || input[i] == SQ)
-			return (YES);
-		i++;
-	}
-	return (NO);
 }
 
 char	*quote_handler(char *input)

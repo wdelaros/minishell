@@ -6,23 +6,24 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 16:41:56 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:14:07 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
 
-int	ft_strlen_until(char *str, char *c)
+int	ft_strlen_until(char *str, int i, char *c)
 {
-	int	i;
+	int	start;
 	int	j;
 	int	len;
 
 	len = ft_strlen(str);
 	j = 0;
+	start = i + 1;
 	while (c[j])
 	{
-		i = 0;
+		i = start;
 		while (str[i])
 		{
 			if ((str[i] == c[j] && i != 0 && len > i))

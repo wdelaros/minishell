@@ -6,11 +6,12 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:24 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 12:36:59 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:44:02 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
+#include "../../uwu/inc/C_tool.h"
 
 t_input	*create_node(void)
 {
@@ -45,20 +46,57 @@ void	add_node(t_input **input, int id, char *str)
 	current->input = ft_strdup(str);
 }
 
-void	free_list(t_input **input_handler)
+static void	do_cleaning(t_input **list)
 {
-	while ((*input_handler)->next)
-		(*input_handler) = (*input_handler)->next;
-	if ((*input_handler))
+	t_input	*temp;
+	int		i;
+	int		size;
+	char	*res;
+	int		j;
+
+	temp = *list;
+	while (temp)
 	{
-		while ((*input_handler)->prev != NULL)
+		i = 0;
+		j = 0;
+		res = ft_calloc(ft_strlen(temp->input) + 1, sizeof(char));
+		size = (int)ft_strlen(temp->input);
+		while (i < size)
 		{
-			(*input_handler) = (*input_handler)->prev;
-			free((*input_handler)->next->input);
-			free((*input_handler)->next);
+			if (temp->input[i] != 30)
+				res[j++] = temp->input[i];
+			i++;
 		}
-		free((*input_handler)->input);
-		free((*input_handler));
+		free(temp->input);
+		temp->input = ft_strdup(res);
+		free(res);
+		temp = temp->next;
+	}
+}
+
+static void	do_deep_cleaning(t_input **list, int i, int flag, int size)
+{
+	t_input	*temp;
+
+	temp = *list;
+	while (temp)
+	{
+		i = 0;
+		flag = NO;
+		size = ft_strlen(temp->input);
+		while (i < size)
+		{
+			if (temp->input[i] == '\0' && temp->input[i] != 30)
+			{
+				flag = YES;
+				break ;
+			}
+			i++;
+		}
+		i = -1;
+		while (++i < size && flag == YES)
+			temp->input[i] = '\0';
+		temp = temp->next;
 	}
 }
 
@@ -86,5 +124,7 @@ void	create_list(t_input **list, char **input)
 		i++;
 		temp = temp->next;
 	}
+	do_deep_cleaning(list, 0, NO, 0);
+	do_cleaning(list);
 	parsing_xfree_double(input);
 }

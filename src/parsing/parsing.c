@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 17:07:59 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:52:13 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ static char	*put_separator(char *input)
 		parsing_is_valid_2(i, &input);
 		i++;
 	}
+	i = 0;
+	while (i < (int)ft_strlen(input))
+	{
+		if (input[i] == 31)
+			input[i] = SPACE;
+		i++;
+	}
 	return (input);
 }
 
@@ -104,27 +111,27 @@ static char	*put_separator(char *input)
 // 	ft_printf("\n");
 // }
 
-// static void	print_guedille(char ***res)
-// {
-// 	int	i;
-// 	int	j;
+static void	print_guedille(char ***res)
+{
+	int	i;
+	int	j;
 
-// 	i = 0;
-// 	while (res[i])
-// 	{
-// 		j = 0;
-// 		while (res[i][j])
-// 		{
-// 			ft_printf("-----------------------------------\n");
-// 			ft_printf("| i = %d                            \n", i);
-// 			ft_printf("| j = %d                            \n", j);
-// 			ft_printf("| cmd : %s            \n", res[i][j]);
-// 			ft_printf("-----------------------------------\n");
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			ft_printf("-----------------------------------\n");
+			ft_printf("| i = %d                            \n", i);
+			ft_printf("| j = %d                            \n", j);
+			Ct_mprintf(res[i][j], ft_strlen(res[i][j]) + 1, 1, 'U');
+			ft_printf("-----------------------------------\n");
+			j++;
+		}
+		i++;
+	}
+}
 
 char	***string_handler(char *input, char **env, int err_code)
 {
@@ -143,6 +150,7 @@ char	***string_handler(char *input, char **env, int err_code)
 	Ct_mprintf(input, ft_strlen(input) + 1, 1, 'C');
 	create_list(&input_handler, ft_split(input, 29));
 	res = convert_list_to_string(&input_handler, 0);
+	print_guedille(res);
 	free_list(&input_handler);
 	ft_xfree(input);
 	return (res);
