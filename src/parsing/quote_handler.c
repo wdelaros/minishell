@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:32 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 15:53:13 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:26:22 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ char	*quote_interpreter(char *input, size_t i, size_t j, char c)
 			print_inside_heredoc(&input, &i, &res, &j);
 		else if ((c == DQ || c == SQ) && ++i)
 		{
+			res[j++] = 30;
 			print_inside_quote(&input, &i, &res, &j);
-			if (input[i - 1] == c && input[i - 2] == c)
-				res[j++] = 30;
+			res[j++] = 30;
 		}
 		else if (input[i] && input[i] != DQ && input[i] != SQ)
 			res[j++] = input[i++];
