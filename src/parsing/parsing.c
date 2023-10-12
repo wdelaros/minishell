@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 14:54:06 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:56:29 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ static char	*put_separator(char *input)
 	}
 	return (input);
 }
-
 
 char	***string_handler(char *input, char **env, int err_code)
 {
