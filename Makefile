@@ -95,7 +95,7 @@ all: dir $(NAME)
 $(NAME): $(OBJS)
 	@cd LIBFT/ && make && cd ..
 	@$(CC) $(CFLAGS) $(OBJS) $(LDIR)$(LIBFT) -l readline -l ncurses \
-	$(HISTORYLIB) $(READLINELIB) uwu/C_tool.a -o $(NAME)
+	$(HISTORYLIB) $(READLINELIB) -o $(NAME)
 	@echo "$(ERASE_LINE)$(GREEN)✔️ $(ITALIC)Minishell successfully compile.$(RESET)\
 	$(GREEN) ✔️$(RESET)"
 
