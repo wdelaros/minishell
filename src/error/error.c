@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:47 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 16:39:33 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:11:37 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ static void	pipe_error(t_err *error_data)
 	}
 }
 
-static void	red_error(t_err *err, size_t i, size_t red)
+static void	red_error(t_err *err, size_t i)
 {
-	(void)red;
-
 	while (i < ft_strlen(err->input))
 	{
 		if (err->input[i] == DQ || err->input[i] == SQ)
@@ -121,7 +119,7 @@ int	error_handler(char *input)
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);
 	if (error_data.error_code == 0)
-		red_error(&error_data, 0, 0);
+		red_error(&error_data, 0);
 	if (error_data.error_code == 0)
 		mul_red_error(&error_data, 0);
 	if (error_data.error_code == 0)
