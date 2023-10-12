@@ -6,11 +6,12 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:30 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 15:57:38 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:18:55 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parsing.h"
+#include "../../uwu/inc/C_tool.h"
 
 static char	*ft_parsing_cat(char *dest, char *src)
 {
@@ -82,11 +83,8 @@ static void	parsing_is_valid(int i, char **str)
 		*str = place_group_sep((*str), i, 0);
 }
 
-static char	*put_separator(char *input)
+static char	*put_separator(char *input, int i)
 {
-	int	i;
-
-	i = 0;
 	while (i < (int)ft_strlen(input))
 	{
 		if (input[i] == SPACE)
@@ -96,10 +94,11 @@ static char	*put_separator(char *input)
 	i = 0;
 	while (i < (int)ft_strlen(input))
 	{
-		if (input[i] == 30)
-			i = skip_quote(input, i, 30);
+		if (input[i] == 30 || input[i] != DQ || input[i] != SQ)
+			i = skip_quote(input, i, input[i]);
 		parsing_is_valid(i, &input);
-		i++;
+		if (input[i] != 30 || input[i] != DQ || input[i] != SQ)
+			i++;
 	}
 	i = 0;
 	while (i < (int)ft_strlen(input))
@@ -109,6 +108,39 @@ static char	*put_separator(char *input)
 		i++;
 	}
 	return (input);
+}
+
+static void	print_node(t_input *list)
+{
+	while (list)
+	{
+		Ct_mprintf(list->input, ft_strlen(list->input), 1, 'B');
+		ft_printf("%d\n", list->token);
+		list = list->next;
+	}
+	ft_printf("\n");
+}
+
+static void	print_guedille(char ***res)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (res[i])
+	{
+		j = 0;
+		while (res[i][j])
+		{
+			ft_printf("-----------------------------------\n");
+			ft_printf("| i = %d                            \n", i);
+			ft_printf("| j = %d                            \n", j);
+			Ct_mprintf(res[i][j], ft_strlen(res[i][j]) + 1, 1, 'U');
+			ft_printf("-----------------------------------\n");
+			j++;
+		}
+		i++;
+	}
 }
 
 char	***string_handler(char *input, char **env, int err_code)
@@ -121,10 +153,15 @@ char	***string_handler(char *input, char **env, int err_code)
 		return (res);
 	input_handler = create_node();
 	var_handler(&input, env, err_code);
+	Ct_mprintf(input, ft_strlen(input) + 1, 1, 'A');
 	input = quote_handler(input);
-	input = put_separator(input);
+	Ct_mprintf(input, ft_strlen(input) + 1, 1, 'B');
+	input = put_separator(input, 0);
+	Ct_mprintf(input, ft_strlen(input) + 1, 1, 'C');
 	create_list(&input_handler, ft_split(input, 29));
+	print_node(input_handler);
 	res = convert_list_to_string(&input_handler, 0);
+	print_guedille(res);
 	free_list(&input_handler);
 	ft_xfree(input);
 	return (res);
