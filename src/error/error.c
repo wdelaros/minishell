@@ -6,11 +6,12 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:47 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/03 14:40:11 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:48:53 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/error.h"
+#include "../../include/parsing.h"
 
 static void	pipe_error(t_err *error_data)
 {
@@ -34,16 +35,13 @@ static void	pipe_error(t_err *error_data)
 	}
 }
 
-static void	red_error(t_err *err)
+static void	red_error(t_err *err, size_t i, size_t red)
 {
-	size_t	i;
-	size_t	red;
-
-	i = 0;
-	red = 0;
 	while (err->input[i])
 	{
-		if (err->input[i] == RD_I || err->input[i] == RD_O)
+		if (err->input[i] == DQ || err->input[i] == SQ)
+			i = skip_quote(err->input, i, err->input[i]);
+		else if (err->input[i] == RD_I || err->input[i] == RD_O)
 		{
 			red = i;
 			i++;
@@ -59,7 +57,8 @@ static void	red_error(t_err *err)
 					err->error_code = 1;
 			}
 		}
-		i++;
+		if (err->input[i])
+			i++;
 	}
 }
 
@@ -94,7 +93,7 @@ static void	quote_error(t_err *error_data, int i, int flag)
 
 static int	mul_pipe_error(t_err *error_data)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (error_data->input[i])
@@ -103,16 +102,19 @@ static int	mul_pipe_error(t_err *error_data)
 		{
 			i++;
 			if (error_data->input[i] == PIPE)
-				error_data->error_code = 258;
+				error_data->error_code = 1;
 			while (error_data->input[i]
 				&& ft_isspace(error_data->input[i]) == YES)
 			{
 				i++;
 				if (error_data->input[i] == PIPE)
-					error_data->error_code = 258;
+					error_data->error_code = 1;
 			}
 		}
-		i++;
+		else if (error_data->input[i] == DQ || error_data->input[i] == SQ)
+			i = skip_quote(error_data->input, i, error_data->input[i]);
+		if (error_data->input[i])
+			i++;
 	}
 	return (error_data->error_code);
 }
@@ -131,7 +133,7 @@ int	error_handler(char *input)
 	if (error_data.error_code == 0)
 		mul_pipe_error(&error_data);
 	if (error_data.error_code == 0)
-		red_error(&error_data);
+		red_error(&error_data, 0, 0);
 	if (error_data.error_code == 0)
 		quote_error(&error_data, 0, 0);
 	ft_xfree(error_data.input);

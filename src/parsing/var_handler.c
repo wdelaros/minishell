@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:37 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 16:57:16 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:56:05 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 	t_var	t_var;
 
 	t_var.err_code = err;
-	t_var.maxlen = skip_quote(*input, i, 2);
+	t_var.maxlen = skip_quote(*input, i, DQ);
 	start = i;
 	while (i < t_var.maxlen)
 	{
@@ -33,7 +33,7 @@ static int	double_quote_condition(char **input, char **env, int i, int err)
 			{
 				*input = change_input_with_var(*input, env, i, t_var);
 				i = start;
-				t_var.maxlen = skip_quote(*input, start, 2);
+				t_var.maxlen = skip_quote(*input, start, DQ);
 			}
 		}
 		i++;
@@ -117,17 +117,15 @@ void	var_handler(char **input, char **env, int err_code)
 		{
 			while ((*input)[i] && (*input)[i] != DQ && (*input)[i] != SQ)
 				i++;
-			if ((*input)[i] == DQ)
-				i = skip_quote(*input, i, 2);
-			else if ((*input)[i] == SQ)
-				i = skip_quote(*input, i, 1);
+			if ((*input)[i] == DQ || (*input)[i] == SQ)
+				i = skip_quote(*input, i, (*input)[i]);
 		}
 		else if ((*input)[i] == '$')
 			i = normal_condition(input, env, i, err_code);
 		else if ((*input)[i] == DQ)
 			i = double_quote_condition(input, env, i, err_code);
 		else if ((*input)[i] == SQ)
-			i = skip_quote(*input, i, 1);
+			i = skip_quote(*input, i, SQ);
 		if (i < (int)ft_strlen(*input) && (*input)[i] && (*input)[i] != '$'
 			&& (*input)[i] != SQ
 			&& (*input)[i] != DQ)
