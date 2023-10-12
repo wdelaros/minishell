@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:44 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/22 13:23:16 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:46:28 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	mul_red_error(t_err *err, int i)
 		if (err->input[i] == RD_I || err->input[i] == RD_O)
 		{
 			if ((err->input[i] == RD_I || err->input[i] == RD_O)
-				&& err->input[i + 2] && (err->input[i + 2] == RD_I
+				&& err->input[i + 1] && err->input[i + 2] 
+				&& (err->input[i + 2] == RD_I
 					|| err->input[i + 2] == RD_O))
 			{
 				if_red(err, i + 2);

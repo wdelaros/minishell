@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:11 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 16:40:56 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:35:48 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	**findpath(t_data *data)
 	return (data->path);
 }
 
+static char	*free_strdup(char **fcmd, t_data *data)
+{
+	return (ft_xfree(data->cmdpath), ft_strdup(fcmd[0]));
+}
+
 /**
  * check if the excutable exist
 */
@@ -53,7 +58,7 @@ void	find_executable(char	**fcmd, int i, t_data *data)
 	{
 		while (data->path[i])
 		{
-			data->cmdpath = ft_rstrjoin(fcmd[0], data->path[i]);
+			data->cmdpath = ft_strjoin(data->path[i], fcmd[0]);
 			if (!access(data->cmdpath, F_OK))
 				break ;
 			free(data->cmdpath);
@@ -65,9 +70,9 @@ void	find_executable(char	**fcmd, int i, t_data *data)
 	!access(data->cmdpath, F_OK)))
 	{
 		if (!ft_strncmp("./", fcmd[0], 2))
-			data->cmdpath = ft_strdup(fcmd[0]);
+			data->cmdpath = free_strdup(fcmd, data);
 		else if (!ft_strncmp("/", fcmd[0], 1))
-			data->cmdpath = ft_strdup(fcmd[0]);
+			data->cmdpath = free_strdup(fcmd, data);
 		if (data->cmdpath && !access(data->cmdpath, F_OK))
 			return ;
 	}

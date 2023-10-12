@@ -6,7 +6,7 @@
 /*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:01 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/09/19 13:35:02 by wdelaros         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:39:41 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_pilist	list_null(void)
 
 int	ft_perror(char ***arg, int i, t_pilist	*list)
 {
+	ft_dprintf(2, "Minishell: %s: ", arg[i][1]);
 	perror(arg[i][1]);
 	while (ft_strcmp(arg[i][0], "|") && (arg[i + 1] && \
 	ft_strcmp(arg[i + 1][0], "|")))

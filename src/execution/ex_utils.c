@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:50 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 15:10:18 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:43:52 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	exec(char **fcmd, t_cmd	*lcmd, char ***cmd_to_free)
 			ft_exit_message(fcmd, lcmd, cmd_to_free, 127);
 		else if (access(struc()->cmdpath, X_OK))
 			ft_exit_message(fcmd, lcmd, cmd_to_free, 126);
-		else if (S_ISDIR(path.st_mode) && S_ISLNK(path.st_mode))
+		else if (S_ISDIR(path.st_mode))
 			ft_exit_message(fcmd, lcmd, cmd_to_free, 1261);
 		else
 			ft_exit_message(fcmd, lcmd, cmd_to_free, 1);
