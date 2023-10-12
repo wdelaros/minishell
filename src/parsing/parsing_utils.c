@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 14:13:13 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:59:04 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,18 @@ char	*return_var(char *var, int err, char **env)
 	return (var);
 }
 
-void	parsing_is_valid_2(int i, char **str)
+void	parsing_is_valid_2(int i, char **str, int size)
 {
-	if (i < 1)
-		return ;
-	if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_I
-		&& ((*str)[i] != RD_I && (*str)[i] != 29))
+	if (i < size && (*str)[i] && (*str)[i - 1] && (*str)[i - 1] != 29
+		&& ((*str)[i] == RD_O) && ((*str)[i - 1] != RD_O))
 		*str = place_group_sep((*str), i - 1, 0);
-	else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == RD_O
-		&& ((*str)[i] != RD_O && (*str)[i] != 29))
-		*str = place_group_sep((*str), i - 1, 0);
-	else if ((*str)[i] && (*str)[i - 1] && (*str)[i - 1] == PIPE
-		&& ((*str)[i] != PIPE && (*str)[i] != 31) && (*str)[i] != 29
-		&& (*str)[i] != SPACE && (*str)[i] != PIPE)
-		*str = place_group_sep((*str), i - 1, 0);
+	if (i < size && (*str)[i] && (*str)[i + 1] && (*str)[i + 1] != 29
+		&& ((*str)[i] == RD_I) && ((*str)[i + 1] != RD_I))
+		*str = place_group_sep((*str), i, 0);
+	if (i < size && (*str)[i] && (*str)[i + 1] && (*str)[i + 1] != 29
+		&& ((*str)[i] == RD_O) && ((*str)[i + 1] != RD_O))
+		*str = place_group_sep((*str), i, 0);
+	if (i < size && (*str)[i] && (*str)[i + 1] && (*str)[i + 1] != 29
+		&& ((*str)[i] == PIPE))
+		*str = place_group_sep((*str), i, 0);
 }

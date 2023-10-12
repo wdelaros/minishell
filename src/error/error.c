@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:47 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 15:46:54 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:39:33 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	red_error(t_err *err, size_t i, size_t red)
 	{
 		if (err->input[i] == DQ || err->input[i] == SQ)
 			i = skip_quote(err->input, i, err->input[i]);
-		if (err->input[i] == RD_I || err->input[i] == RD_O)
+		if (i < ft_strlen(err->input) && (err->input[i] == RD_I
+				|| err->input[i] == RD_O))
 		{
 			if (i == ft_strlen(err->input) - 1)
 				err->error_code = 2;

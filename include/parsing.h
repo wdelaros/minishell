@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:27:39 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/11 13:17:10 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:45:10 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		skip_quote(char *input, int i, int quote);
 int		ft_strlen_until(char *str, int i, char *c);
 void	parsing_xfree_double(char **str);
 char	*return_var(char *var, int err, char **env);
-void	parsing_is_valid_2(int i, char **str);
+void	parsing_is_valid_2(int i, char **str, int size);
 
 //parsing.c
 char	*place_group_sep(char *input, int i, int j);
