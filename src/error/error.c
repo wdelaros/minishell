@@ -6,7 +6,7 @@
 /*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:47 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 14:48:53 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:46:54 by rapelcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,18 @@ static void	pipe_error(t_err *error_data)
 
 static void	red_error(t_err *err, size_t i, size_t red)
 {
-	while (err->input[i])
+	(void)red;
+
+	while (i < ft_strlen(err->input))
 	{
 		if (err->input[i] == DQ || err->input[i] == SQ)
 			i = skip_quote(err->input, i, err->input[i]);
-		else if (err->input[i] == RD_I || err->input[i] == RD_O)
+		if (err->input[i] == RD_I || err->input[i] == RD_O)
 		{
-			red = i;
-			i++;
-			while (err->input[i]
-				&& ft_isspace(err->input[i]) == YES)
-				i++;
-			if (i - red > 1 || !err->input[i])
-			{
-				if (!err->input[i])
-					err->error_code = 2;
-				else if (err->input[i] == PIPE || err->input[i] == RD_I
-					|| err->input[i] == RD_O)
-					err->error_code = 1;
-			}
+			if (i == ft_strlen(err->input) - 1)
+				err->error_code = 2;
 		}
-		if (err->input[i])
+		if (i < ft_strlen(err->input))
 			i++;
 	}
 }
@@ -112,7 +103,7 @@ static int	mul_pipe_error(t_err *error_data)
 			}
 		}
 		else if (error_data->input[i] == DQ || error_data->input[i] == SQ)
-			i = skip_quote(error_data->input, i, error_data->input[i]);
+			i = skip_quote(error_data->input, i, error_data->input[i]) - 1;
 		if (error_data->input[i])
 			i++;
 	}
@@ -129,11 +120,11 @@ int	error_handler(char *input)
 	error_data.input = ft_strdup(input);
 	pipe_error(&error_data);
 	if (error_data.error_code == 0)
+		red_error(&error_data, 0, 0);
+	if (error_data.error_code == 0)
 		mul_red_error(&error_data, 0);
 	if (error_data.error_code == 0)
 		mul_pipe_error(&error_data);
-	if (error_data.error_code == 0)
-		red_error(&error_data, 0, 0);
 	if (error_data.error_code == 0)
 		quote_error(&error_data, 0, 0);
 	ft_xfree(error_data.input);
