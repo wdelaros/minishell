@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:04 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/10 12:29:37 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:29:14 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static t_cmd	**finalize_list(t_cmd	**current)
 {
 	while ((*current) && (*current)->previous)
 	{
-		if ((*current)->cmd && !ft_strcmp((*current)->cmd[0], "|"))
+		if ((*current)->cmd && !ft_strcmp((*current)->cmd[0], "|")
+			&& struc()->pipenum < ex_struc()->number_of_cmd)
 			struc()->pipenum++;
 		else if ((*current)->good == 1)
 			ex_struc()->number_of_cmd++;
