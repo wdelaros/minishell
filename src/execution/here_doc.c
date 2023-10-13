@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:55 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 16:06:00 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:54:28 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_here_doc(t_pilist *list, char **str, t_cmd **current, char ***cmd)
 
 	hd.flag = YES;
 	hd.delimiter = ft_strdup(str[1]);
-	if (is_quote(hd.delimiter) == YES)
+	if (str[1] && is_quote(hd.delimiter) == YES)
 	{
 		hd.delimiter = quote_interpreter_hd(hd.delimiter, 0);
 		hd.flag = NO;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:34:44 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 16:05:50 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/13 09:52:29 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ static int	is_invalid_red(t_err *err, int *i)
 		if (err->input[*i] == RD_I || err->input[*i] == RD_O)
 		{
 			(*i)++;
+			while (ft_isspace(err->input[*i]) == YES)
+				(*i)++;
 			if (err->input[*i] != c)
 				return (YES);
 			if (err->input[*i] && err->input[*i + 1]
-				&& (err->input[*i + 1] == RD_I || err->input[*i + 1] == RD_O))
+				&& (err->input[*i] == PIPE || err->input[*i + 1] == RD_I 
+					|| err->input[*i + 1] == RD_O))
 				return (YES);
 			while (ft_isspace(err->input[*i]) == YES)
 				(*i)++;
@@ -52,7 +55,6 @@ static int	is_invalid_red(t_err *err, int *i)
 				|| (err->input[*i] == RD_O && err->input[*i] != c))
 				return (YES);
 		}
-		(*i)++;
 	}
 	return (NO);
 }
