@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rapelcha <rapelcha@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: wdelaros <wdelaros@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 13:35:27 by wdelaros          #+#    #+#             */
-/*   Updated: 2023/10/12 16:59:04 by rapelcha         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:49:58 by wdelaros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*return_var(char *var, int err, char **env)
 
 void	parsing_is_valid_2(int i, char **str, int size)
 {
-	if (i < size && (*str)[i] && (*str)[i - 1] && (*str)[i - 1] != 29
+	if (i > 0 && i < size && (*str)[i] && (*str)[i - 1] && (*str)[i - 1] != 29
 		&& ((*str)[i] == RD_O) && ((*str)[i - 1] != RD_O))
 		*str = place_group_sep((*str), i - 1, 0);
 	if (i < size && (*str)[i] && (*str)[i + 1] && (*str)[i + 1] != 29
